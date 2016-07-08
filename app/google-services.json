@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "1051658583421",
+    "firebase_url": "https://inventario-mk.firebaseio.com",
+    "project_id": "inventario-mk",
+    "storage_bucket": "inventario-mk.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1051658583421:android:68bf1c93dcfed1e9",
+        "android_client_info": {
+          "package_name": "com.llamas.miinventario"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1051658583421-sj0ai5ndi53e5mre9gj3ppq74ji1ucnj.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDOK843Rug-heLR5z7dD55J_pVz79BS3NA"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

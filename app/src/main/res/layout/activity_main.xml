@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/negro"
+    tools:context=".Main">
+
+    <ImageView
+        android:id="@+id/fondo"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:alpha=".75"
+        android:scaleType="centerCrop"
+        android:src="@drawable/fondo_inicia_sesion" />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="32dp"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:layout_width="64dp"
+            android:layout_height="64dp"
+            android:layout_marginRight="8dp"
+            android:background="@drawable/bola_rosa" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="8dp"
+            android:text="@string/titulo"
+            android:textColor="@color/blanco"
+            android:textSize="18sp" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/containerBotones"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="32dp"
+        android:orientation="horizontal">
+
+        <Button
+            android:layout_width="150dp"
+            android:layout_height="48dp"
+            android:layout_marginRight="16dp"
+            android:background="@drawable/fondo_rosa"
+            android:fontFamily="sans-serif-light"
+            android:text="@string/inicia"
+            android:textAllCaps="false"
+            android:textColor="@color/blanco"
+            android:textSize="18sp"
+            android:onClick="onIniciaSesion"/>
+
+        <Button
+            android:layout_width="150dp"
+            android:layout_height="48dp"
+            android:background="@drawable/borde_blanco"
+            android:fontFamily="sans-serif-light"
+            android:text="@string/registrate"
+            android:textAllCaps="false"
+            android:textColor="@color/blanco"
+            android:textSize="18sp"
+            android:onClick="onRegistrate"/>
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/titulo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/containerBotones"
+        android:layout_marginBottom="32dp"
+        android:layout_marginLeft="16dp"
+        android:text="@string/segundoTitulo"
+        android:textColor="@color/blanco"
+        android:textSize="42sp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/titulo"
+        android:layout_marginLeft="16dp"
+        android:fontFamily="sans-serif-light"
+        android:text="@string/primerTitulo"
+        android:textColor="@color/blanco"
+        android:textSize="32sp" />
+
+</RelativeLayout>

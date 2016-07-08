@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#FA6A82</color>
+    <color name="colorPrimaryDark">#37474F</color>
+    <color name="colorAccent">#FF4081</color>
+    <color name="rosaBoton">#FA6A82</color>
+    <color name="blanco">#FFF</color>
+    <color name="negro">#000</color>
+    <color name="hint">#BDBDBD</color>
+    <color name="fb">#3b5998</color>
+    <color name="titulos">#757575</color>
+    <color name="subtitulos">#9E9E9E</color>
+    <color name="grupos">#546E7A</color>
+</resources>

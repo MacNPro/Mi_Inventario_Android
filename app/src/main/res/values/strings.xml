@@ -1,0 +1,22 @@
+<resources>
+    <string name="app_name">Mi Inventario</string>
+    <string name="inicia">Inicia Sesión</string>
+    <string name="registrate">Regístrate</string>
+    <string name="titulo">Mi\nInventario</string>
+    <string name="primerTitulo">Bienvenida a</string>
+    <string name="segundoTitulo">Mi Inventario</string>
+    <string name="facebook_app_id">608874139289668</string>
+    <string name="title_activity_inicio">Inicio</string>
+
+    <string name="title_section1">Section 1</string>
+    <string name="title_section2">Section 2</string>
+    <string name="title_section3">Section 3</string>
+
+    <string name="drawer_open">Open navigation drawer</string>
+    <string name="drawer_close">Close navigation drawer</string>
+
+    <string name="action_example">Example action</string>
+    <string name="action_settings">Settings</string>
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+</resources>

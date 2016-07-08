@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/negro"
+    tools:context="com.llamas.miinventario.IniciaSesion">
+
+    <ImageView
+        android:id="@+id/fondo"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:alpha=".75"
+        android:scaleType="centerCrop"
+        android:src="@drawable/fondo_inicia_sesion" />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="32dp"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:layout_width="64dp"
+            android:layout_height="64dp"
+            android:layout_marginRight="8dp"
+            android:background="@drawable/bola_rosa" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="8dp"
+            android:text="@string/titulo"
+            android:fontFamily="sans-serif-light"
+            android:textColor="@color/blanco"
+            android:textSize="18sp" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:paddingTop="48dp"
+        android:orientation="vertical">
+
+        <EditText
+            android:id="@+id/correo"
+            android:layout_width="280dp"
+            android:layout_height="wrap_content"
+            android:lines="1"
+            android:hint="Correo Electrónico"
+            android:fontFamily="sans-serif-light"
+            android:background="#00000000"
+            android:padding="6dp"
+            android:textColor="@color/blanco"
+            android:layout_gravity="center_horizontal"
+            android:textColorHint="@color/blanco"/>
+
+        <LinearLayout
+            android:layout_width="280dp"
+            android:layout_height="1dp"
+            android:background="@color/blanco"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginBottom="32dp"></LinearLayout>
+
+        <EditText
+            android:id="@+id/contraseña"
+            android:layout_width="280dp"
+            android:layout_height="wrap_content"
+            android:lines="1"
+            android:hint="Contraseña"
+            android:textColor="@color/blanco"
+            android:inputType="textWebPassword"
+            android:fontFamily="sans-serif-light"
+            android:background="#00000000"
+            android:padding="6dp"
+            android:layout_gravity="center_horizontal"
+            android:textColorHint="@color/blanco"/>
+
+        <LinearLayout
+            android:layout_width="280dp"
+            android:layout_height="1dp"
+            android:background="@color/blanco"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginBottom="48dp"></LinearLayout>
+
+        <Button
+            android:layout_width="190dp"
+            android:layout_height="44dp"
+            android:layout_marginBottom="16dp"
+            android:background="@drawable/fondo_rosa"
+            android:fontFamily="sans-serif-light"
+            android:text="@string/inicia"
+            android:textAllCaps="false"
+            android:textColor="@color/blanco"
+            android:textSize="18sp"
+            android:layout_gravity="center_horizontal"
+            android:onClick="onIniciarConFirebase"/>
+
+        <Button
+            android:layout_width="190dp"
+            android:layout_height="44dp"
+            android:background="@drawable/fondo_fb"
+            android:fontFamily="sans-serif-light"
+            android:text="Inicia con Facebook"
+            android:textAllCaps="false"
+            android:textColor="@color/blanco"
+            android:textSize="17sp"
+            android:layout_gravity="center_horizontal"
+            android:onClick="onIniciarConFacebook"/>
+
+    </LinearLayout>
+
+</RelativeLayout>

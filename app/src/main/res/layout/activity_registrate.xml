@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/negro"
+    tools:context="com.llamas.miinventario.Registrate">
+
+    <ImageView
+        android:id="@+id/fondo"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:alpha=".75"
+        android:scaleType="centerCrop"
+        android:src="@drawable/fondo_inicia_sesion" />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="32dp"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:layout_width="64dp"
+            android:layout_height="64dp"
+            android:layout_marginRight="8dp"
+            android:background="@drawable/bola_rosa" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="8dp"
+            android:text="@string/titulo"
+            android:textColor="@color/blanco"
+            android:textSize="18sp" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:orientation="vertical"
+        android:paddingTop="54dp">
+
+        <EditText
+            android:id="@+id/nombre"
+            android:layout_width="280dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:background="#00000000"
+            android:fontFamily="sans-serif-light"
+            android:hint="Nombre"
+            android:inputType="textCapWords"
+            android:lines="1"
+            android:padding="6dp"
+            android:textColor="@color/blanco"
+            android:textColorHint="@color/blanco" />
+
+        <LinearLayout
+            android:layout_width="280dp"
+            android:layout_height="1dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginBottom="24dp"
+            android:background="@color/blanco"></LinearLayout>
+
+        <EditText
+            android:id="@+id/correo"
+            android:layout_width="280dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:background="#00000000"
+            android:fontFamily="sans-serif-light"
+            android:hint="Correo Electrónico"
+            android:inputType="textWebEmailAddress"
+            android:lines="1"
+            android:padding="6dp"
+            android:textColor="@color/blanco"
+            android:textColorHint="@color/blanco" />
+
+        <LinearLayout
+            android:layout_width="280dp"
+            android:layout_height="1dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginBottom="24dp"
+            android:background="@color/blanco"></LinearLayout>
+
+        <EditText
+            android:id="@+id/contraseña1"
+            android:layout_width="280dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:background="#00000000"
+            android:fontFamily="sans-serif-light"
+            android:hint="Contraseña"
+            android:inputType="textWebPassword"
+            android:lines="1"
+            android:padding="6dp"
+            android:textColor="@color/blanco"
+            android:textColorHint="@color/blanco" />
+
+        <LinearLayout
+            android:layout_width="280dp"
+            android:layout_height="1dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginBottom="24dp"
+            android:background="@color/blanco"></LinearLayout>
+
+        <EditText
+            android:id="@+id/contraseña2"
+            android:layout_width="280dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:background="#00000000"
+            android:fontFamily="sans-serif-light"
+            android:hint="Verifica Contraseña"
+            android:inputType="textWebPassword"
+            android:lines="1"
+            android:padding="6dp"
+            android:textColor="@color/blanco"
+            android:textColorHint="@color/blanco" />
+
+        <LinearLayout
+            android:layout_width="280dp"
+            android:layout_height="1dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginBottom="36dp"
+            android:background="@color/blanco"></LinearLayout>
+
+        <Button
+            android:layout_width="190dp"
+            android:layout_height="44dp"
+            android:layout_marginBottom="16dp"
+            android:layout_gravity="center_horizontal"
+            android:background="@drawable/fondo_rosa"
+            android:fontFamily="sans-serif-light"
+            android:onClick="onRegistroConCorreo"
+            android:text="@string/registrate"
+            android:textAllCaps="false"
+            android:textColor="@color/blanco"
+            android:textSize="18sp" />
+
+        <Button
+            android:layout_width="190dp"
+            android:layout_height="44dp"
+            android:background="@drawable/fondo_fb"
+            android:fontFamily="sans-serif-light"
+            android:text="Inicia con Facebook"
+            android:textAllCaps="false"
+            android:textColor="@color/blanco"
+            android:textSize="17sp"
+            android:layout_gravity="center_horizontal"
+            android:onClick="onIniciarConFacebook"/>
+
+    </LinearLayout>
+
+</RelativeLayout>
+
