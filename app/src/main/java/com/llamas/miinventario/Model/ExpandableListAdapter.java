@@ -1,6 +1,7 @@
 package com.llamas.miinventario.Model;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,20 +25,7 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
         this.categorias = categorias;
         inflater= (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
-    /*
-     * @param child
-     * @param group
-     *  use for adding item to list view
-     *
-    public void addChild(Item child, Group group) {
-        if(!groups.contains(group)) {
-            groups.add(group);
-        }
-        int index = groups.indexOf(group);
-        ArrayList<Item> ch = groups.get(index).getChildrens();
-        ch.add(child);
-        groups.get(index).setChildrens(ch);
-    }*/
+
 
     public Producto getChild(int groupPosition, int childPosition) {
         ArrayList<Producto> producto = categorias.get(groupPosition).getProductos();
@@ -56,14 +44,16 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
 
     public View getChildView(int groupPosition, int childPosition, boolean isLastChild, View convertView, ViewGroup parent) {
         Producto producto = getChild(groupPosition,childPosition);
-        TextView productoNombre, productoPrecio;
+        TextView productoNombre, productoPrecio, productoCantidad;
         if(convertView == null) {
             convertView = inflater.inflate(R.layout.list_item, null);
         }
         productoNombre = (TextView) convertView.findViewById(R.id.nombre);
         productoPrecio = (TextView) convertView.findViewById(R.id.precio);
+        productoCantidad = (TextView) convertView.findViewById(R.id.enInventario);
         productoNombre.setText(producto.getNombre());
         productoPrecio.setText("$" + producto.getPrecio() + ".00");
+        productoCantidad.setText("" + producto.getCantidad());
         return convertView;
     }
 
@@ -79,8 +69,7 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
         return groupPosition;
     }
 
-    public View getGroupView(int groupPosition, boolean isExpanded, View convertView,
-                             ViewGroup parent) {
+    public View getGroupView(int groupPosition, boolean isExpanded, View convertView, ViewGroup parent) {
         TextView groupName;
         ImageView groupImage;
         Categoria categoria = getGroup(groupPosition);
@@ -91,6 +80,13 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
         groupImage = (ImageView) convertView.findViewById(R.id.icono);
         groupImage.setImageResource(R.drawable.labial);
         groupName.setText(categoria.getNombre());
+
+        if (isExpanded){
+            convertView.setBackgroundColor(Color.rgb(238,238,238));
+        } else {
+            convertView.setBackgroundColor(Color.rgb(245,245,245));
+        }
+
         return convertView;
     }
 

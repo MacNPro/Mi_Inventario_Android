@@ -22,18 +22,19 @@
             android:layout_marginLeft="24dp"
             android:orientation="vertical">
 
-            <TextView
+            <com.llamas.miinventario.CustomClasses.MediumTextView
                 android:id="@+id/nombre"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:gravity="left"
                 android:textSize="16dp"
-                android:textColor="@color/titulos"
+                android:textColor="@color/grupos"
                 android:text="TimeWise Body"
                 android:layout_marginBottom="2dp"
+                android:lineSpacingExtra="4dp"
                 android:textAppearance="?android:attr/textAppearanceSmall" />
 
-            <TextView
+            <com.llamas.miinventario.CustomClasses.MediumTextView
                 android:id="@+id/precio"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -44,11 +45,12 @@
 
         </LinearLayout>
 
-        <TextView
+        <com.llamas.miinventario.CustomClasses.MediumTextView
+            android:id="@+id/enInventario"
             android:layout_width="48dp"
             android:layout_height="32dp"
             android:layout_marginRight="16dp"
-            android:text="3"
+            android:text="0"
             android:textColor="@color/blanco"
             android:layout_gravity="center_vertical"
             android:gravity="center"

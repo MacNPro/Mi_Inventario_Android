@@ -6,17 +6,27 @@ package com.llamas.miinventario.Model;
 public class Producto {
 
     String nombre;
+    int cantidad;
     int precio;
     int puntos;
     int id;
 
     public Producto() {}
 
-    public Producto(String nombre, int precio, int id, int puntos) {
+    public Producto(String nombre, int cantidad, int precio, int id, int puntos) {
         this.nombre = nombre;
+        this.cantidad = cantidad;
         this.precio = precio;
         this.id = id;
         this.puntos = puntos;
+    }
+
+    public int getCantidad() {
+        return cantidad;
+    }
+
+    public void setCantidad(int cantidad) {
+        this.cantidad = cantidad;
     }
 
     public String getNombre() {
