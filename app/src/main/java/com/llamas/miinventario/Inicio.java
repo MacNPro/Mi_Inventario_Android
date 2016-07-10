@@ -1,9 +1,7 @@
 package com.llamas.miinventario;
 
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.Typeface;
-import android.media.Image;
 import android.net.Uri;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -19,14 +17,12 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
 import android.text.Spannable;
 import android.text.SpannableString;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.SubMenu;
 import android.view.View;
 import android.view.MenuItem;
-import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -36,27 +32,26 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 import com.llamas.miinventario.CustomClasses.CustomTypefaceSpan;
 
-import jp.wasabeef.glide.transformations.BlurTransformation;
 import jp.wasabeef.glide.transformations.CropCircleTransformation;
 
 public class Inicio extends FragmentActivity {
 
-    FragmentPagerAdapter adapterViewPager;
+    FragmentPagerAdapter inventarioAdapter, pedidoAdapter;
     private DatabaseReference mDatabase;
     private DrawerLayout drawerLayout;
     private NavigationView navView;
     private Toolbar toolbar;
 
+    public static Context context;
+
     LinearLayout linearLayout;
     FrameLayout fragment;
-    ViewPager viewPager;
+    ViewPager inventarioPager, pedidoPager;
+    private int[] imageResId = {R.drawable.por_agotarse, R.drawable.pedidos, R.drawable.agotados};
 
     boolean menuAbierto = false;
     boolean enDashboard;
@@ -66,15 +61,17 @@ public class Inicio extends FragmentActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_inicio);
         mDatabase = FirebaseDatabase.getInstance().getReference();
-        adapterViewPager = new inventarioAdapter(getSupportFragmentManager());
+        inventarioAdapter = new inventarioAdapter(getSupportFragmentManager());
+        pedidoAdapter = new pedidoAdapter(getSupportFragmentManager());
 
-        actializarDB();
+        context = getApplicationContext();
 
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer);
         navView = (NavigationView) findViewById(R.id.navigation_view);
         linearLayout = (LinearLayout) findViewById(R.id.viewPagerContainer);
         fragment = (FrameLayout) findViewById(R.id.fragment);
-        viewPager = (ViewPager) findViewById(R.id.viewPager);
+        inventarioPager = (ViewPager) findViewById(R.id.inventarioPager);
+        pedidoPager = (ViewPager) findViewById(R.id.pedidoPager);
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         initNavigationDrawer();
 
@@ -89,8 +86,6 @@ public class Inicio extends FragmentActivity {
                     applyFontToMenuItem(subMenuItem);
                 }
             }
-
-            //the method we have create in activity
             applyFontToMenuItem(mi);
         }
 
@@ -109,6 +104,7 @@ public class Inicio extends FragmentActivity {
             @Override
             public boolean onNavigationItemSelected(MenuItem menuItem) {
 
+                TabLayout tabLayout = (TabLayout) findViewById(R.id.sliding_tabs);
                 int id = menuItem.getItemId();
 
                 switch (id){
@@ -123,16 +119,22 @@ public class Inicio extends FragmentActivity {
                         enDashboard = false;
                         fragment.setVisibility(View.GONE);
                         linearLayout.setVisibility(View.VISIBLE);
-                        viewPager.setAdapter(adapterViewPager);
-                        TabLayout tabLayout = (TabLayout) findViewById(R.id.sliding_tabs);
-                        tabLayout.setupWithViewPager(viewPager);
+                        inventarioPager.setVisibility(View.VISIBLE);
+                        pedidoPager.setVisibility(View.GONE);
+                        inventarioPager.setAdapter(inventarioAdapter);
+                        tabLayout.setupWithViewPager(inventarioPager);
                         drawerLayout.closeDrawers();
                         break;
                     case R.id.pedidos:
                         enDashboard = false;
-                        fragment.setVisibility(View.VISIBLE);
-                        linearLayout.setVisibility(View.GONE);
-                        iniciarFragmento(new Pedidos());
+                        fragment.setVisibility(View.GONE);
+                        linearLayout.setVisibility(View.VISIBLE);
+                        inventarioPager.setVisibility(View.GONE);
+                        pedidoPager.setVisibility(View.VISIBLE);
+                        pedidoPager.setAdapter(pedidoAdapter);
+                        tabLayout.setupWithViewPager(pedidoPager);
+                        setTabLayoutIcons(tabLayout);
+                        pedidoPager.setCurrentItem(1);
                         drawerLayout.closeDrawers();
                         break;
                     case R.id.ventas:
@@ -233,23 +235,43 @@ public class Inicio extends FragmentActivity {
 
     }
 
-    public void actializarDB() {
+    public static class pedidoAdapter extends FragmentPagerAdapter {
+        private static int NUM_ITEMS = 3;
 
-        mDatabase.child("catalogo").addListenerForSingleValueEvent(
+        public pedidoAdapter(FragmentManager fragmentManager) {
+            super(fragmentManager);
+        }
 
-            new ValueEventListener() {
-                @Override
-                public void onDataChange(DataSnapshot dataSnapshot) {
+        @Override
+        public int getCount() {
+            return NUM_ITEMS;
+        }
 
-                }
+        @Override
+        public Fragment getItem(int position) {
+            switch (position) {
+                case 0:
+                    return new PorAgotarse();
+                case 1:
+                    return new Pedido();
+                case 2:
+                    return new Agotados();
+                default:
+                    return null;
+            }
+        }
 
-                @Override
-                public void onCancelled(DatabaseError databaseError) {
-                    Log.w("TAG", "getUser:onCancelled", databaseError.toException());
-                }
+        @Override
+        public CharSequence getPageTitle(int position) {
+            return "";
+        }
 
-            });
+    }
 
+    public void setTabLayoutIcons(TabLayout tabLayout){
+        tabLayout.getTabAt(0).setIcon(imageResId[0]);
+        tabLayout.getTabAt(1).setIcon(imageResId[1]);
+        tabLayout.getTabAt(2).setIcon(imageResId[2]);
     }
 
     @Override

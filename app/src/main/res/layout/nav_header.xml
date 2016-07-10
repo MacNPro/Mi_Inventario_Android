@@ -35,7 +35,7 @@
                 android:id="@+id/nombre"
                 android:textColor="@color/blanco"
                 android:textSize="16sp"
-                android:text="Daniel Llamas"
+                android:text="Nombre Apellido"
                 android:fontFamily="sans-serif-medium"
                 android:layout_gravity="left"
                 android:layout_width="wrap_content"

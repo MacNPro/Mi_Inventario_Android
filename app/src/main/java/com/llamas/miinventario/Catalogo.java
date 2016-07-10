@@ -26,7 +26,6 @@ import java.util.ArrayList;
 
 public class Catalogo extends Fragment {
 
-    private static String TAG = "Frag-Catalogo";
     private DatabaseReference mDatabase;
 
     ExpandableListAdapter expandableListAdapter;
@@ -48,12 +47,13 @@ public class Catalogo extends Fragment {
 
     public void getInventario() {
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-        mDatabase.child("usuarios").child(user.getUid()).child("inventario").addListenerForSingleValueEvent(
+        mDatabase.child("usuarios").child(user.getUid()).child("inventario").addValueEventListener(
 
                 new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
 
+                        enInventario.clear();
                         for (DataSnapshot productos : dataSnapshot.getChildren()) {
                             ProductoEnInventario producto = new ProductoEnInventario();
                             producto.setCantidad(productos.getValue(Integer.class));
@@ -105,7 +105,7 @@ public class Catalogo extends Fragment {
     }
 
     public void crearArrayListView(){
-        mDatabase.child("catalogo").addListenerForSingleValueEvent(
+        mDatabase.child("catalogo").addValueEventListener(
 
                 new ValueEventListener() {
                     @Override
