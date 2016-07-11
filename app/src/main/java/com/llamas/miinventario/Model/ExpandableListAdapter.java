@@ -20,10 +20,11 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
     LayoutInflater inflater;
 
     private ArrayList<Categoria> categorias;
-    public ExpandableListAdapter(Context context,ArrayList<Categoria> categorias) {
+
+    public ExpandableListAdapter(Context context, ArrayList<Categoria> categorias) {
         super();
         this.categorias = categorias;
-        inflater= (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
 
 
@@ -43,14 +44,22 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
     }
 
     public View getChildView(int groupPosition, int childPosition, boolean isLastChild, View convertView, ViewGroup parent) {
-        Producto producto = getChild(groupPosition,childPosition);
+        Producto producto = getChild(groupPosition, childPosition);
         TextView productoNombre, productoPrecio, productoCantidad;
-        if(convertView == null) {
+        if (convertView == null) {
             convertView = inflater.inflate(R.layout.list_item, null);
         }
         productoNombre = (TextView) convertView.findViewById(R.id.nombre);
         productoPrecio = (TextView) convertView.findViewById(R.id.precio);
         productoCantidad = (TextView) convertView.findViewById(R.id.enInventario);
+        int cantidad = producto.getCantidad();
+        if (cantidad == 0) {
+            productoCantidad.setBackgroundResource(R.drawable.indicador_agotados);
+        } else if (cantidad <= 2 && cantidad > 0) {
+            productoCantidad.setBackgroundResource(R.drawable.indicador_por_agotarse);
+        } else {
+            productoCantidad.setBackgroundResource(R.drawable.bola_rosa);
+        }
         productoNombre.setText(producto.getNombre());
         productoPrecio.setText("$" + producto.getPrecio() + ".00");
         productoCantidad.setText("" + producto.getCantidad());
@@ -73,7 +82,7 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
         TextView groupName;
         ImageView groupImage;
         Categoria categoria = getGroup(groupPosition);
-        if(convertView == null) {
+        if (convertView == null) {
             convertView = inflater.inflate(R.layout.list_grupo, null);
         }
         groupName = (TextView) convertView.findViewById(R.id.textViewGroupName);
@@ -81,10 +90,10 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
         groupImage.setImageResource(R.drawable.labial);
         groupName.setText(categoria.getNombre());
 
-        if (isExpanded){
-            convertView.setBackgroundColor(Color.rgb(238,238,238));
+        if (isExpanded) {
+            convertView.setBackgroundColor(Color.rgb(238, 238, 238));
         } else {
-            convertView.setBackgroundColor(Color.rgb(245,245,245));
+            convertView.setBackgroundColor(Color.rgb(245, 245, 245));
         }
 
         return convertView;

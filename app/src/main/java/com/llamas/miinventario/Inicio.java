@@ -52,6 +52,7 @@ public class Inicio extends FragmentActivity {
     FrameLayout fragment;
     ViewPager inventarioPager, pedidoPager;
     private int[] imageResId = {R.drawable.por_agotarse, R.drawable.pedidos, R.drawable.agotados};
+    int drawerID;
 
     boolean menuAbierto = false;
     boolean enDashboard;
@@ -80,7 +81,7 @@ public class Inicio extends FragmentActivity {
             MenuItem mi = m.getItem(i);
 
             SubMenu subMenu = mi.getSubMenu();
-            if (subMenu!=null && subMenu.size() >0 ) {
+            if (subMenu!=null && subMenu.size() > 0 ) {
                 for (int j=0; j <subMenu.size();j++) {
                     MenuItem subMenuItem = subMenu.getItem(j);
                     applyFontToMenuItem(subMenuItem);
@@ -103,48 +104,8 @@ public class Inicio extends FragmentActivity {
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(MenuItem menuItem) {
-
-                TabLayout tabLayout = (TabLayout) findViewById(R.id.sliding_tabs);
-                int id = menuItem.getItemId();
-
-                switch (id){
-                    case R.id.inicio:
-                        enDashboard = true;
-                        fragment.setVisibility(View.VISIBLE);
-                        linearLayout.setVisibility(View.GONE);
-                        iniciarFragmento(new Dashboard());
-                        drawerLayout.closeDrawers();
-                        break;
-                    case R.id.inventario:
-                        enDashboard = false;
-                        fragment.setVisibility(View.GONE);
-                        linearLayout.setVisibility(View.VISIBLE);
-                        inventarioPager.setVisibility(View.VISIBLE);
-                        pedidoPager.setVisibility(View.GONE);
-                        inventarioPager.setAdapter(inventarioAdapter);
-                        tabLayout.setupWithViewPager(inventarioPager);
-                        drawerLayout.closeDrawers();
-                        break;
-                    case R.id.pedidos:
-                        enDashboard = false;
-                        fragment.setVisibility(View.GONE);
-                        linearLayout.setVisibility(View.VISIBLE);
-                        inventarioPager.setVisibility(View.GONE);
-                        pedidoPager.setVisibility(View.VISIBLE);
-                        pedidoPager.setAdapter(pedidoAdapter);
-                        tabLayout.setupWithViewPager(pedidoPager);
-                        setTabLayoutIcons(tabLayout);
-                        pedidoPager.setCurrentItem(1);
-                        drawerLayout.closeDrawers();
-                        break;
-                    case R.id.ventas:
-                        enDashboard = false;
-                        fragment.setVisibility(View.VISIBLE);
-                        linearLayout.setVisibility(View.GONE);
-                        Toast.makeText(getApplicationContext(),"Ventas",Toast.LENGTH_SHORT).show();
-                        drawerLayout.closeDrawers();
-
-                }
+                drawerID = menuItem.getItemId();
+                drawerLayout.closeDrawers();
                 return true;
             }
         });
@@ -161,6 +122,44 @@ public class Inicio extends FragmentActivity {
             @Override
             public void onDrawerClosed(View v){
                 menuAbierto = false;
+                TabLayout tabLayout = (TabLayout) findViewById(R.id.sliding_tabs);
+                switch (drawerID){
+                    case R.id.inicio:
+                        enDashboard = true;
+                        fragment.setVisibility(View.VISIBLE);
+                        linearLayout.setVisibility(View.GONE);
+                        iniciarFragmento(new Dashboard());
+                        break;
+                    case R.id.inventario:
+                        enDashboard = false;
+                        fragment.setVisibility(View.GONE);
+                        linearLayout.setVisibility(View.VISIBLE);
+                        inventarioPager.setVisibility(View.VISIBLE);
+                        pedidoPager.setVisibility(View.GONE);
+                        inventarioPager.setAdapter(inventarioAdapter);
+                        tabLayout.setupWithViewPager(inventarioPager);
+                        break;
+                    case R.id.pedidos:
+                        enDashboard = false;
+                        fragment.setVisibility(View.GONE);
+                        linearLayout.setVisibility(View.VISIBLE);
+                        inventarioPager.setVisibility(View.GONE);
+                        pedidoPager.setVisibility(View.VISIBLE);
+                        pedidoPager.setAdapter(pedidoAdapter);
+                        tabLayout.setupWithViewPager(pedidoPager);
+                        setTabLayoutIcons(tabLayout);
+                        pedidoPager.setCurrentItem(1);
+                        break;
+                    case R.id.ventas:
+                        enDashboard = false;
+                        fragment.setVisibility(View.VISIBLE);
+                        linearLayout.setVisibility(View.GONE);
+                        Toast.makeText(getApplicationContext(),"Ventas",Toast.LENGTH_SHORT).show();
+                        break;
+                    default:
+                        break;
+
+                }
                 super.onDrawerClosed(v);
             }
 

@@ -5,20 +5,15 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
-import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 import com.llamas.miinventario.CustomClasses.RegularTextView;
 
 public class DetailProducto extends FragmentActivity {
-
-    private DatabaseReference mDatabase;
 
     RegularTextView botonAgregar;
     RelativeLayout secondLayout;
@@ -32,7 +27,6 @@ public class DetailProducto extends FragmentActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail_producto);
-        mDatabase = FirebaseDatabase.getInstance().getReference();
 
         botonAgregar = (RegularTextView) findViewById(R.id.botonAgregar);
         secondLayout = (RelativeLayout) findViewById(R.id.secondlayout);

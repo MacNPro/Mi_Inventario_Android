@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.llamas.miinventario.Model.Producto;
@@ -17,12 +18,15 @@ import java.util.List;
  */
 public class PedidosAdapter extends ArrayAdapter<Producto> {
 
+    int pagerIndex;
+
     public PedidosAdapter(Context context, int textViewResourceId) {
         super(context, textViewResourceId);
     }
 
-    public PedidosAdapter(Context context, int resource, List<Producto> items) {
+    public PedidosAdapter(Context context, int resource, List<Producto> items, int pagerIndex) {
         super(context, resource, items);
+        this.pagerIndex = pagerIndex;
     }
 
     @Override
@@ -31,9 +35,8 @@ public class PedidosAdapter extends ArrayAdapter<Producto> {
         View v = convertView;
 
         if (v == null) {
-            LayoutInflater vi;
-            vi = LayoutInflater.from(getContext());
-            v = vi.inflate(R.layout.list_item, null);
+            LayoutInflater vi = LayoutInflater.from(getContext());
+            v = vi.inflate(R.layout.list_item_pedido, null);
         }
 
         Producto p = getItem(position);
@@ -52,7 +55,15 @@ public class PedidosAdapter extends ArrayAdapter<Producto> {
             }
 
             if (tt3 != null) {
+                int cantidad = p.getCantidad();
                 tt3.setText(String.valueOf(p.getCantidad()));
+                if (pagerIndex != 1){
+                    if (cantidad == 0){
+                        tt3.setBackgroundResource(R.drawable.indicador_agotados);
+                    } else if (cantidad <= 2 && cantidad > 0){
+                        tt3.setBackgroundResource(R.drawable.indicador_por_agotarse);
+                    }
+                }
             }
         }
 

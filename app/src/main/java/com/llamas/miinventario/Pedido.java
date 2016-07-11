@@ -7,7 +7,10 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -18,23 +21,27 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.llamas.miinventario.CustomClasses.MediumTextView;
 import com.llamas.miinventario.CustomClasses.PedidosAdapter;
-import com.llamas.miinventario.CustomClasses.RegularTextView;
-import com.llamas.miinventario.Model.Categoria;
 import com.llamas.miinventario.Model.Producto;
 import com.llamas.miinventario.Model.ProductoEnInventario;
 
+import java.text.NumberFormat;
 import java.util.ArrayList;
+import java.util.Locale;
 
 public class Pedido extends Fragment {
 
     private DatabaseReference mDatabase;
-
     public static ArrayList<Producto> productos = new ArrayList<>();
     public static ArrayList<ProductoEnInventario> enPedido = new ArrayList<>();
 
-    MediumTextView totalView;
+    RelativeLayout ventana, mas, menos;
+    ImageView cerrar;
+    MediumTextView totalView, cantidad, guardar;
     ListView listView;
-    int total;
+    String pID;
+    int total, cantidadDeProducto;
+
+    boolean enVentana = false;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -42,14 +49,57 @@ public class Pedido extends Fragment {
         mDatabase = FirebaseDatabase.getInstance().getReference();
 
         totalView = (MediumTextView) view.findViewById(R.id.total);
+        cantidad = (MediumTextView) view.findViewById(R.id.cantidad);
+        guardar = (MediumTextView) view.findViewById(R.id.guardar);
         listView = (ListView) view.findViewById(R.id.listView);
+        ventana = (RelativeLayout) view.findViewById(R.id.fondoVentana);
+        mas = (RelativeLayout) view.findViewById(R.id.mas);
+        menos = (RelativeLayout) view.findViewById(R.id.menos);
+        cerrar = (ImageView) view.findViewById(R.id.cerrar);
+        getPedido();
 
-        getInventario();
+        cerrar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                toggeVentana();
+            }
+        });
+
+        mas.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                cantidadDeProducto++;
+                cantidad.setText("" + cantidadDeProducto);
+            }
+        });
+
+        menos.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (cantidadDeProducto > 0){
+                    cantidadDeProducto--;
+                    cantidad.setText("" + cantidadDeProducto);
+                }
+            }
+        });
+
+        guardar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                final FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+                if (cantidadDeProducto == 0){
+                    mDatabase.child("usuarios").child(user.getUid()).child("pedido").child(pID).removeValue();
+                } else {
+                    mDatabase.child("usuarios").child(user.getUid()).child("pedido").child(pID).setValue(cantidadDeProducto);
+                }
+                toggeVentana();
+            }
+        });
 
         return view;
     }
 
-    public void getInventario() {
+    public void getPedido() {
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         mDatabase.child("usuarios").child(user.getUid()).child("pedido").addValueEventListener(
 
@@ -88,7 +138,6 @@ public class Pedido extends Fragment {
                         for (int i = 0; i < enPedido.size(); i++) {
                             ids.add(enPedido.get(i).getId());
                             cantidades.add(enPedido.get(i).getCantidad());
-                            Log.d("TAG", "YEAH:" + enPedido.get(i).getCantidad());
                         }
 
                         total = 0;
@@ -117,9 +166,31 @@ public class Pedido extends Fragment {
     }
 
     public void crearListView() {
-        totalView.setText("Total: $" + total + ".00");
-        PedidosAdapter customAdapter = new PedidosAdapter(getActivity(), R.layout.list_item, productos);
+        String totalFinal = NumberFormat.getNumberInstance(Locale.US).format(total);
+        totalView.setText("Total: $" + totalFinal + ".00");
+        PedidosAdapter customAdapter = new PedidosAdapter(getActivity(), R.layout.list_item_pedido, productos, 1);
         listView.setAdapter(customAdapter);
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                toggeVentana();
+                cantidadDeProducto = productos.get(i).getCantidad();
+                pID = String.valueOf(productos.get(i).getId());
+                Log.d("Cantidad", ""+cantidadDeProducto);
+                cantidad.setText(""+cantidadDeProducto);
+            }
+        });
+    }
+
+    public void toggeVentana(){
+
+        if (enVentana){
+            ventana.setVisibility(View.GONE);
+        } else {
+            ventana.setVisibility(View.VISIBLE);
+        }
+
+        enVentana = !enVentana;
     }
 
 }

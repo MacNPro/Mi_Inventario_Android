@@ -72,39 +72,6 @@ public class Inventario extends Fragment {
                 });
     }
 
-    public void crearListView() {
-
-        expandableListAdapter = new ExpandableListAdapter(getActivity(), categorias);
-        expandableListView.deferNotifyDataSetChanged();
-        expandableListView.setAdapter(expandableListAdapter);
-        expandableListView.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
-
-            @Override
-            public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
-
-                Producto producto = categorias.get(groupPosition).getProductos().get(childPosition);
-
-                String pID = String.valueOf(producto.getId());
-                String nombre = String.valueOf(producto.getNombre());
-                String precio = String.valueOf(producto.getPrecio());
-                String puntos = String.valueOf(producto.getPuntos());
-                String enInventario = String.valueOf(producto.getCantidad());
-
-                Intent i = new Intent(getActivity(), DetailProducto.class);
-                i.putExtra("ID", pID);
-                i.putExtra("Nombre", nombre);
-                i.putExtra("Precio", precio);
-                i.putExtra("Puntos", puntos);
-                i.putExtra("enInventario", enInventario);
-                startActivity(i);
-
-                return true;
-            }
-
-        });
-
-    }
-
     public void crearArrayListView() {
         mDatabase.child("catalogo").addValueEventListener(
 
@@ -149,6 +116,39 @@ public class Inventario extends Fragment {
                     }
 
                 });
+
+    }
+
+    public void crearListView() {
+
+        expandableListAdapter = new ExpandableListAdapter(getActivity(), categorias);
+        expandableListView.deferNotifyDataSetChanged();
+        expandableListView.setAdapter(expandableListAdapter);
+        expandableListView.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
+
+            @Override
+            public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
+
+                Producto producto = categorias.get(groupPosition).getProductos().get(childPosition);
+
+                String pID = String.valueOf(producto.getId());
+                String nombre = String.valueOf(producto.getNombre());
+                String precio = String.valueOf(producto.getPrecio());
+                String puntos = String.valueOf(producto.getPuntos());
+                String enInventario = String.valueOf(producto.getCantidad());
+
+                Intent i = new Intent(getActivity(), DetailProducto.class);
+                i.putExtra("ID", pID);
+                i.putExtra("Nombre", nombre);
+                i.putExtra("Precio", precio);
+                i.putExtra("Puntos", puntos);
+                i.putExtra("enInventario", enInventario);
+                startActivity(i);
+
+                return true;
+            }
+
+        });
 
     }
 

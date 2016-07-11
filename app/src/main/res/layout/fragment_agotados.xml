@@ -12,7 +12,7 @@
         android:paddingLeft="16dp"
         android:textSize="18dp"
         android:textColor="@color/grupos"
-        android:text="Lista de Pedido"/>
+        android:text="Productos agotados"/>
 
     <ListView
         android:id="@+id/listView"
@@ -20,34 +20,13 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="46dp"
         android:scrollbars="none"
-        android:layout_marginBottom="56dp"
+        android:layout_marginBottom="0dp"
         android:layout_marginRight="16dp"
         android:layout_marginLeft="16dp"
         android:childDivider="#00000000"
         android:divider="#00000000"
         android:groupIndicator="@null">
     </ListView>
-
-    <com.llamas.miinventario.CustomClasses.MediumTextView
-        android:id="@+id/total"
-        android:layout_width="match_parent"
-        android:layout_height="56dp"
-        android:layout_alignParentBottom="true"
-        android:background="@color/azul"
-        android:clickable="true"
-        android:gravity="center"
-        android:textColor="@color/blanco"
-        android:textSize="18sp" />
-
-    <ImageView
-        android:layout_width="21dp"
-        android:layout_height="21dp"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentRight="true"
-        android:layout_marginBottom="18dp"
-        android:layout_marginRight="16dp"
-        android:alpha=".9"
-        android:src="@drawable/mas"/>
 
     <RelativeLayout
         android:id="@+id/fondoVentana"
