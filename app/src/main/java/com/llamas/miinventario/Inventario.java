@@ -1,14 +1,16 @@
 package com.llamas.miinventario;
 
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
+import android.support.annotation.IntegerRes;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ExpandableListView;
+import android.widget.ImageView;
+import android.widget.RelativeLayout;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -17,6 +19,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.llamas.miinventario.CustomClasses.MediumTextView;
 import com.llamas.miinventario.Model.Categoria;
 import com.llamas.miinventario.Model.ExpandableListAdapter;
 import com.llamas.miinventario.Model.Producto;
@@ -33,14 +36,87 @@ public class Inventario extends Fragment {
 
     public static ArrayList<Categoria> categorias = new ArrayList<>();
     public static ArrayList<ProductoEnInventario> enInventario = new ArrayList<>();
+    public static ArrayList<String> idsEnVenta = new ArrayList<>();
+
+    MediumTextView guardar, cantidad, fraseDisponible;
+    ImageView cerrar;
+    RelativeLayout ventana, mas, menos;
+    String type;
+
+    int cantidadDeProductoAVender, cantidadDeProductoDisponible, cantidadDeProductoDisponibleLive, pid;
+
+    boolean enVentana = false;
+
+    public static Inventario newInstance(String type) {
+        Bundle args = new Bundle();
+        args.putString("Type", type);
+        Inventario fragment = new Inventario();
+        fragment.setArguments(args);
+        return fragment;
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_inventario, container, false);
+        type = getArguments().getString("Type");
 
         mDatabase = FirebaseDatabase.getInstance().getReference();
         getInventario();
         expandableListView = (ExpandableListView) view.findViewById(R.id.expandableListView);
+
+        if (type.equals("Venta")){
+            getidsEnVenta();
+            ventana = (RelativeLayout) view.findViewById(R.id.fondoVentana);
+            mas = (RelativeLayout) view.findViewById(R.id.mas);
+            menos = (RelativeLayout) view.findViewById(R.id.menos);
+            cerrar = (ImageView) view.findViewById(R.id.cerrar);
+            guardar = (MediumTextView) view.findViewById(R.id.guardar);
+            cantidad = (MediumTextView) view.findViewById(R.id.cantidad);
+            fraseDisponible = (MediumTextView) view.findViewById(R.id.fraseDisponible);
+
+            cerrar.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    toggeVentana();
+                }
+            });
+            mas.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if (cantidadDeProductoAVender < cantidadDeProductoDisponible){
+                        cantidadDeProductoAVender++;
+                        cantidadDeProductoDisponibleLive--;
+                        fraseDisponible.setText("Actualmente tienes " + cantidadDeProductoDisponibleLive + " productos disponibles para vender");
+                        cantidad.setText("" + cantidadDeProductoAVender);
+                    }
+                }
+            });
+
+            menos.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if (cantidadDeProductoAVender > 0) {
+                        cantidadDeProductoAVender--;
+                        cantidadDeProductoDisponibleLive++;
+                        fraseDisponible.setText("Actualmente tienes " + cantidadDeProductoDisponibleLive + " productos disponibles para vender");
+                        cantidad.setText("" + cantidadDeProductoAVender);
+                    }
+                }
+            });
+
+            guardar.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+                    if (cantidadDeProductoAVender == 0) {
+                        mDatabase.child("usuarios").child(user.getUid()).child("venta").child(""+pid).removeValue();
+                    } else {
+                        mDatabase.child("usuarios").child(user.getUid()).child("venta").child(""+pid).setValue(cantidadDeProductoAVender);
+                    }
+                    toggeVentana();
+                }
+            });
+        }
 
         return view;
     }
@@ -56,9 +132,18 @@ public class Inventario extends Fragment {
                         enInventario.clear();
                         for (DataSnapshot productos : dataSnapshot.getChildren()) {
                             ProductoEnInventario producto = new ProductoEnInventario();
-                            producto.setCantidad(productos.getValue(Integer.class));
-                            producto.setId(productos.getKey());
-                            enInventario.add(producto);
+                            int cantidad = productos.getValue(Integer.class);
+                            if (type.equals("Inventario")) {
+                                producto.setCantidad(cantidad);
+                                producto.setId(productos.getKey());
+                                enInventario.add(producto);
+                            } else {
+                                if (cantidad > 0) {
+                                    producto.setCantidad(cantidad);
+                                    producto.setId(productos.getKey());
+                                    enInventario.add(producto);
+                                }
+                            }
                         }
 
                         crearArrayListView();
@@ -84,7 +169,6 @@ public class Inventario extends Fragment {
                         for (int i = 0; i < enInventario.size(); i++) {
                             ids.add(enInventario.get(i).getId());
                             cantidades.add(enInventario.get(i).getCantidad());
-                            Log.d("TAG", "YEAH:" + enInventario.get(i).getCantidad());
                         }
 
                         categorias.clear();
@@ -119,6 +203,24 @@ public class Inventario extends Fragment {
 
     }
 
+    public void getidsEnVenta(){
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        mDatabase.child("usuarios").child(user.getUid()).child("venta").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                idsEnVenta.clear();
+                for (DataSnapshot producto: dataSnapshot.getChildren()){
+                    idsEnVenta.add(producto.getKey());
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+    }
+
     public void crearListView() {
 
         expandableListAdapter = new ExpandableListAdapter(getActivity(), categorias);
@@ -129,27 +231,69 @@ public class Inventario extends Fragment {
             @Override
             public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
 
-                Producto producto = categorias.get(groupPosition).getProductos().get(childPosition);
+                final Producto producto = categorias.get(groupPosition).getProductos().get(childPosition);
+                if (type.equals("Inventario")) {
 
-                String pID = String.valueOf(producto.getId());
-                String nombre = String.valueOf(producto.getNombre());
-                String precio = String.valueOf(producto.getPrecio());
-                String puntos = String.valueOf(producto.getPuntos());
-                String enInventario = String.valueOf(producto.getCantidad());
+                    String pID = String.valueOf(producto.getId());
+                    String nombre = String.valueOf(producto.getNombre());
+                    String precio = String.valueOf(producto.getPrecio());
+                    String puntos = String.valueOf(producto.getPuntos());
+                    String enInventario = String.valueOf(producto.getCantidad());
 
-                Intent i = new Intent(getActivity(), DetailProducto.class);
-                i.putExtra("ID", pID);
-                i.putExtra("Nombre", nombre);
-                i.putExtra("Precio", precio);
-                i.putExtra("Puntos", puntos);
-                i.putExtra("enInventario", enInventario);
-                startActivity(i);
+                    Intent i = new Intent(getActivity(), DetailProducto.class);
+                    i.putExtra("ID", pID);
+                    i.putExtra("Nombre", nombre);
+                    i.putExtra("Precio", precio);
+                    i.putExtra("Puntos", puntos);
+                    i.putExtra("enInventario", enInventario);
+                    startActivity(i);
+
+                } else {
+                    pid = producto.getId();
+                    FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+                    if (idsEnVenta.contains(String.valueOf(pid))){
+                        mDatabase.child("usuarios").child(user.getUid()).child("venta").child(""+pid).addListenerForSingleValueEvent(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(DataSnapshot dataSnapshot) {
+                                cantidadDeProductoAVender = dataSnapshot.getValue(Integer.class);
+                                cantidadDeProductoDisponible = producto.getCantidad();
+                                cantidadDeProductoDisponibleLive = cantidadDeProductoDisponible - cantidadDeProductoAVender;
+                                fraseDisponible.setText("Actualmente tienes " + cantidadDeProductoDisponibleLive + " productos disponibles para vender");
+                                cantidad.setText("" + cantidadDeProductoAVender);
+                                toggeVentana();
+                            }
+
+                            @Override
+                            public void onCancelled(DatabaseError databaseError) {
+
+                            }
+                        });
+                    } else {
+                        cantidadDeProductoAVender = 0;
+                        cantidadDeProductoDisponible = producto.getCantidad();
+                        cantidadDeProductoDisponibleLive = cantidadDeProductoDisponible - cantidadDeProductoAVender;
+                        fraseDisponible.setText("Actualmente tienes " + cantidadDeProductoDisponibleLive + " productos disponibles para vender");
+                        cantidad.setText("" + cantidadDeProductoAVender);
+                        toggeVentana();
+                    }
+                }
 
                 return true;
             }
 
         });
 
+    }
+
+    public void toggeVentana() {
+
+        if (enVentana) {
+            ventana.setVisibility(View.GONE);
+        } else {
+            ventana.setVisibility(View.VISIBLE);
+        }
+
+        enVentana = !enVentana;
     }
 
 }

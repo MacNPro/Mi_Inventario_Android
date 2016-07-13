@@ -1,0 +1,244 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/carta_fondo"
+    android:clickable="true"
+    tools:context="com.llamas.miinventario.Calculadora">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:background="#487489">
+
+        <com.llamas.miinventario.CustomClasses.MediumTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:textColor="@color/blanco"
+            android:textSize="18dp"
+            android:text="Descuento"/>
+
+        <ImageView
+            android:id="@+id/cerrar"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_alignParentRight="true"
+            android:padding="16dp"
+            android:src="@drawable/cerrar"/>
+
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_marginTop="48dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#eee"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="2">
+
+            <com.llamas.miinventario.CustomClasses.MediumTextView
+                android:id="@+id/descuento"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="16dp"
+                android:textSize="32dp"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentRight="true"
+                android:text="$230"/>
+
+        </RelativeLayout>
+        
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="6"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1">
+
+                <com.llamas.miinventario.CustomClasses.MediumTextView
+                    android:id="@+id/pad1"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:background="@color/blanco"
+                    android:layout_marginBottom="1dp"
+                    android:layout_weight="1"
+                    android:textSize="18dp"
+                    android:gravity="center"
+                    android:text="1"/>
+
+                <com.llamas.miinventario.CustomClasses.MediumTextView
+                    android:id="@+id/pad2"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:background="@color/blanco"
+                    android:layout_weight="1"
+                    android:layout_marginLeft="1dp"
+                    android:layout_marginRight="1dp"
+                    android:layout_marginBottom="1dp"
+                    android:textSize="18dp"
+                    android:gravity="center"
+                    android:text="2"/>
+
+                <com.llamas.miinventario.CustomClasses.MediumTextView
+                    android:id="@+id/pad3"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:background="@color/blanco"
+                    android:layout_marginBottom="1dp"
+                    android:layout_weight="1"
+                    android:textSize="18dp"
+                    android:gravity="center"
+                    android:text="3"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1">
+
+                <com.llamas.miinventario.CustomClasses.MediumTextView
+                    android:id="@+id/pad4"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:background="@color/blanco"
+                    android:layout_marginBottom="1dp"
+                    android:layout_weight="1"
+                    android:textSize="18dp"
+                    android:gravity="center"
+                    android:text="4"/>
+
+                <com.llamas.miinventario.CustomClasses.MediumTextView
+                    android:id="@+id/pad5"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:background="@color/blanco"
+                    android:layout_weight="1"
+                    android:layout_marginLeft="1dp"
+                    android:layout_marginRight="1dp"
+                    android:layout_marginBottom="1dp"
+                    android:textSize="18dp"
+                    android:gravity="center"
+                    android:text="5"/>
+
+                <com.llamas.miinventario.CustomClasses.MediumTextView
+                    android:id="@+id/pad6"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:background="@color/blanco"
+                    android:layout_marginBottom="1dp"
+                    android:layout_weight="1"
+                    android:textSize="18dp"
+                    android:gravity="center"
+                    android:text="6"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1">
+
+                <com.llamas.miinventario.CustomClasses.MediumTextView
+                    android:id="@+id/pad7"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:background="@color/blanco"
+                    android:layout_marginBottom="1dp"
+                    android:layout_weight="1"
+                    android:textSize="18dp"
+                    android:gravity="center"
+                    android:text="7"/>
+
+                <com.llamas.miinventario.CustomClasses.MediumTextView
+                    android:id="@+id/pad8"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:background="@color/blanco"
+                    android:layout_weight="1"
+                    android:layout_marginLeft="1dp"
+                    android:layout_marginRight="1dp"
+                    android:layout_marginBottom="1dp"
+                    android:textSize="18dp"
+                    android:gravity="center"
+                    android:text="8"/>
+
+                <com.llamas.miinventario.CustomClasses.MediumTextView
+                    android:id="@+id/pad9"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:background="@color/blanco"
+                    android:layout_marginBottom="1dp"
+                    android:layout_weight="1"
+                    android:textSize="18dp"
+                    android:gravity="center"
+                    android:text="9"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1">
+
+                <com.llamas.miinventario.CustomClasses.MediumTextView
+                    android:id="@+id/padPorcentaje"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:background="@color/blanco"
+                    android:layout_weight="1"
+                    android:textSize="18dp"
+                    android:gravity="center"
+                    android:textColor="@color/azul"
+                    android:text="%"/>
+
+                <com.llamas.miinventario.CustomClasses.MediumTextView
+                    android:id="@+id/pad0"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:background="@color/blanco"
+                    android:layout_weight="1"
+                    android:layout_marginLeft="1dp"
+                    android:layout_marginRight="1dp"
+                    android:textSize="18dp"
+                    android:gravity="center"
+                    android:text="0"/>
+
+                <com.llamas.miinventario.CustomClasses.MediumTextView
+                    android:id="@+id/padBorrar"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:background="@color/blanco"
+                    android:layout_weight="1"
+                    android:textSize="18dp"
+                    android:gravity="center"
+                    android:textColor="@color/azul"
+                    android:text="C"/>
+
+            </LinearLayout>
+            
+        </LinearLayout>
+
+        <com.llamas.miinventario.CustomClasses.MediumTextView
+            android:id="@+id/agregarDescuento"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:background="@color/azul"
+            android:textSize="18dp"
+            android:gravity="center"
+            android:text="Agregar Descuento"
+            android:textColor="@color/blanco"/>
+
+    </LinearLayout>
+
+</FrameLayout>

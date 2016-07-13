@@ -37,7 +37,7 @@
         android:layout_margin="24dp"
         android:orientation="vertical">
 
-        <com.llamas.miinventario.CustomClasses.RegularTextView
+        <com.llamas.miinventario.CustomClasses.MediumTextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
@@ -75,7 +75,7 @@
 
             </RelativeLayout>
 
-            <com.llamas.miinventario.CustomClasses.RegularTextView
+            <com.llamas.miinventario.CustomClasses.MediumTextView
                 android:id="@+id/cantidad"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
@@ -112,7 +112,7 @@
 
         </LinearLayout>
 
-        <com.llamas.miinventario.CustomClasses.RegularTextView
+        <com.llamas.miinventario.CustomClasses.MediumTextView
             android:id="@+id/agregarProductos"
             android:layout_width="match_parent"
             android:layout_height="48dp"

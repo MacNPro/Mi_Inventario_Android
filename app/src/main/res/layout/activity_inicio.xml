@@ -43,7 +43,7 @@
             app:layout_behavior="@string/appbar_scrolling_view_behavior"
             android:orientation="vertical">
 
-            <android.support.design.widget.TabLayout
+            <com.llamas.miinventario.CustomClasses.CustomTabLayout
                 android:id="@+id/sliding_tabs"
                 style="@style/MyCustomTabLayout"
                 android:background="@color/colorPrimary"
@@ -60,6 +60,12 @@
 
             <android.support.v4.view.ViewPager
                 android:id="@+id/pedidoPager"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+            </android.support.v4.view.ViewPager>
+
+            <android.support.v4.view.ViewPager
+                android:id="@+id/ventasPager"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
             </android.support.v4.view.ViewPager>

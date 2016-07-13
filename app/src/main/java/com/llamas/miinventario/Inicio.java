@@ -27,20 +27,20 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.llamas.miinventario.CustomClasses.CustomTabLayout;
 import com.llamas.miinventario.CustomClasses.CustomTypefaceSpan;
 
 import jp.wasabeef.glide.transformations.CropCircleTransformation;
 
 public class Inicio extends FragmentActivity {
 
-    FragmentPagerAdapter inventarioAdapter, pedidoAdapter;
+    FragmentPagerAdapter inventarioAdapter, pedidoAdapter, ventasAdapter;
     private DatabaseReference mDatabase;
     private DrawerLayout drawerLayout;
     private NavigationView navView;
@@ -50,7 +50,7 @@ public class Inicio extends FragmentActivity {
 
     LinearLayout linearLayout;
     FrameLayout fragment;
-    ViewPager inventarioPager, pedidoPager;
+    public static ViewPager inventarioPager, pedidoPager, ventasPager;
     private int[] imageResId = {R.drawable.por_agotarse, R.drawable.pedidos, R.drawable.agotados};
     int drawerID;
 
@@ -64,6 +64,7 @@ public class Inicio extends FragmentActivity {
         mDatabase = FirebaseDatabase.getInstance().getReference();
         inventarioAdapter = new inventarioAdapter(getSupportFragmentManager());
         pedidoAdapter = new pedidoAdapter(getSupportFragmentManager());
+        ventasAdapter = new ventasAdapter(getSupportFragmentManager());
 
         context = getApplicationContext();
 
@@ -73,6 +74,7 @@ public class Inicio extends FragmentActivity {
         fragment = (FrameLayout) findViewById(R.id.fragment);
         inventarioPager = (ViewPager) findViewById(R.id.inventarioPager);
         pedidoPager = (ViewPager) findViewById(R.id.pedidoPager);
+        ventasPager = (ViewPager) findViewById(R.id.ventasPager);
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         initNavigationDrawer();
 
@@ -122,7 +124,7 @@ public class Inicio extends FragmentActivity {
             @Override
             public void onDrawerClosed(View v){
                 menuAbierto = false;
-                TabLayout tabLayout = (TabLayout) findViewById(R.id.sliding_tabs);
+                CustomTabLayout tabLayout = (CustomTabLayout) findViewById(R.id.sliding_tabs);
                 switch (drawerID){
                     case R.id.inicio:
                         enDashboard = true;
@@ -136,6 +138,7 @@ public class Inicio extends FragmentActivity {
                         linearLayout.setVisibility(View.VISIBLE);
                         inventarioPager.setVisibility(View.VISIBLE);
                         pedidoPager.setVisibility(View.GONE);
+                        ventasPager.setVisibility(View.GONE);
                         inventarioPager.setAdapter(inventarioAdapter);
                         tabLayout.setupWithViewPager(inventarioPager);
                         break;
@@ -144,6 +147,7 @@ public class Inicio extends FragmentActivity {
                         fragment.setVisibility(View.GONE);
                         linearLayout.setVisibility(View.VISIBLE);
                         inventarioPager.setVisibility(View.GONE);
+                        ventasPager.setVisibility(View.GONE);
                         pedidoPager.setVisibility(View.VISIBLE);
                         pedidoPager.setAdapter(pedidoAdapter);
                         tabLayout.setupWithViewPager(pedidoPager);
@@ -152,9 +156,13 @@ public class Inicio extends FragmentActivity {
                         break;
                     case R.id.ventas:
                         enDashboard = false;
-                        fragment.setVisibility(View.VISIBLE);
-                        linearLayout.setVisibility(View.GONE);
-                        Toast.makeText(getApplicationContext(),"Ventas",Toast.LENGTH_SHORT).show();
+                        fragment.setVisibility(View.GONE);
+                        linearLayout.setVisibility(View.VISIBLE);
+                        inventarioPager.setVisibility(View.GONE);
+                        pedidoPager.setVisibility(View.GONE);
+                        ventasPager.setVisibility(View.VISIBLE);
+                        ventasPager.setAdapter(ventasAdapter);
+                        tabLayout.setupWithViewPager(ventasPager);
                         break;
                     default:
                         break;
@@ -219,7 +227,7 @@ public class Inicio extends FragmentActivity {
         public Fragment getItem(int position) {
             switch (position) {
                 case 0:
-                    return new Inventario();
+                    return Inventario.newInstance("Inventario");
                 case 1:
                     return new Catalogo();
                 default:
@@ -263,6 +271,38 @@ public class Inicio extends FragmentActivity {
         @Override
         public CharSequence getPageTitle(int position) {
             return "";
+        }
+
+    }
+
+    public static class ventasAdapter extends FragmentPagerAdapter {
+        private String tabTitles[] = { "Venta", "Inventario"};
+        private static int NUM_ITEMS = 2;
+
+        public ventasAdapter(FragmentManager fragmentManager) {
+            super(fragmentManager);
+        }
+
+        @Override
+        public int getCount() {
+            return NUM_ITEMS;
+        }
+
+        @Override
+        public Fragment getItem(int position) {
+            switch (position) {
+                case 0:
+                    return new Venta();
+                case 1:
+                    return Inventario.newInstance("Venta");
+                default:
+                    return null;
+            }
+        }
+
+        @Override
+        public CharSequence getPageTitle(int position) {
+            return tabTitles[position] ;
         }
 
     }

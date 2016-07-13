@@ -5,6 +5,24 @@
     android:background="#EEE"
     tools:context=".Pedido">
 
+    <LinearLayout
+        android:id="@+id/tutorial"
+        android:visibility="gone"
+        android:layout_width="280dp"
+        android:layout_height="wrap_content"
+        android:paddingBottom="64dp"
+        android:layout_centerInParent="true">
+
+        <com.llamas.miinventario.CustomClasses.MediumTextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:lineSpacingExtra="4dp"
+            android:textSize="16dp"
+            android:text="Has click aqui para \nagregar un producto"/>
+
+    </LinearLayout>
+
     <com.llamas.miinventario.CustomClasses.MediumTextView
         android:layout_width="match_parent"
         android:gravity="center_vertical"
@@ -12,7 +30,7 @@
         android:paddingLeft="16dp"
         android:textSize="18dp"
         android:textColor="@color/grupos"
-        android:text="Lista de Pedido"/>
+        android:text="Productos a vender"/>
 
     <ListView
         android:id="@+id/listView"
@@ -20,34 +38,32 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="46dp"
         android:scrollbars="none"
-        android:layout_marginBottom="56dp"
         android:layout_marginRight="16dp"
         android:layout_marginLeft="16dp"
         android:childDivider="#00000000"
         android:divider="#00000000"
-        android:groupIndicator="@null">
-    </ListView>
+        android:groupIndicator="@null"
+        android:layout_marginBottom="64dp"/>
 
     <com.llamas.miinventario.CustomClasses.MediumTextView
         android:id="@+id/total"
         android:layout_width="match_parent"
-        android:layout_height="56dp"
-        android:layout_alignParentBottom="true"
+        android:layout_height="64dp"
         android:background="@color/azul"
-        android:clickable="true"
-        android:gravity="center"
         android:textColor="@color/blanco"
-        android:textSize="18sp" />
+        android:gravity="center"
+        android:textSize="22sp"
+        android:layout_alignParentBottom="true"/>
 
     <ImageView
-        android:layout_width="21dp"
-        android:layout_height="21dp"
+        android:layout_width="28dp"
+        android:layout_height="28dp"
+        android:src="@drawable/siguiente"
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
-        android:layout_marginBottom="18dp"
+        android:alpha=".85"
         android:layout_marginRight="16dp"
-        android:alpha=".9"
-        android:src="@drawable/mas"/>
+        android:layout_marginBottom="18dp"/>
 
     <RelativeLayout
         android:id="@+id/fondoVentana"
@@ -96,12 +112,13 @@
                 android:orientation="vertical">
 
                 <com.llamas.miinventario.CustomClasses.MediumTextView
+                    android:id="@+id/fraseDisponible"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_centerInParent="true"
                     android:gravity="center_horizontal"
                     android:lineSpacingExtra="6dp"
-                    android:text="¿Cuantos productos quieres agregar a tu pedido?"
+                    android:text="Actualmente tienes 0 productos disponibles para vender"
                     android:textSize="18dp" />
 
                 <LinearLayout

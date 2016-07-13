@@ -11,11 +11,11 @@ import android.widget.FrameLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.llamas.miinventario.CustomClasses.RegularTextView;
+import com.llamas.miinventario.CustomClasses.MediumTextView;
 
 public class DetailProducto extends FragmentActivity {
 
-    RegularTextView botonAgregar;
+    MediumTextView botonAgregar;
     RelativeLayout secondLayout;
     FrameLayout fragmentLayout;
     TextView nombreTV, puntosTV, precioTV, idTV, enInventarioTV;
@@ -28,7 +28,7 @@ public class DetailProducto extends FragmentActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail_producto);
 
-        botonAgregar = (RegularTextView) findViewById(R.id.botonAgregar);
+        botonAgregar = (MediumTextView) findViewById(R.id.botonAgregar);
         secondLayout = (RelativeLayout) findViewById(R.id.secondlayout);
         fragmentLayout = (FrameLayout) findViewById(R.id.fragment);
         nombreTV = (TextView) findViewById(R.id.nombre);

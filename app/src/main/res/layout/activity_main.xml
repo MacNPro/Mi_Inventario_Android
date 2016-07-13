@@ -22,16 +22,17 @@
         android:orientation="horizontal">
 
         <ImageView
-            android:layout_width="64dp"
-            android:layout_height="64dp"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
             android:layout_marginRight="8dp"
-            android:background="@drawable/bola_rosa" />
+            android:src="@mipmap/ic_launcher"/>
 
-        <TextView
+        <com.llamas.miinventario.CustomClasses.BoldTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:layout_marginLeft="8dp"
+            android:lineSpacingExtra="3dp"
             android:text="@string/titulo"
             android:textColor="@color/blanco"
             android:textSize="18sp" />
@@ -47,24 +48,24 @@
         android:layout_marginBottom="32dp"
         android:orientation="horizontal">
 
-        <Button
+        <com.llamas.miinventario.CustomClasses.MediumTextView
             android:layout_width="150dp"
             android:layout_height="48dp"
             android:layout_marginRight="16dp"
             android:background="@drawable/fondo_rosa"
-            android:fontFamily="sans-serif-light"
             android:text="@string/inicia"
             android:textAllCaps="false"
             android:textColor="@color/blanco"
+            android:gravity="center"
             android:textSize="18sp"
             android:onClick="onIniciaSesion"/>
 
-        <Button
+        <com.llamas.miinventario.CustomClasses.MediumTextView
             android:layout_width="150dp"
             android:layout_height="48dp"
             android:background="@drawable/borde_blanco"
-            android:fontFamily="sans-serif-light"
             android:text="@string/registrate"
+            android:gravity="center"
             android:textAllCaps="false"
             android:textColor="@color/blanco"
             android:textSize="18sp"
@@ -72,7 +73,7 @@
 
     </LinearLayout>
 
-    <TextView
+    <com.llamas.miinventario.CustomClasses.BoldTextView
         android:id="@+id/titulo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -83,7 +84,7 @@
         android:textColor="@color/blanco"
         android:textSize="42sp" />
 
-    <TextView
+    <com.llamas.miinventario.CustomClasses.RegularTextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_above="@id/titulo"

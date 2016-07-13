@@ -34,7 +34,7 @@
 
             </RelativeLayout>
 
-            <com.llamas.miinventario.CustomClasses.RegularTextView
+            <com.llamas.miinventario.CustomClasses.MediumTextView
                 android:id="@+id/nombre"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -62,7 +62,7 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
 
-                <com.llamas.miinventario.CustomClasses.RegularTextView
+                <com.llamas.miinventario.CustomClasses.MediumTextView
                     android:id="@+id/id"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -76,7 +76,7 @@
                     android:textColor="@color/blanco"
                     android:textSize="18dp" />
 
-                <com.llamas.miinventario.CustomClasses.RegularTextView
+                <com.llamas.miinventario.CustomClasses.MediumTextView
                     android:id="@+id/precio"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -89,7 +89,7 @@
                     android:textColor="@color/blanco"
                     android:textSize="18dp" />
 
-                <com.llamas.miinventario.CustomClasses.RegularTextView
+                <com.llamas.miinventario.CustomClasses.MediumTextView
                     android:id="@+id/puntos"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -111,7 +111,7 @@
                 android:layout_centerInParent="true"
                 android:orientation="vertical">
 
-                <com.llamas.miinventario.CustomClasses.RegularTextView
+                <com.llamas.miinventario.CustomClasses.MediumTextView
                     android:id="@+id/enInventario"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -121,7 +121,7 @@
                     android:textColor="@color/titulos"
                     android:textSize="42dp" />
 
-                <com.llamas.miinventario.CustomClasses.RegularTextView
+                <com.llamas.miinventario.CustomClasses.MediumTextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="En inventario"
@@ -143,7 +143,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="6">
 
-                    <com.llamas.miinventario.CustomClasses.RegularTextView
+                    <com.llamas.miinventario.CustomClasses.MediumTextView
                         android:id="@+id/botonAgregar"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"

@@ -14,17 +14,28 @@
             android:name="com.facebook.sdk.ApplicationId"
             android:value="@string/facebook_app_id" />
 
-        <activity android:name=".Main" android:screenOrientation="portrait">
+        <activity
+            android:name=".Main"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".IniciaSesion" android:screenOrientation="portrait" />
-        <activity android:name=".Registrate" android:screenOrientation="portrait" />
-        <activity android:name=".Inicio" android:screenOrientation="portrait" />
-        <activity android:name=".DetailProducto" android:screenOrientation="portrait" />
+        <activity
+            android:name=".IniciaSesion"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".Registrate"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".Inicio"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".DetailProducto"
+            android:screenOrientation="portrait" />
+        <activity android:name=".FinalizarVenta"></activity>
     </application>
 
 </manifest>

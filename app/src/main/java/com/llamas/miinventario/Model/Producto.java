@@ -1,9 +1,11 @@
 package com.llamas.miinventario.Model;
 
+import java.io.Serializable;
+
 /**
  * Created by MacNPro on 7/8/16.
  */
-public class Producto {
+public class Producto implements Serializable {
 
     String nombre;
     int cantidad;

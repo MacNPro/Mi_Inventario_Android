@@ -22,12 +22,12 @@
         android:orientation="horizontal">
 
         <ImageView
-            android:layout_width="64dp"
-            android:layout_height="64dp"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
             android:layout_marginRight="8dp"
-            android:background="@drawable/bola_rosa" />
+            android:src="@mipmap/ic_launcher"/>
 
-        <TextView
+        <com.llamas.miinventario.CustomClasses.BoldTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
@@ -35,6 +35,7 @@
             android:text="@string/titulo"
             android:fontFamily="sans-serif-light"
             android:textColor="@color/blanco"
+            android:lineSpacingExtra="3dp"
             android:textSize="18sp" />
 
     </LinearLayout>
@@ -85,26 +86,26 @@
             android:layout_height="1dp"
             android:background="@color/blanco"
             android:layout_gravity="center_horizontal"
-            android:layout_marginBottom="48dp"></LinearLayout>
+            android:layout_marginBottom="48dp"/>
 
-        <Button
+        <com.llamas.miinventario.CustomClasses.RegularTextView
             android:layout_width="190dp"
             android:layout_height="44dp"
             android:layout_marginBottom="16dp"
             android:background="@drawable/fondo_rosa"
-            android:fontFamily="sans-serif-light"
             android:text="@string/inicia"
+            android:gravity="center"
             android:textAllCaps="false"
             android:textColor="@color/blanco"
             android:textSize="18sp"
             android:layout_gravity="center_horizontal"
             android:onClick="onIniciarConFirebase"/>
 
-        <Button
+        <com.llamas.miinventario.CustomClasses.RegularTextView
             android:layout_width="190dp"
             android:layout_height="44dp"
             android:background="@drawable/fondo_fb"
-            android:fontFamily="sans-serif-light"
+            android:gravity="center"
             android:text="Inicia con Facebook"
             android:textAllCaps="false"
             android:textColor="@color/blanco"

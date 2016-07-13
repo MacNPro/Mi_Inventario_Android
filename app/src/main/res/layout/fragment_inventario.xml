@@ -15,4 +15,157 @@
         android:divider="#00000000">
     </ExpandableListView>
 
+    <RelativeLayout
+        android:id="@+id/fondoVentana"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone"
+        android:clickable="true"
+        android:background="#75000000">
+
+        <LinearLayout
+            android:layout_width="290dp"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:background="@drawable/carta_fondo"
+            android:orientation="vertical">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:background="@drawable/fondo_titulo_ventana">
+
+                <com.llamas.miinventario.CustomClasses.MediumTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:text="Agregar a venta"
+                    android:textColor="@color/blanco"
+                    android:textSize="16dp" />
+
+                <ImageView
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="8dp"
+                    android:padding="8dp"
+                    android:id="@+id/cerrar"
+                    android:src="@drawable/cerrar" />
+
+            </RelativeLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="24dp"
+                android:orientation="vertical">
+
+                <com.llamas.miinventario.CustomClasses.MediumTextView
+                    android:id="@+id/fraseDisponible"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:gravity="center_horizontal"
+                    android:lineSpacingExtra="6dp"
+                    android:text="Actualmente tienes 0 productos disponibles para vender"
+                    android:textSize="18dp" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="48dp"
+                    android:layout_marginBottom="24dp"
+                    android:layout_marginTop="24dp"
+                    android:orientation="horizontal">
+
+                    <RelativeLayout
+                        android:id="@+id/menos"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="5"
+                        android:background="@drawable/carta_izquierda"
+                        android:gravity="center"
+                        android:paddingBottom="12dp"
+                        android:paddingLeft="4dp"
+                        android:paddingTop="10dp"
+                        android:textColor="@color/blanco"
+                        android:textSize="24dp">
+
+                        <ImageView
+                            android:layout_centerInParent="true"
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:src="@drawable/menos" />
+
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="7"
+                        android:layout_marginLeft="1dp"
+                        android:layout_marginRight="1dp"
+                        android:background="@color/colorPrimary"
+                        android:gravity="center"
+                        android:paddingBottom="12dp"
+                        android:paddingRight="4dp"
+                        android:paddingTop="10dp"
+                        android:textColor="@color/blanco">
+
+                        <com.llamas.miinventario.CustomClasses.MediumTextView
+                            android:id="@+id/cantidad"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:paddingTop="1dp"
+                            android:layout_centerInParent="true"
+                            android:text="0"
+                            android:textColor="@color/blanco"
+                            android:textSize="22dp" />
+
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:id="@+id/mas"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="5"
+                        android:background="@drawable/carta_derecha"
+                        android:gravity="center"
+                        android:paddingBottom="12dp"
+                        android:paddingRight="4dp"
+                        android:paddingTop="10dp"
+                        android:textColor="@color/blanco">
+
+                        <ImageView
+                            android:layout_centerInParent="true"
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:src="@drawable/mas" />
+
+                    </RelativeLayout>
+
+                </LinearLayout>
+
+                <com.llamas.miinventario.CustomClasses.MediumTextView
+                    android:id="@+id/guardar"
+                    android:layout_width="match_parent"
+                    android:layout_height="48dp"
+                    android:layout_alignParentBottom="true"
+                    android:layout_centerHorizontal="true"
+                    android:background="@drawable/bola_azul"
+                    android:clickable="true"
+                    android:fontFamily="sans-serif-light"
+                    android:gravity="center"
+                    android:stateListAnimator="@null"
+                    android:text="Guardar cambios"
+                    android:textAllCaps="false"
+                    android:textColor="@color/blanco"
+                    android:textSize="18sp" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </RelativeLayout>
+
 </RelativeLayout>
