@@ -58,7 +58,7 @@ public class Inicio extends FragmentActivity {
     LinearLayout linearLayout, titleInventario;
     FrameLayout fragment;
     public static ViewPager inventarioPager, pedidoPager, ventasPager;
-    private int[] imageResId = {R.drawable.por_agotarse, R.drawable.pedidos, R.drawable.agotados};
+    private int[] imageResId = {R.drawable.por_agotarse, R.drawable.pedidos, R.drawable.inventario};
     int drawerID;
 
     boolean menuAbierto = false;
@@ -135,6 +135,7 @@ public class Inicio extends FragmentActivity {
             public void onDrawerClosed(View v) {
                 menuAbierto = false;
                 tabLayout = (CustomTabLayout) findViewById(R.id.sliding_tabs);
+                final MediumTextView titulo = (MediumTextView) findViewById(R.id.tituloInventario);
                 switch (drawerID) {
                     case R.id.inicio:
                         enDashboard = true;
@@ -154,6 +155,7 @@ public class Inicio extends FragmentActivity {
                         pedidoPager.setVisibility(View.GONE);
                         ventasPager.setVisibility(View.GONE);
                         inventarioPager.setAdapter(inventarioAdapter);
+                        titulo.setText("Inventario");
                         inventarioPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
                             @Override
                             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
@@ -162,11 +164,11 @@ public class Inicio extends FragmentActivity {
 
                             @Override
                             public void onPageSelected(int position) {
-                                MediumTextView titulo = (MediumTextView) findViewById(R.id.tituloInventario);
                                 if (position == 1) {
                                     titulo.setText("Catálogo");
                                 } else {
                                     titulo.setText("Inventario");
+                                    enCatalogo = false;
                                 }
                             }
 
@@ -197,13 +199,35 @@ public class Inicio extends FragmentActivity {
                         enDashboard = false;
                         fragment.setVisibility(View.GONE);
                         catalogoFragment.setVisibility(View.GONE);
-                        titleInventario.setVisibility(View.GONE);
+                        titleInventario.setVisibility(View.VISIBLE);
                         linearLayout.setVisibility(View.VISIBLE);
                         inventarioPager.setVisibility(View.GONE);
                         pedidoPager.setVisibility(View.GONE);
                         ventasPager.setVisibility(View.VISIBLE);
                         ventasPager.setAdapter(ventasAdapter);
-                        tabLayout.setVisibility(View.VISIBLE);
+                        titulo.setText("Venta");
+                        ventasPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+                            @Override
+                            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+                            }
+
+                            @Override
+                            public void onPageSelected(int position) {
+                                if (position == 1) {
+                                    titulo.setText("Inventario");
+                                } else {
+                                    titulo.setText("Venta");
+                                    enCatalogo = false;
+                                }
+                            }
+
+                            @Override
+                            public void onPageScrollStateChanged(int state) {
+
+                            }
+                        });
+                        tabLayout.setVisibility(View.GONE);
                         tabLayout.setupWithViewPager(ventasPager);
                         break;
                     default:
@@ -280,13 +304,6 @@ public class Inicio extends FragmentActivity {
         transaction.commit();
     }
 
-    public void iniciarFragmentoCatalogo(Fragment newFragment) {
-        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        transaction.replace(R.id.catalogo, newFragment);
-        transaction.addToBackStack(null);
-        transaction.commit();
-    }
-
     public static class inventarioAdapter extends FragmentPagerAdapter {
         private String tabTitles[] = {"Inventario", "Catálogo"};
         private static int NUM_ITEMS = 2;
@@ -339,7 +356,7 @@ public class Inicio extends FragmentActivity {
                 case 1:
                     return new Pedido();
                 case 2:
-                    return new Agotados();
+                    return Catalogo.newInstance("Pedido");
                 default:
                     return null;
             }
@@ -404,7 +421,7 @@ public class Inicio extends FragmentActivity {
     @Override
     public void onBackPressed() {
         if (enCatalogo) {
-            toggleCatalogo();
+            cerrarCatalogo();
         } else {
             if (menuAbierto) {
                 drawerLayout.closeDrawer(Gravity.LEFT);
@@ -418,20 +435,10 @@ public class Inicio extends FragmentActivity {
         }
     }
 
-    public void toggleCatalogo(){
-        if (enCatalogo){
-            catalogoFragment.setVisibility(View.GONE);
-            pedidoPager.setVisibility(View.VISIBLE);
-            tabLayout.setVisibility(View.VISIBLE);
-            titleInventario.setVisibility(View.GONE);
-        } else {
-            titleInventario.setVisibility(View.VISIBLE);
-            MediumTextView titulo = (MediumTextView) findViewById(R.id.tituloInventario);
-            titulo.setText("Agregar a Pedido");
-            catalogoFragment.setVisibility(View.VISIBLE);
-            pedidoPager.setVisibility(View.GONE);
-            tabLayout.setVisibility(View.GONE);
-        }
+    public void cerrarCatalogo() {
+        inventarioPager.setCurrentItem(0);
+        ventasPager.setCurrentItem(0);
+        pedidoPager.setCurrentItem(1);
         enCatalogo = !enCatalogo;
     }
 

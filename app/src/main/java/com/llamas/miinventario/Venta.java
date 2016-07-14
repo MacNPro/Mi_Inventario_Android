@@ -66,6 +66,7 @@ public class Venta extends Fragment {
             @Override
             public void onClick(View view) {
                 Inicio.ventasPager.setCurrentItem(1);
+                Inicio.enCatalogo = true;
             }
         });
 

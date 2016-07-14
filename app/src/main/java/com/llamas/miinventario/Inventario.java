@@ -70,6 +70,7 @@ public class Inventario extends Fragment {
             @Override
             public void onClick(View view) {
                 Inicio.inventarioPager.setCurrentItem(1);
+                Inicio.enCatalogo = true;
             }
         });
 

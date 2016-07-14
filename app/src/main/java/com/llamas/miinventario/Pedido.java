@@ -63,13 +63,14 @@ public class Pedido extends Fragment {
         btnMas = (ImageView) view.findViewById(R.id.btnMas);
         getPedido();
 
-        Catalogo catalogo = Catalogo.newInstance("Pedido");
-        ((Inicio)getActivity()).iniciarFragmentoCatalogo(catalogo);
+        //Catalogo catalogo = Catalogo.newInstance("Pedido");
+        //((Inicio)getActivity()).iniciarFragmentoCatalogo(catalogo);
 
         btnMas.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ((Inicio)getActivity()).toggleCatalogo();
+                Inicio.pedidoPager.setCurrentItem(2);
+                Inicio.enCatalogo = true;
             }
         });
 

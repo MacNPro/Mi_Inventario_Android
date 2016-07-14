@@ -107,7 +107,7 @@ public class PorAgotarse extends Fragment {
                         for (DataSnapshot productos : dataSnapshot.getChildren()) {
                             ProductoEnInventario producto = new ProductoEnInventario();
                             int cantidad = productos.getValue(Integer.class);
-                            if (cantidad <= 2 && cantidad > 0){
+                            if (cantidad <= 2 && cantidad >= 0){
                                 producto.setCantidad(productos.getValue(Integer.class));
                                 producto.setId(productos.getKey());
                                 Agotados.add(producto);

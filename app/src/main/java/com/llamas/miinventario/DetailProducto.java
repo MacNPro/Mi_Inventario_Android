@@ -146,7 +146,7 @@ public class DetailProducto extends FragmentActivity {
 
     @Override
     public void onBackPressed() {
-
+        finish();
     }
 
 }
