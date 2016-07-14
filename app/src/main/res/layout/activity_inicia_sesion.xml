@@ -101,6 +101,37 @@
             android:layout_gravity="center_horizontal"
             android:onClick="onIniciarConFirebase"/>
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp">
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_weight="3"
+                android:layout_marginRight="16dp"
+                android:layout_gravity="center_vertical"
+                android:background="@color/blanco"
+                android:layout_marginBottom="2dp"
+                android:layout_height="1dp"/>
+
+            <com.llamas.miinventario.CustomClasses.MediumTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/blanco"
+                android:text="O"/>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_weight="3"
+                android:layout_gravity="center_vertical"
+                android:layout_marginBottom="2dp"
+                android:background="@color/blanco"
+                android:layout_marginLeft="16dp"
+                android:layout_height="1dp"/>
+
+        </LinearLayout>
+
         <com.llamas.miinventario.CustomClasses.RegularTextView
             android:layout_width="190dp"
             android:layout_height="44dp"

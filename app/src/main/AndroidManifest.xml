@@ -35,7 +35,9 @@
         <activity
             android:name=".DetailProducto"
             android:screenOrientation="portrait" />
-        <activity android:name=".FinalizarVenta"></activity>
+        <activity android:name=".FinalizarVenta" />
+        <activity android:name=".Ajustes" />
+        <activity android:name=".DetailAjustes"></activity>
     </application>
 
 </manifest>

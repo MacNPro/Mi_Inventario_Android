@@ -40,7 +40,6 @@ public class AgregarAPedido extends Fragment {
             public void onClick(View v) {
                 if (cantidadIntCounter > 0){
                     mDatabase.child("usuarios").child(user.getUid()).child("pedido").child(DetailProducto.id).setValue(cantidadIntCounter);
-                    ((DetailProducto)getActivity()).toggleVentana();
                 }
             }
         });

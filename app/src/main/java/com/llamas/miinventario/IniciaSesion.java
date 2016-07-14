@@ -75,7 +75,7 @@ public class IniciaSesion extends Activity {
         String correoTxt = correo.getText().toString();
         String contraseñaTxt = contraseña.getText().toString();
         if (!correoTxt.equals("") && !contraseñaTxt.equals("")){
-            mAuth.signInWithEmailAndPassword(correoTxt, contraseñaTxt)
+            mAuth.signInWithEmailAndPassword(contraseñaTxt, contraseñaTxt)
                     .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                         @Override
                         public void onComplete(@NonNull Task<AuthResult> task) {

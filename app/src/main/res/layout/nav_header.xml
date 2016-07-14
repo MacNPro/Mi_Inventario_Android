@@ -45,7 +45,7 @@
                 android:id="@+id/nivel"
                 android:textColor="@color/blanco"
                 android:textSize="14sp"
-                android:text="Director de Tecnologías"
+                android:text="Nivel de Carrera"
                 android:layout_gravity="left"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />

@@ -8,7 +8,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ExpandableListView;
-import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -34,18 +33,29 @@ public class Catalogo extends Fragment {
     public static ArrayList<Categoria> categorias = new ArrayList<>();
     public static ArrayList<ProductoEnInventario> enInventario = new ArrayList<>();
 
+    String type;
+
+    public static Catalogo newInstance(String type) {
+        Bundle args = new Bundle();
+        args.putString("Type", type);
+        Catalogo fragment = new Catalogo();
+        fragment.setArguments(args);
+        return fragment;
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_catalogo, container, false);
+        type = getArguments().getString("Type");
 
         mDatabase = FirebaseDatabase.getInstance().getReference();
-        getInventario();
+        getCatalogo();
         expandableListView = (ExpandableListView) view.findViewById(R.id.expandableListView);
 
         return view;
     }
 
-    public void getInventario() {
+    public void getCatalogo() {
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         mDatabase.child("usuarios").child(user.getUid()).child("inventario").addValueEventListener(
 
@@ -95,6 +105,7 @@ public class Catalogo extends Fragment {
                 i.putExtra("Precio", precio);
                 i.putExtra("Puntos", puntos);
                 i.putExtra("enInventario", enInventario);
+                i.putExtra("Type", type);
                 startActivity(i);
 
                 return true;

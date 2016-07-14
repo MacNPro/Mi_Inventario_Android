@@ -1,0 +1,347 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.llamas.miinventario.DetailAjustes">
+
+    <RelativeLayout
+        android:id="@+id/nav"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:background="@color/colorPrimary">
+
+        <ImageView
+            android:layout_width="42dp"
+            android:layout_height="42dp"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="8dp"
+            android:onClick="onRegresar"
+            android:padding="10dp"
+            android:src="@drawable/regresar" />
+
+        <com.llamas.miinventario.CustomClasses.MediumTextView
+            android:id="@+id/titulo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="Cambiar Nombre"
+            android:textColor="#fff"
+            android:textSize="20sp" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/cambiarNombre"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/nav"
+        android:orientation="vertical"
+        android:visibility="gone">
+
+        <LinearLayout
+            android:id="@+id/layoutNombreActual"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp"
+            android:paddingTop="32dp">
+
+            <com.llamas.miinventario.CustomClasses.MediumTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Nombre Actual"
+                android:textColor="@color/texto"
+                android:textSize="16dp" />
+
+            <com.llamas.miinventario.CustomClasses.MediumTextView
+                android:id="@+id/nombreActual"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="Nombre Apellido"
+                android:textColor="#BDBDBD"
+                android:textSize="16dp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="6dp"
+                android:background="#BDBDBD"></LinearLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/layoutNombreActual"
+            android:orientation="vertical"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp"
+            android:paddingTop="32dp">
+
+            <com.llamas.miinventario.CustomClasses.MediumTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="sans-serif-light"
+                android:text="Nombre Nuevo"
+                android:textColor="@color/texto"
+                android:textSize="16dp" />
+
+            <EditText
+                android:id="@+id/nombreNuevo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:background="#00000000"
+                android:hint="Nombre Nuevo"
+                android:inputType="textCapWords"
+                android:textColorHint="#BDBDBD"
+                android:textSize="16dp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="6dp"
+                android:background="@color/colorPrimary"></LinearLayout>
+
+        </LinearLayout>
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/cambiarCorreo"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/nav"
+        android:orientation="vertical"
+        android:visibility="gone">
+
+        <LinearLayout
+            android:id="@+id/layoutCorreoActual"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp"
+            android:paddingTop="32dp">
+
+            <com.llamas.miinventario.CustomClasses.MediumTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Correo Actual"
+                android:textColor="@color/texto"
+                android:textSize="16dp" />
+
+            <com.llamas.miinventario.CustomClasses.MediumTextView
+                android:id="@+id/correoActual"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="correo@ejemplo.com"
+                android:textColor="#BDBDBD"
+                android:textSize="16dp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="6dp"
+                android:background="#BDBDBD"></LinearLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/layoutCorreoActual"
+            android:orientation="vertical"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp"
+            android:paddingTop="32dp">
+
+            <com.llamas.miinventario.CustomClasses.MediumTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="sans-serif-light"
+                android:text="Correo Nuevo"
+                android:textColor="@color/texto"
+                android:textSize="16dp" />
+
+            <EditText
+                android:id="@+id/correoNuevo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:background="#00000000"
+                android:hint="correo@ejemplo.com"
+                android:inputType="textWebEmailAddress"
+                android:textColorHint="#BDBDBD"
+                android:textSize="16dp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="6dp"
+                android:background="@color/colorPrimary"></LinearLayout>
+
+        </LinearLayout>
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/cambiarNivel"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/nav"
+        android:orientation="vertical"
+        android:visibility="gone">
+
+        <LinearLayout
+            android:id="@+id/layoutNivelActual"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp"
+            android:paddingTop="32dp">
+
+            <com.llamas.miinventario.CustomClasses.MediumTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Nivel Actual"
+                android:textColor="@color/texto"
+                android:textSize="16dp" />
+
+            <com.llamas.miinventario.CustomClasses.MediumTextView
+                android:id="@+id/nivelActual"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="Directora de Ventas"
+                android:textColor="#BDBDBD"
+                android:textSize="16dp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="6dp"
+                android:background="#BDBDBD"></LinearLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/layoutNivelActual"
+            android:orientation="vertical"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp"
+            android:paddingTop="32dp">
+
+            <com.llamas.miinventario.CustomClasses.MediumTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="sans-serif-light"
+                android:text="Nivel Nuevo"
+                android:textColor="@color/texto"
+                android:textSize="16dp" />
+
+            <EditText
+                android:id="@+id/nivelNuevo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:background="#00000000"
+                android:hint="Directora de Ventas"
+                android:inputType="textWebEmailAddress"
+                android:textColorHint="#BDBDBD"
+                android:textSize="16dp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="6dp"
+                android:background="@color/colorPrimary"></LinearLayout>
+
+        </LinearLayout>
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/borrarCuenta"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/nav"
+        android:orientation="vertical"
+        android:visibility="visible">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:orientation="vertical">
+
+            <com.llamas.miinventario.CustomClasses.MediumTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:layout_marginBottom="16dp"
+                android:layout_gravity="center_horizontal"
+                android:lineSpacingExtra="3dp"
+                android:text="Para borrar tu cuenta\ndebes verificarla"/>
+
+            <com.llamas.miinventario.CustomClasses.MediumTextView
+                android:layout_width="200dp"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                android:background="@drawable/bola_fb"
+                android:gravity="center"
+                android:onClick="onVerificarCuenta"
+                android:paddingBottom="14dp"
+                android:paddingLeft="18dp"
+                android:paddingRight="18dp"
+                android:paddingTop="13dp"
+                android:text="Verificar Cuenta"
+                android:textColor="@color/blanco"
+                android:textSize="18dp" />
+
+            <com.llamas.miinventario.CustomClasses.MediumTextView
+                android:id="@+id/btnBorrarCuenta"
+                android:layout_width="200dp"
+                android:layout_height="wrap_content"
+                android:background="@drawable/boton_cerrarsesion"
+                android:gravity="center"
+                android:onClick="onBorrarCuenta"
+                android:paddingBottom="14dp"
+                android:paddingLeft="18dp"
+                android:paddingRight="18dp"
+                android:paddingTop="13dp"
+                android:text="Borrar Cuenta"
+                android:textColor="@color/blanco"
+                android:textSize="18dp" />
+
+        </LinearLayout>
+
+    </RelativeLayout>
+
+    <com.llamas.miinventario.CustomClasses.MediumTextView
+        android:id="@+id/guardarCambios"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="32dp"
+        android:background="@drawable/bola_azul"
+        android:onClick="onGuardarCambios"
+        android:paddingBottom="14dp"
+        android:paddingLeft="18dp"
+        android:paddingRight="18dp"
+        android:paddingTop="13dp"
+        android:text="Guardar Cambios"
+        android:textColor="@color/blanco"
+        android:textSize="18dp" />
+
+</RelativeLayout>

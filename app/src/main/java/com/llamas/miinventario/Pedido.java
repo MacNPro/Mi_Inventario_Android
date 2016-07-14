@@ -1,9 +1,13 @@
 package com.llamas.miinventario;
 
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
+import android.view.Gravity;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -35,7 +39,7 @@ public class Pedido extends Fragment {
     public static ArrayList<ProductoEnInventario> enPedido = new ArrayList<>();
 
     RelativeLayout ventana, mas, menos;
-    ImageView cerrar;
+    ImageView cerrar, btnMas;
     MediumTextView totalView, cantidad, guardar;
     ListView listView;
     String pID;
@@ -56,7 +60,18 @@ public class Pedido extends Fragment {
         mas = (RelativeLayout) view.findViewById(R.id.mas);
         menos = (RelativeLayout) view.findViewById(R.id.menos);
         cerrar = (ImageView) view.findViewById(R.id.cerrar);
+        btnMas = (ImageView) view.findViewById(R.id.btnMas);
         getPedido();
+
+        Catalogo catalogo = Catalogo.newInstance("Pedido");
+        ((Inicio)getActivity()).iniciarFragmentoCatalogo(catalogo);
+
+        btnMas.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ((Inicio)getActivity()).toggleCatalogo();
+            }
+        });
 
         cerrar.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -93,6 +108,47 @@ public class Pedido extends Fragment {
                     mDatabase.child("usuarios").child(user.getUid()).child("pedido").child(pID).setValue(cantidadDeProducto);
                 }
                 toggeVentana();
+            }
+        });
+
+        totalView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (enPedido.size() > 0){
+                    new AlertDialog.Builder(getActivity())
+                            .setTitle("Agregar Pedido")
+                            .setMessage("¿Segura que quieres agregar los productos a tu inventario?")
+                            .setPositiveButton("Si", new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int which) {
+                                    final FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+                                    for (final ProductoEnInventario producto : enPedido) {
+                                        mDatabase.child("usuarios").child(user.getUid()).child("inventario").child(producto.getId()).addListenerForSingleValueEvent(new ValueEventListener() {
+                                            @Override
+                                            public void onDataChange(DataSnapshot dataSnapshot) {
+                                                int nuevaCantidad;
+                                                if (dataSnapshot.getValue(Integer.class) != null){
+                                                    nuevaCantidad = dataSnapshot.getValue(Integer.class) + producto.getCantidad();
+                                                } else {
+                                                    nuevaCantidad =  producto.getCantidad();
+                                                }
+                                                mDatabase.child("usuarios").child(user.getUid()).child("inventario").child(producto.getId()).setValue(nuevaCantidad);
+                                            }
+
+                                            @Override
+                                            public void onCancelled(DatabaseError databaseError) {
+
+                                            }
+                                        });
+                                    }
+                                    mDatabase.child("usuarios").child(user.getUid()).child("pedido").setValue(null);
+                                }
+                            })
+                            .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int which) {
+                                }
+                            })
+                            .show();
+                }
             }
         });
 
@@ -167,7 +223,7 @@ public class Pedido extends Fragment {
 
     public void crearListView() {
         String totalFinal = NumberFormat.getNumberInstance(Locale.US).format(total);
-        totalView.setText("Total: $" + totalFinal + ".00");
+        totalView.setText("$" + totalFinal+".00");
         PedidosAdapter customAdapter = new PedidosAdapter(getActivity(), R.layout.list_item_pedido, productos, 1);
         listView.setAdapter(customAdapter);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {

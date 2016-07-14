@@ -6,6 +6,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
@@ -55,7 +56,7 @@ public class FinalizarVenta extends FragmentActivity {
         ventana = (RelativeLayout) findViewById(R.id.fondoVentana);
 
         String totalFinal = NumberFormat.getNumberInstance(Locale.US).format(total);
-        totalTV.setText("Subtotal: $" + totalFinal + ".00");
+        totalTV.setText("Total: $" + totalFinal + ".00");
 
         crearListView();
 
@@ -159,6 +160,22 @@ public class FinalizarVenta extends FragmentActivity {
             }
         }
         mDatabase.child("usuarios").child(user.getUid()).child("venta").setValue(null);
+        finish();
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event)  {
+        if (Integer.parseInt(android.os.Build.VERSION.SDK) > 5
+                && keyCode == KeyEvent.KEYCODE_BACK
+                && event.getRepeatCount() == 0) {
+            onBackPressed();
+            return true;
+        }
+        return super.onKeyDown(keyCode, event);
+    }
+
+    @Override
+    public void onBackPressed() {
         finish();
     }
 

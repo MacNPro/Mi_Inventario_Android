@@ -35,7 +35,6 @@ public class Venta extends Fragment {
     public static ArrayList<Producto> productos = new ArrayList<>();
     public static ArrayList<ProductoEnInventario> ProductosAVender = new ArrayList<>();
 
-    LinearLayout tutorial;
     RelativeLayout ventana, mas, menos;
     ImageView cerrar;
     MediumTextView subtotal;
@@ -56,14 +55,14 @@ public class Venta extends Fragment {
         guardar = (MediumTextView) view.findViewById(R.id.guardar);
         fraseDisponible = (MediumTextView) view.findViewById(R.id.fraseDisponible);
         listView = (ListView) view.findViewById(R.id.listView);
-        tutorial = (LinearLayout) view.findViewById(R.id.tutorial);
         ventana = (RelativeLayout) view.findViewById(R.id.fondoVentana);
         mas = (RelativeLayout) view.findViewById(R.id.mas);
         menos = (RelativeLayout) view.findViewById(R.id.menos);
         cerrar = (ImageView) view.findViewById(R.id.cerrar);
+        ImageView btnMas = (ImageView) view.findViewById(R.id.btnMas);
         getVenta();
 
-        tutorial.setOnClickListener(new View.OnClickListener() {
+        btnMas.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Inicio.ventasPager.setCurrentItem(1);
@@ -76,6 +75,7 @@ public class Venta extends Fragment {
                 toggeVentana();
             }
         });
+
         mas.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -187,9 +187,8 @@ public class Venta extends Fragment {
                         }
                         if (total <= 0){
                             subtotal.setClickable(false);
-                            tutorial.setVisibility(View.VISIBLE);
                         } else {
-                            tutorial.setVisibility(View.GONE);
+                            subtotal.setClickable(true);
                         }
                         String totalFinal = NumberFormat.getNumberInstance(Locale.US).format(total);
                         subtotal.setText("Subtotal: $" + totalFinal+".00");

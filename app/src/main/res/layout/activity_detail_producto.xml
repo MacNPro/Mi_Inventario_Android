@@ -51,13 +51,13 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_margin="16dp"
-            android:layout_weight="7"
+            android:layout_weight="8"
             android:background="@drawable/carta_blanca"
             android:elevation="4dp"
-            android:orientation="vertical"
-            android:padding="24dp">
+            android:orientation="vertical">
 
             <LinearLayout
+                android:id="@+id/info"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
@@ -65,13 +65,11 @@
                 <com.llamas.miinventario.CustomClasses.MediumTextView
                     android:id="@+id/id"
                     android:layout_width="0dp"
-                    android:layout_height="wrap_content"
+                    android:layout_height="42dp"
                     android:layout_weight="5"
                     android:background="@drawable/carta_morada"
                     android:gravity="center"
-                    android:paddingBottom="12dp"
                     android:paddingLeft="4dp"
-                    android:paddingTop="10dp"
                     android:text="17 Pts."
                     android:textColor="@color/blanco"
                     android:textSize="18dp" />
@@ -79,12 +77,10 @@
                 <com.llamas.miinventario.CustomClasses.MediumTextView
                     android:id="@+id/precio"
                     android:layout_width="0dp"
-                    android:layout_height="wrap_content"
+                    android:layout_height="42dp"
                     android:layout_weight="6"
                     android:background="@drawable/carta_verde"
                     android:gravity="center"
-                    android:paddingBottom="12dp"
-                    android:paddingTop="10dp"
                     android:text="$149.00"
                     android:textColor="@color/blanco"
                     android:textSize="18dp" />
@@ -92,13 +88,11 @@
                 <com.llamas.miinventario.CustomClasses.MediumTextView
                     android:id="@+id/puntos"
                     android:layout_width="0dp"
-                    android:layout_height="wrap_content"
+                    android:layout_height="42dp"
                     android:layout_weight="5"
                     android:background="@drawable/carta_azul"
                     android:gravity="center"
-                    android:paddingBottom="12dp"
                     android:paddingRight="4dp"
-                    android:paddingTop="10dp"
                     android:text="24986"
                     android:textColor="@color/blanco"
                     android:textSize="18dp" />
@@ -106,111 +100,148 @@
             </LinearLayout>
 
             <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="42dp"
                 android:orientation="vertical">
 
-                <com.llamas.miinventario.CustomClasses.MediumTextView
-                    android:id="@+id/enInventario"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_marginBottom="8dp"
-                    android:text="0"
-                    android:textColor="@color/titulos"
-                    android:textSize="42dp" />
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:background="@color/fondo"
+                    android:layout_weight="8">
 
-                <com.llamas.miinventario.CustomClasses.MediumTextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="En inventario"
-                    android:textColor="@color/titulos"
-                    android:textSize="24dp" />
-
-            </LinearLayout>
-
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentBottom="true"
-                android:layout_centerHorizontal="true"
-                android:orientation="horizontal">
-
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="6">
-
-                    <com.llamas.miinventario.CustomClasses.MediumTextView
-                        android:id="@+id/botonAgregar"
+                    <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:background="@drawable/bola_rosa"
-                        android:clickable="true"
-                        android:fontFamily="sans-serif-light"
-                        android:gravity="center"
-                        android:lineSpacingExtra="5dp"
-                        android:onClick="onAgregarAPedido"
-                        android:paddingBottom="3dp"
-                        android:paddingLeft="24dp"
-                        android:paddingRight="24dp"
-                        android:stateListAnimator="@null"
-                        android:text="Agregar a Pedido"
-                        android:textAllCaps="false"
-                        android:textColor="@color/blanco"
-                        android:textSize="22sp" />
+                        android:layout_centerInParent="true"
+                        android:orientation="vertical">
 
-                </LinearLayout>
+                        <com.llamas.miinventario.CustomClasses.MediumTextView
+                            android:id="@+id/enInventario"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_horizontal"
+                            android:layout_marginTop="8dp"
+                            android:text="0"
+                            android:textColor="@color/titulos"
+                            android:textSize="42dp" />
 
-                <RelativeLayout
-                    android:id="@+id/botonPedido"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="2"
-                    android:visibility="gone">
+                        <com.llamas.miinventario.CustomClasses.MediumTextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="En inventario"
+                            android:gravity="center"
+                            android:textColor="@color/titulos"
+                            android:textSize="24dp" />
 
-                    <ImageView
-                        android:layout_width="48dp"
-                        android:layout_height="48dp"
-                        android:layout_centerVertical="true"
-                        android:layout_marginLeft="8dp"
-                        android:background="@drawable/bola_amarilla"
-                        android:onClick="onIrPedido"
-                        android:paddingBottom="2dp"
-                        android:paddingLeft="8dp"
-                        android:paddingRight="8dp"
-                        android:src="@drawable/pedidos" />
+                    </LinearLayout>
 
                 </RelativeLayout>
 
-            </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="10"
+                    android:orientation="vertical">
 
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerInParent="true"
+                            android:orientation="vertical">
+
+                            <LinearLayout
+                                android:layout_width="280dp"
+                                android:layout_height="48dp"
+                                android:layout_gravity="center_horizontal"
+                                android:orientation="horizontal">
+
+                                <RelativeLayout
+                                    android:id="@+id/menos"
+                                    android:layout_width="0dp"
+                                    android:layout_height="match_parent"
+                                    android:layout_weight="5"
+                                    android:background="@drawable/carta_izquierda"
+                                    android:gravity="center"
+                                    android:paddingBottom="12dp"
+                                    android:paddingLeft="4dp"
+                                    android:paddingTop="10dp"
+                                    android:textColor="@color/blanco"
+                                    android:textSize="24dp">
+
+                                    <ImageView
+                                        android:layout_width="24dp"
+                                        android:layout_height="24dp"
+                                        android:src="@drawable/menos" />
+
+                                </RelativeLayout>
+
+                                <com.llamas.miinventario.CustomClasses.MediumTextView
+                                    android:id="@+id/cantidad"
+                                    android:layout_width="0dp"
+                                    android:layout_height="match_parent"
+                                    android:layout_marginLeft="1dp"
+                                    android:layout_marginRight="1dp"
+                                    android:layout_weight="7"
+                                    android:background="@color/colorPrimary"
+                                    android:gravity="center"
+                                    android:paddingBottom="12dp"
+                                    android:paddingTop="10dp"
+                                    android:text="0"
+                                    android:textColor="@color/blanco"
+                                    android:textSize="22dp" />
+
+                                <RelativeLayout
+                                    android:id="@+id/mas"
+                                    android:layout_width="0dp"
+                                    android:layout_height="match_parent"
+                                    android:layout_weight="5"
+                                    android:background="@drawable/carta_derecha"
+                                    android:gravity="center"
+                                    android:paddingBottom="12dp"
+                                    android:paddingRight="4dp"
+                                    android:paddingTop="10dp"
+                                    android:textColor="@color/blanco">
+
+                                    <ImageView
+                                        android:layout_width="24dp"
+                                        android:layout_height="24dp"
+                                        android:src="@drawable/mas" />
+
+                                </RelativeLayout>
+
+                            </LinearLayout>
+
+                            <com.llamas.miinventario.CustomClasses.MediumTextView
+                                android:id="@+id/botonAgregar"
+                                android:layout_width="225dp"
+                                android:layout_height="48dp"
+                                android:background="@drawable/bola_azul"
+                                android:layout_gravity="center_horizontal"
+                                android:layout_marginTop="16dp"
+                                android:clickable="true"
+                                android:gravity="center"
+                                android:onClick="onAgregar"
+                                android:text="Agregar a Inventario"
+                                android:textAllCaps="false"
+                                android:textColor="@color/blanco"
+                                android:textSize="18sp" />
+
+                        </LinearLayout>
+
+                    </RelativeLayout>
+
+                </LinearLayout>
+
+            </LinearLayout>
 
         </RelativeLayout>
 
-
     </LinearLayout>
-
-    <RelativeLayout
-        android:id="@+id/secondlayout"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="#75000000"
-        android:clickable="true"
-        android:onClick="onAtras"
-        android:visibility="gone">
-
-        <FrameLayout
-            android:id="@+id/fragment"
-            android:layout_width="290dp"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:clickable="true">
-
-        </FrameLayout>
-
-    </RelativeLayout>
 
 </RelativeLayout>

@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/fondo"
+    tools:context="com.llamas.miinventario.Ajustes">
+
+    <RelativeLayout
+        android:id="@+id/nav"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:background="@color/colorPrimary">
+
+        <ImageView
+            android:layout_width="42dp"
+            android:layout_height="42dp"
+            android:padding="10dp"
+            android:src="@drawable/regresar"
+            android:layout_centerVertical="true"
+            android:layout_alignParentLeft="true"
+            android:layout_marginLeft="8dp"
+            android:onClick="onRegresar"/>
+
+        <com.llamas.miinventario.CustomClasses.RegularTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Ajustes"
+            android:id="@+id/tituloExam"
+            android:layout_centerInParent="true"
+            android:textColor="#fff"
+            android:textSize="20sp"/>
+
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_below="@id/nav"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingTop="18dp"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp"
+            android:onClick="onNombre">
+
+            <com.llamas.miinventario.CustomClasses.MediumTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/texto"
+                android:textSize="16dp"
+                android:text="Nombre"/>
+
+            <com.llamas.miinventario.CustomClasses.MediumTextView
+                android:id="@+id/nombre"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/subtexto"
+                android:layout_marginTop="3dp"
+                android:text="Nombre Apellido"/>
+
+            <LinearLayout
+                android:layout_marginTop="18dp"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#E0E0E0"></LinearLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:onClick="onCorreo"
+            android:paddingTop="18dp"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp">
+
+            <com.llamas.miinventario.CustomClasses.MediumTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/texto"
+                android:textSize="16dp"
+                android:text="Correo Electrónico"/>
+
+            <com.llamas.miinventario.CustomClasses.MediumTextView
+                android:id="@+id/correo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/subtexto"
+                android:layout_marginTop="3dp"
+                android:text="ejemplo@correo.com"/>
+
+            <LinearLayout
+                android:layout_marginTop="18dp"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#E0E0E0"></LinearLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:onClick="onNivelDeCarrera"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingTop="18dp"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp">
+
+            <com.llamas.miinventario.CustomClasses.MediumTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/texto"
+                android:textSize="16dp"
+                android:text="Nivel de Carrera"/>
+
+            <com.llamas.miinventario.CustomClasses.MediumTextView
+                android:id="@+id/nivel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/subtexto"
+                android:layout_marginTop="3dp"/>
+
+            <LinearLayout
+                android:layout_marginTop="18dp"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#E0E0E0"></LinearLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingTop="18dp"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp"
+            android:onClick="onBorrarCuenta">
+
+            <com.llamas.miinventario.CustomClasses.MediumTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/texto"
+                android:textSize="16dp"
+                android:text="Borrar Cuenta"/>
+
+            <LinearLayout
+                android:layout_marginTop="18dp"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#E0E0E0"></LinearLayout>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <Button
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        android:background="@drawable/boton_cerrarsesion"
+        android:text="Cerrar Sesión"
+        android:fontFamily="sans-serif-light"
+        android:stateListAnimator="@null"
+        android:textColor="#fff"
+        android:textAllCaps="false"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:textSize="18sp"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginBottom="32dp"
+        android:onClick="onCerrarSesion"/>
+
+</RelativeLayout>

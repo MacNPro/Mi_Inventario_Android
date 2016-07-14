@@ -3,6 +3,7 @@ package com.llamas.miinventario;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.provider.ContactsContract;
 import android.support.annotation.NonNull;
 import android.util.Log;
 import android.view.View;
@@ -26,12 +27,15 @@ import com.google.firebase.auth.FacebookAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.Arrays;
 
 public class Registrate extends Activity {
 
     private FirebaseAuth.AuthStateListener mAuthListener;
+    private DatabaseReference mDatabase;
     private static String TAG = "REGISTRATE";
     private FirebaseAuth mAuth;
 
@@ -45,6 +49,7 @@ public class Registrate extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_registrate);
         mAuth = FirebaseAuth.getInstance();
+        mDatabase = FirebaseDatabase.getInstance().getReference();
 
         nombre = (EditText) findViewById(R.id.nombre);
         correo = (EditText) findViewById(R.id.correo);
@@ -60,7 +65,8 @@ public class Registrate extends Activity {
                 FirebaseUser user = firebaseAuth.getCurrentUser();
                 if (user != null) {
                     Log.d(TAG, "onAuthStateChanged:signed_in:" + user.getUid());
-
+                    mDatabase.child("usuarios").child(user.getUid()).child("nombre").setValue(nombre.getText().toString());
+                    mDatabase.child("usuarios").child(user.getUid()).child("nivel").setValue("Agrega tu nivel");
                     Intent i = new Intent(getApplicationContext(), Inicio.class);
                     startActivity(i);
 
@@ -83,7 +89,8 @@ public class Registrate extends Activity {
                         @Override
                         public void onComplete(@NonNull Task<AuthResult> task) {
                             if (!task.isSuccessful()) {
-                                Toast.makeText(Registrate.this, "Authentication failed.", Toast.LENGTH_SHORT).show();
+                                Log.d("TAG", task.getException().toString());
+                                Toast.makeText(Registrate.this, "Error al registrar los datos", Toast.LENGTH_SHORT).show();
                             } else {
                                 agregarInformacionAlUsuario(nombreTxt);
                             }

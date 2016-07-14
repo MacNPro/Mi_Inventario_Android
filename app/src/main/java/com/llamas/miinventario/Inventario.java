@@ -38,7 +38,7 @@ public class Inventario extends Fragment {
     public static ArrayList<ProductoEnInventario> enInventario = new ArrayList<>();
     public static ArrayList<String> idsEnVenta = new ArrayList<>();
 
-    MediumTextView guardar, cantidad, fraseDisponible;
+    MediumTextView guardar, cantidad, fraseDisponible, inventarioVacio;
     ImageView cerrar;
     RelativeLayout ventana, mas, menos;
     String type;
@@ -63,9 +63,19 @@ public class Inventario extends Fragment {
         mDatabase = FirebaseDatabase.getInstance().getReference();
         getInventario();
         expandableListView = (ExpandableListView) view.findViewById(R.id.expandableListView);
+        inventarioVacio = (MediumTextView) view.findViewById(R.id.inventarioVacio);
+        ImageView btnMas = (ImageView) view.findViewById(R.id.btnMas);
+
+        btnMas.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Inicio.inventarioPager.setCurrentItem(1);
+            }
+        });
 
         if (type.equals("Venta")){
             getidsEnVenta();
+            btnMas.setVisibility(View.GONE);
             ventana = (RelativeLayout) view.findViewById(R.id.fondoVentana);
             mas = (RelativeLayout) view.findViewById(R.id.mas);
             menos = (RelativeLayout) view.findViewById(R.id.menos);
@@ -145,7 +155,17 @@ public class Inventario extends Fragment {
                                 }
                             }
                         }
-
+                        if (enInventario.size() <= 0){
+                            inventarioVacio.setVisibility(View.VISIBLE);
+                            inventarioVacio.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View view) {
+                                    Inicio.inventarioPager.setCurrentItem(1);
+                                }
+                            });
+                        } else {
+                            inventarioVacio.setVisibility(View.GONE);
+                        }
                         crearArrayListView();
                     }
 
@@ -246,6 +266,7 @@ public class Inventario extends Fragment {
                     i.putExtra("Precio", precio);
                     i.putExtra("Puntos", puntos);
                     i.putExtra("enInventario", enInventario);
+                    i.putExtra("Type", "Inventario");
                     startActivity(i);
 
                 } else {
