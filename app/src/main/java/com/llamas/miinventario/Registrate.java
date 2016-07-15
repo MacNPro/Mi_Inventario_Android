@@ -7,6 +7,7 @@ import android.provider.ContactsContract;
 import android.support.annotation.NonNull;
 import android.util.Log;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
@@ -65,7 +66,9 @@ public class Registrate extends Activity {
                 FirebaseUser user = firebaseAuth.getCurrentUser();
                 if (user != null) {
                     Log.d(TAG, "onAuthStateChanged:signed_in:" + user.getUid());
-                    mDatabase.child("usuarios").child(user.getUid()).child("nombre").setValue(nombre.getText().toString());
+                    if (user.getProviders().get(0).equals("password")){
+                        mDatabase.child("usuarios").child(user.getUid()).child("nombre").setValue(nombre.getText().toString());
+                    }
                     mDatabase.child("usuarios").child(user.getUid()).child("nivel").setValue("Agrega tu nivel");
                     Intent i = new Intent(getApplicationContext(), Inicio.class);
                     startActivity(i);
@@ -175,6 +178,15 @@ public class Registrate extends Activity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         mCallbackManager.onActivityResult(requestCode, resultCode, data);
+    }
+
+    public void afuera(View v){
+        hideSoftKeyboard(this);
+    }
+
+    public static void hideSoftKeyboard(Activity activity) {
+        InputMethodManager inputMethodManager = (InputMethodManager)  activity.getSystemService(Activity.INPUT_METHOD_SERVICE);
+        inputMethodManager.hideSoftInputFromWindow(activity.getCurrentFocus().getWindowToken(), 0);
     }
 
 }

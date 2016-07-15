@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 
@@ -38,6 +39,7 @@ public class Pedido extends Fragment {
     public static ArrayList<Producto> productos = new ArrayList<>();
     public static ArrayList<ProductoEnInventario> enPedido = new ArrayList<>();
 
+    LinearLayout pedidoVacio;
     RelativeLayout ventana, mas, menos;
     ImageView cerrar, btnMas;
     MediumTextView totalView, cantidad, guardar;
@@ -57,14 +59,12 @@ public class Pedido extends Fragment {
         guardar = (MediumTextView) view.findViewById(R.id.guardar);
         listView = (ListView) view.findViewById(R.id.listView);
         ventana = (RelativeLayout) view.findViewById(R.id.fondoVentana);
+        pedidoVacio = (LinearLayout) view.findViewById(R.id.pedidoVacio);
         mas = (RelativeLayout) view.findViewById(R.id.mas);
         menos = (RelativeLayout) view.findViewById(R.id.menos);
         cerrar = (ImageView) view.findViewById(R.id.cerrar);
         btnMas = (ImageView) view.findViewById(R.id.btnMas);
         getPedido();
-
-        //Catalogo catalogo = Catalogo.newInstance("Pedido");
-        //((Inicio)getActivity()).iniciarFragmentoCatalogo(catalogo);
 
         btnMas.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -170,6 +170,14 @@ public class Pedido extends Fragment {
                             producto.setCantidad(productos.getValue(Integer.class));
                             producto.setId(productos.getKey());
                             enPedido.add(producto);
+                        }
+
+                        if (enPedido.size() <= 0){
+                            pedidoVacio.setVisibility(View.VISIBLE);
+                            listView.setVisibility(View.GONE);
+                        } else {
+                            listView.setVisibility(View.VISIBLE);
+                            pedidoVacio.setVisibility(View.GONE);
                         }
 
                         crearArrayListView();

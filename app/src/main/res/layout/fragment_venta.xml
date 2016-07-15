@@ -41,6 +41,33 @@
         android:src="@drawable/mas"
         android:background="@drawable/bola_rosa"/>
 
+    <LinearLayout
+        android:id="@+id/ventaVacia"
+        android:visibility="gone"
+        android:layout_centerInParent="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingBottom="48dp"
+        android:orientation="vertical">
+
+        <com.llamas.miinventario.CustomClasses.MediumTextView
+            android:gravity="center"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="24dp"
+            android:lineSpacingExtra="10dp"
+            android:textColor="@color/subtitulos"
+            android:textSize="16sp"
+            android:text="Para agregar productos desliza tu dedo a la izquierda o presiona el boton +"/>
+
+        <ImageView
+            android:layout_width="54dp"
+            android:layout_height="54dp"
+            android:layout_gravity="center_horizontal"
+            android:src="@drawable/slide"/>
+
+    </LinearLayout>
+
     <com.llamas.miinventario.CustomClasses.MediumTextView
         android:id="@+id/total"
         android:layout_width="match_parent"

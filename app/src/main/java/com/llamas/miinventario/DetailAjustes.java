@@ -32,6 +32,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.llamas.miinventario.CustomClasses.MediumTextView;
 
 import java.util.Arrays;
+import java.util.List;
 
 public class DetailAjustes extends Activity {
 
@@ -40,6 +41,7 @@ public class DetailAjustes extends Activity {
     CallbackManager mCallbackManager;
     LoginManager loginManager;
 
+    List<String> providers;
     RelativeLayout cambiarNombre, cambiarCorreo, cambiarNivel, borrarCuenta;
     MediumTextView titulo, nombreActual, correoActual, nivelActual, guardarCambios, btnBorrarCuenta;
     EditText nombreNuevo, correoNuevo, nivelNuevo;
@@ -58,6 +60,9 @@ public class DetailAjustes extends Activity {
         cambiarNivel = (RelativeLayout) findViewById(R.id.cambiarNivel);
         borrarCuenta = (RelativeLayout) findViewById(R.id.borrarCuenta);
         titulo = (MediumTextView) findViewById(R.id.titulo);
+
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        providers = user.getProviders();
 
         obtenerType();
 
@@ -100,14 +105,19 @@ public class DetailAjustes extends Activity {
                 break;
             case "Borrar":
                 guardarCambios = (MediumTextView) findViewById(R.id.guardarCambios);
-                btnBorrarCuenta = (MediumTextView) findViewById(R.id.btnBorrarCuenta);
-                btnBorrarCuenta.setAlpha(.6f);
-                btnBorrarCuenta.setClickable(false);
-                guardarCambios.setVisibility(View.GONE);
-                cambiarNombre.setVisibility(View.GONE);
-                cambiarCorreo.setVisibility(View.GONE);
-                cambiarNivel.setVisibility(View.GONE);
-                borrarCuenta.setVisibility(View.VISIBLE);
+                if (providers.get(0).equals("facebook.com")) {
+                    btnBorrarCuenta = (MediumTextView) findViewById(R.id.btnBorrarCuenta);
+                    btnBorrarCuenta.setAlpha(.6f);
+                    btnBorrarCuenta.setClickable(false);
+                    guardarCambios.setVisibility(View.GONE);
+                    cambiarNombre.setVisibility(View.GONE);
+                    cambiarCorreo.setVisibility(View.GONE);
+                    cambiarNivel.setVisibility(View.GONE);
+                    borrarCuenta.setVisibility(View.VISIBLE);
+                } else {
+                    guardarCambios.setVisibility(View.GONE);
+                    borrarCuenta.setVisibility(View.GONE);
+                }
                 titulo.setText("Borrar Cuenta");
                 break;
             default:
@@ -160,7 +170,7 @@ public class DetailAjustes extends Activity {
                 break;
             case "Nivel":
                 mDatabase.child("usuarios").child(user.getUid()).child("nivel").setValue(nivelNuevo.getText().toString());
-                finish();
+                cerrarActivity();
                 break;
             default:
                 break;

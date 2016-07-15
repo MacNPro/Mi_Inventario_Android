@@ -33,8 +33,9 @@ public class Venta extends Fragment {
 
     private DatabaseReference mDatabase;
     public static ArrayList<Producto> productos = new ArrayList<>();
-    public static ArrayList<ProductoEnInventario> ProductosAVender = new ArrayList<>();
+    public static ArrayList<ProductoEnInventario> productosAVender = new ArrayList<>();
 
+    LinearLayout ventaVacia;
     RelativeLayout ventana, mas, menos;
     ImageView cerrar;
     MediumTextView subtotal;
@@ -56,6 +57,7 @@ public class Venta extends Fragment {
         fraseDisponible = (MediumTextView) view.findViewById(R.id.fraseDisponible);
         listView = (ListView) view.findViewById(R.id.listView);
         ventana = (RelativeLayout) view.findViewById(R.id.fondoVentana);
+        ventaVacia = (LinearLayout) view.findViewById(R.id.ventaVacia);
         mas = (RelativeLayout) view.findViewById(R.id.mas);
         menos = (RelativeLayout) view.findViewById(R.id.menos);
         cerrar = (ImageView) view.findViewById(R.id.cerrar);
@@ -135,14 +137,20 @@ public class Venta extends Fragment {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
 
-                        ProductosAVender.clear();
+                        productosAVender.clear();
                         for (DataSnapshot productos : dataSnapshot.getChildren()) {
                             ProductoEnInventario producto = new ProductoEnInventario();
                             producto.setCantidad(productos.getValue(Integer.class));
                             producto.setId(productos.getKey());
-                            ProductosAVender.add(producto);
+                            productosAVender.add(producto);
                         }
-
+                        if (productosAVender.size() <= 0){
+                            ventaVacia.setVisibility(View.VISIBLE);
+                            listView.setVisibility(View.GONE);
+                        } else {
+                            listView.setVisibility(View.VISIBLE);
+                            ventaVacia.setVisibility(View.GONE);
+                        }
                         crearArrayListView();
                     }
 
@@ -163,9 +171,9 @@ public class Venta extends Fragment {
 
                         ArrayList<String> ids = new ArrayList<>();
                         ArrayList<Integer> cantidades = new ArrayList<>();
-                        for (int i = 0; i < ProductosAVender.size(); i++) {
-                            ids.add(ProductosAVender.get(i).getId());
-                            cantidades.add(ProductosAVender.get(i).getCantidad());
+                        for (int i = 0; i < productosAVender.size(); i++) {
+                            ids.add(productosAVender.get(i).getId());
+                            cantidades.add(productosAVender.get(i).getCantidad());
                         }
 
                         productos.clear();

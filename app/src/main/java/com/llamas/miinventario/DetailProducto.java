@@ -30,7 +30,7 @@ public class DetailProducto extends FragmentActivity {
 
     TextView cantidad;
 
-    int cantidadIntCounter = 1;
+    int cantidadIntCounter = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,6 +58,9 @@ public class DetailProducto extends FragmentActivity {
         if (type.equals("Pedido")) {
             botonAgregar.setText("Agregar a Pedido");
         }
+
+        botonAgregar.setAlpha(0.6f);
+        botonAgregar.setClickable(false);
 
         nombreTV.setText(nombre);
         idTV.setText(id);

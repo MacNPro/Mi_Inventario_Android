@@ -8,6 +8,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
@@ -27,12 +28,18 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FacebookAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.Arrays;
 
 public class IniciaSesion extends Activity {
 
     private FirebaseAuth.AuthStateListener mAuthListener;
+    private DatabaseReference mDatabase;
     private static String TAG = "INICIA SESION";
     private FirebaseAuth mAuth;
 
@@ -46,6 +53,7 @@ public class IniciaSesion extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_inicia_sesion);
         mAuth = FirebaseAuth.getInstance();
+        mDatabase = FirebaseDatabase.getInstance().getReference();
 
         correo = (EditText) findViewById(R.id.correo);
         contraseña = (EditText) findViewById(R.id.contraseña);
@@ -56,13 +64,24 @@ public class IniciaSesion extends Activity {
         mAuthListener = new FirebaseAuth.AuthStateListener() {
             @Override
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
-                FirebaseUser user = firebaseAuth.getCurrentUser();
+                final FirebaseUser user= firebaseAuth.getCurrentUser();
                 if (user != null) {
                     Log.d(TAG, "onAuthStateChanged:signed_in:" + user.getUid());
+                    mDatabase.child("usuarios").child(user.getUid()).child("nivel").addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(DataSnapshot dataSnapshot) {
+                            if (dataSnapshot.getValue(String.class) == null){
+                                mDatabase.child("usuarios").child(user.getUid()).child("nivel").setValue("Agrega tu nivel");
+                            }
+                        }
 
-                    Intent i = new Intent(getApplicationContext(), Inicio.class);
+                        @Override
+                        public void onCancelled(DatabaseError databaseError) {
+
+                        }
+                    });
+                    Intent i = new Intent(getApplicationContext(), Tutorial.class);
                     startActivity(i);
-
                 } else {
                     Log.d(TAG, "onAuthStateChanged:signed_out");
                 }
@@ -75,7 +94,7 @@ public class IniciaSesion extends Activity {
         String correoTxt = correo.getText().toString();
         String contraseñaTxt = contraseña.getText().toString();
         if (!correoTxt.equals("") && !contraseñaTxt.equals("")){
-            mAuth.signInWithEmailAndPassword(contraseñaTxt, contraseñaTxt)
+            mAuth.signInWithEmailAndPassword(correoTxt, contraseñaTxt)
                     .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                         @Override
                         public void onComplete(@NonNull Task<AuthResult> task) {
@@ -148,6 +167,15 @@ public class IniciaSesion extends Activity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         mCallbackManager.onActivityResult(requestCode, resultCode, data);
+    }
+
+    public void afuera(View v){
+        hideSoftKeyboard(this);
+    }
+
+    public static void hideSoftKeyboard(Activity activity) {
+        InputMethodManager inputMethodManager = (InputMethodManager)  activity.getSystemService(Activity.INPUT_METHOD_SERVICE);
+        inputMethodManager.hideSoftInputFromWindow(activity.getCurrentFocus().getWindowToken(), 0);
     }
 
 }

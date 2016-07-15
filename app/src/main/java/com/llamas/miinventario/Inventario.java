@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ExpandableListView;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -38,7 +39,8 @@ public class Inventario extends Fragment {
     public static ArrayList<ProductoEnInventario> enInventario = new ArrayList<>();
     public static ArrayList<String> idsEnVenta = new ArrayList<>();
 
-    MediumTextView guardar, cantidad, fraseDisponible, inventarioVacio;
+    LinearLayout inventarioVacio;
+    MediumTextView guardar, cantidad, fraseDisponible;
     ImageView cerrar;
     RelativeLayout ventana, mas, menos;
     String type;
@@ -63,7 +65,7 @@ public class Inventario extends Fragment {
         mDatabase = FirebaseDatabase.getInstance().getReference();
         getInventario();
         expandableListView = (ExpandableListView) view.findViewById(R.id.expandableListView);
-        inventarioVacio = (MediumTextView) view.findViewById(R.id.inventarioVacio);
+        inventarioVacio = (LinearLayout) view.findViewById(R.id.inventarioVacio);
         ImageView btnMas = (ImageView) view.findViewById(R.id.btnMas);
 
         btnMas.setOnClickListener(new View.OnClickListener() {
@@ -156,15 +158,13 @@ public class Inventario extends Fragment {
                                 }
                             }
                         }
-                        if (enInventario.size() <= 0){
-                            inventarioVacio.setVisibility(View.VISIBLE);
-                            inventarioVacio.setOnClickListener(new View.OnClickListener() {
-                                @Override
-                                public void onClick(View view) {
-                                    Inicio.inventarioPager.setCurrentItem(1);
-                                }
-                            });
-                        } else {
+                        if (!type.equals("Venta")) {
+                            if (enInventario.size() <= 0) {
+                                inventarioVacio.setVisibility(View.VISIBLE);
+                            } else {
+                                inventarioVacio.setVisibility(View.GONE);
+                            }
+                        }else{
                             inventarioVacio.setVisibility(View.GONE);
                         }
                         crearArrayListView();

@@ -3,8 +3,15 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:onClick="afuera"
     android:background="@color/negro"
     tools:context="com.llamas.miinventario.IniciaSesion">
+
+    <LinearLayout
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        android:layout_width="0px"
+        android:layout_height="0px"/>
 
     <ImageView
         android:id="@+id/fondo"
@@ -54,6 +61,7 @@
             android:lines="1"
             android:hint="Correo Electrónico"
             android:fontFamily="sans-serif-light"
+            android:inputType="textWebEmailAddress"
             android:background="#00000000"
             android:padding="6dp"
             android:textColor="@color/blanco"
@@ -65,7 +73,7 @@
             android:layout_height="1dp"
             android:background="@color/blanco"
             android:layout_gravity="center_horizontal"
-            android:layout_marginBottom="32dp"></LinearLayout>
+            android:layout_marginBottom="32dp"/>
 
         <EditText
             android:id="@+id/contraseña"

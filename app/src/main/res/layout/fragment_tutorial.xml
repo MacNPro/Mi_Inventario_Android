@@ -1,0 +1,69 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/fondo"
+    android:orientation="vertical"
+    tools:context="com.llamas.miinventario.TutorialFragment">
+
+    <RelativeLayout
+        android:id="@+id/siguiente"
+        android:layout_width="match_parent"
+        android:layout_height="64dp"
+        android:layout_alignParentBottom="true"
+        android:background="@color/colorPrimary">
+
+        <com.llamas.miinventario.CustomClasses.MediumTextView
+            android:id="@+id/titulo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="Inventario"
+            android:textColor="@color/blanco"
+            android:textSize="24dp" />
+
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_centerInParent="true"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:id="@+id/imagenLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <ImageView
+                android:id="@+id/imagen"
+                android:layout_width="match_parent"
+                android:scaleType="fitStart"
+                android:layout_height="wrap_content" />
+
+        </LinearLayout>
+
+        <RelativeLayout
+            android:id="@+id/layoutTexto"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <com.llamas.miinventario.CustomClasses.RegularTextView
+                android:id="@+id/texto"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="16dp"
+                android:layout_centerInParent="true"
+                android:gravity="center"
+                android:lineSpacingExtra="5dp"
+                android:text="Gracias por descargar Mi Inventario, Esta aplicación sigue en desarrollo, por lo que podra haber algunos errores.\n\nPara mayor informacion contactar por medio del correo daniel.llamas@hotmail.es"
+                android:textSize="18dp" />
+
+        </RelativeLayout>
+
+    </LinearLayout>
+
+</LinearLayout>

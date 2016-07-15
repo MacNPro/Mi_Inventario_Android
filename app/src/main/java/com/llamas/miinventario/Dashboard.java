@@ -65,9 +65,6 @@ public class Dashboard extends Fragment {
                 }
             });
         }
-        String nombre = user.getDisplayName();
-        String[] nombreSplit = nombre.split("\\s+");
-        bienvenida.setText("Bienvenida " + nombreSplit[0]);
     }
 
     public void cargarInformacion() {
