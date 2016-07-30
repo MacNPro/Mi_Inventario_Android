@@ -1,11 +1,13 @@
 package com.llamas.miinventario;
 
+import android.content.Intent;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RelativeLayout;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -37,6 +39,15 @@ public class Dashboard extends Fragment {
         enInventario = (BoldTextView) view.findViewById(R.id.enInventario);
         agotados = (BoldTextView) view.findViewById(R.id.agotados);
         ventas = (BoldTextView) view.findViewById(R.id.ventas);
+        RelativeLayout botonAgotados = (RelativeLayout) view.findViewById(R.id.botonAgotados);
+
+        botonAgotados.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(getActivity(), PedidoPorLlegar.class);
+                startActivity(i);
+            }
+        });
 
         cargarUsuario();
         cargarInformacion();
@@ -68,13 +79,12 @@ public class Dashboard extends Fragment {
     }
 
     public void cargarInformacion() {
-        porAgotarseInt = 0;
-        enInventarioInt = 0;
-        agotadosInt = 0;
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-        mDatabase.child("usuarios").child(user.getUid()).child("inventario").addListenerForSingleValueEvent(new ValueEventListener() {
+        mDatabase.child("usuarios").child(user.getUid()).child("inventario").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
+                porAgotarseInt = 0;
+                enInventarioInt = 0;
                 for (DataSnapshot producto : dataSnapshot.getChildren()) {
                     int cantidad = producto.getValue(Integer.class);
                     if (cantidad <= 0) {
@@ -86,7 +96,6 @@ public class Dashboard extends Fragment {
                 }
                 porAgotarse.setText("" + porAgotarseInt);
                 enInventario.setText("" + enInventarioInt);
-                agotados.setText("" + agotadosInt);
             }
 
             @Override
@@ -94,6 +103,23 @@ public class Dashboard extends Fragment {
 
             }
         });
+
+        mDatabase.child("usuarios").child(user.getUid()).child("pedidoPorLlegar").child("tiempo").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if (dataSnapshot.getValue(String.class) != null) {
+                    agotados.setText("1");
+                } else {
+                    agotados.setText("0");
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
         mDatabase.child("usuarios").child(user.getUid()).child("ventas").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {

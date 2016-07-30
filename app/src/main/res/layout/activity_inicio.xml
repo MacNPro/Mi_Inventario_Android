@@ -43,22 +43,13 @@
             android:visibility="gone"
             app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-            <com.llamas.miinventario.CustomClasses.CustomTabLayout
-                android:id="@+id/sliding_tabs"
-                style="@style/MyCustomTabLayout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@color/colorPrimary"
-                app:tabGravity="fill"
-                app:tabMode="fixed" />
-
             <LinearLayout
                 android:id="@+id/titleInventario"
                 android:layout_width="match_parent"
                 android:layout_height="48dp"
                 android:background="@color/colorPrimary"
                 android:orientation="vertical"
-                android:visibility="gone">
+                android:visibility="visible">
 
                 <com.llamas.miinventario.CustomClasses.MediumTextView
                     android:id="@+id/tituloInventario"

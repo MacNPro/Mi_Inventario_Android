@@ -50,7 +50,6 @@ public class Inicio extends FragmentActivity {
     private DrawerLayout drawerLayout;
     private NavigationView navView;
     private Toolbar toolbar;
-    public static CustomTabLayout tabLayout;
 
     public static Context context;
 
@@ -134,7 +133,6 @@ public class Inicio extends FragmentActivity {
             @Override
             public void onDrawerClosed(View v) {
                 menuAbierto = false;
-                tabLayout = (CustomTabLayout) findViewById(R.id.sliding_tabs);
                 final MediumTextView titulo = (MediumTextView) findViewById(R.id.tituloInventario);
                 switch (drawerID) {
                     case R.id.inicio:
@@ -177,23 +175,42 @@ public class Inicio extends FragmentActivity {
 
                             }
                         });
-                        tabLayout.setVisibility(View.GONE);
-                        tabLayout.setupWithViewPager(inventarioPager);
                         break;
                     case R.id.pedidos:
                         enDashboard = false;
                         fragment.setVisibility(View.GONE);
                         catalogoFragment.setVisibility(View.GONE);
-                        titleInventario.setVisibility(View.GONE);
+                        titleInventario.setVisibility(View.VISIBLE);
                         linearLayout.setVisibility(View.VISIBLE);
                         inventarioPager.setVisibility(View.GONE);
                         ventasPager.setVisibility(View.GONE);
                         pedidoPager.setVisibility(View.VISIBLE);
                         pedidoPager.setAdapter(pedidoAdapter);
-                        tabLayout.setVisibility(View.VISIBLE);
-                        tabLayout.setupWithViewPager(pedidoPager);
-                        setTabLayoutIcons(tabLayout);
                         pedidoPager.setCurrentItem(1);
+                        titulo.setText("Lista de Pedidos");
+                        pedidoPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+                            @Override
+                            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+                            }
+
+                            @Override
+                            public void onPageSelected(int position) {
+                                if (position == 0) {
+                                    titulo.setText("Por Agotarse");
+                                } else if (position == 1) {
+                                    titulo.setText("Lista de Pedido");
+                                    enCatalogo = false;
+                                } else {
+                                    titulo.setText("Catalogo");
+                                }
+                            }
+
+                            @Override
+                            public void onPageScrollStateChanged(int state) {
+
+                            }
+                        });
                         break;
                     case R.id.ventas:
                         enDashboard = false;
@@ -227,8 +244,6 @@ public class Inicio extends FragmentActivity {
 
                             }
                         });
-                        tabLayout.setVisibility(View.GONE);
-                        tabLayout.setupWithViewPager(ventasPager);
                         break;
                     default:
                         break;

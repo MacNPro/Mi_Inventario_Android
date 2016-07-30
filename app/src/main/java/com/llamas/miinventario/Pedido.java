@@ -3,6 +3,7 @@ package com.llamas.miinventario;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -30,7 +31,9 @@ import com.llamas.miinventario.Model.Producto;
 import com.llamas.miinventario.Model.ProductoEnInventario;
 
 import java.text.NumberFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Locale;
 
 public class Pedido extends Fragment {
@@ -46,6 +49,7 @@ public class Pedido extends Fragment {
     ListView listView;
     String pID;
     int total, cantidadDeProducto;
+    String fecha;
 
     boolean enVentana = false;
 
@@ -65,6 +69,7 @@ public class Pedido extends Fragment {
         cerrar = (ImageView) view.findViewById(R.id.cerrar);
         btnMas = (ImageView) view.findViewById(R.id.btnMas);
         getPedido();
+        obtenerFecha();
 
         btnMas.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -92,7 +97,7 @@ public class Pedido extends Fragment {
         menos.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (cantidadDeProducto > 0){
+                if (cantidadDeProducto > 0) {
                     cantidadDeProducto--;
                     cantidad.setText("" + cantidadDeProducto);
                 }
@@ -103,7 +108,7 @@ public class Pedido extends Fragment {
             @Override
             public void onClick(View view) {
                 final FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-                if (cantidadDeProducto == 0){
+                if (cantidadDeProducto == 0) {
                     mDatabase.child("usuarios").child(user.getUid()).child("pedido").child(pID).removeValue();
                 } else {
                     mDatabase.child("usuarios").child(user.getUid()).child("pedido").child(pID).setValue(cantidadDeProducto);
@@ -115,36 +120,28 @@ public class Pedido extends Fragment {
         totalView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (enPedido.size() > 0){
+                if (enPedido.size() > 0) {
                     new AlertDialog.Builder(getActivity())
-                            .setTitle("Agregar Pedido")
-                            .setMessage("¿Segura que quieres agregar los productos a tu inventario?")
-                            .setPositiveButton("Si", new DialogInterface.OnClickListener() {
+                            .setTitle("Realizar Pedido")
+                            .setMessage("Este pedido se agregara a “Pedidos por llegar”")
+                            .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialog, int which) {
+                                    Intent i = new Intent(getActivity(), Inicio.class);
+                                    startActivity(i);
                                     final FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+                                    final DatabaseReference databaseRef = mDatabase.child("usuarios").child(user.getUid());
+
+                                    int productosTotales = 0;
                                     for (final ProductoEnInventario producto : enPedido) {
-                                        mDatabase.child("usuarios").child(user.getUid()).child("inventario").child(producto.getId()).addListenerForSingleValueEvent(new ValueEventListener() {
-                                            @Override
-                                            public void onDataChange(DataSnapshot dataSnapshot) {
-                                                int nuevaCantidad;
-                                                if (dataSnapshot.getValue(Integer.class) != null){
-                                                    nuevaCantidad = dataSnapshot.getValue(Integer.class) + producto.getCantidad();
-                                                } else {
-                                                    nuevaCantidad =  producto.getCantidad();
-                                                }
-                                                mDatabase.child("usuarios").child(user.getUid()).child("inventario").child(producto.getId()).setValue(nuevaCantidad);
-                                            }
-
-                                            @Override
-                                            public void onCancelled(DatabaseError databaseError) {
-
-                                            }
-                                        });
+                                        databaseRef.child("pedidoPorLlegar").child("productos").child(producto.getId()).setValue(producto.getCantidad());
+                                        productosTotales = productosTotales + producto.getCantidad();
                                     }
+                                    databaseRef.child("pedidoPorLlegar").child("tiempo").setValue(fecha);
                                     mDatabase.child("usuarios").child(user.getUid()).child("pedido").setValue(null);
+                                    getActivity().finish();
                                 }
                             })
-                            .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                            .setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialog, int which) {
                                 }
                             })
@@ -154,6 +151,86 @@ public class Pedido extends Fragment {
         });
 
         return view;
+    }
+
+    public void obtenerFecha() {
+        String date = new SimpleDateFormat("dd-MM").format(new Date());
+        String[] diaMes = date.split("-");
+        String dia = "";
+        String mes = "";
+        switch (diaMes[0]) {
+            case "01":
+                dia = "1";
+                break;
+            case "02":
+                dia = "2";
+                break;
+            case "03":
+                dia = "3";
+                break;
+            case "04":
+                dia = "4";
+                break;
+            case "05":
+                dia = "5";
+                break;
+            case "06":
+                dia = "6";
+                break;
+            case "07":
+                dia = "7";
+                break;
+            case "08":
+                dia = "8";
+                break;
+            case "09":
+                dia = "9";
+                break;
+            default:
+                dia = diaMes[0];
+                break;
+        }
+        switch (diaMes[1]) {
+            case "01":
+                mes = "Enero";
+                break;
+            case "02":
+                mes = "Febrero";
+                break;
+            case "03":
+                mes = "Marzo";
+                break;
+            case "04":
+                mes = "Abril";
+                break;
+            case "05":
+                mes = "Mayo";
+                break;
+            case "06":
+                mes = "Junio";
+                break;
+            case "07":
+                mes = "Julio";
+                break;
+            case "08":
+                mes = "Agosto";
+                break;
+            case "09":
+                mes = "Septiembre";
+                break;
+            case "10":
+                mes = "Octubre";
+                break;
+            case "11":
+                mes = "Noviembre";
+                break;
+            case "12":
+                mes = "Diciembre";
+                break;
+            default:
+                break;
+        }
+        fecha = dia + " de " + mes;
     }
 
     public void getPedido() {
@@ -172,7 +249,7 @@ public class Pedido extends Fragment {
                             enPedido.add(producto);
                         }
 
-                        if (enPedido.size() <= 0){
+                        if (enPedido.size() <= 0) {
                             pedidoVacio.setVisibility(View.VISIBLE);
                             listView.setVisibility(View.GONE);
                         } else {
@@ -232,7 +309,7 @@ public class Pedido extends Fragment {
 
     public void crearListView() {
         String totalFinal = NumberFormat.getNumberInstance(Locale.US).format(total);
-        totalView.setText("$" + totalFinal+".00");
+        totalView.setText("$" + totalFinal + ".00");
         PedidosAdapter customAdapter = new PedidosAdapter(getActivity(), R.layout.list_item_pedido, productos, 1);
         listView.setAdapter(customAdapter);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -241,15 +318,15 @@ public class Pedido extends Fragment {
                 toggeVentana();
                 cantidadDeProducto = productos.get(i).getCantidad();
                 pID = String.valueOf(productos.get(i).getId());
-                Log.d("Cantidad", ""+cantidadDeProducto);
-                cantidad.setText(""+cantidadDeProducto);
+                Log.d("Cantidad", "" + cantidadDeProducto);
+                cantidad.setText("" + cantidadDeProducto);
             }
         });
     }
 
-    public void toggeVentana(){
+    public void toggeVentana() {
 
-        if (enVentana){
+        if (enVentana) {
             ventana.setVisibility(View.GONE);
         } else {
             ventana.setVisibility(View.VISIBLE);

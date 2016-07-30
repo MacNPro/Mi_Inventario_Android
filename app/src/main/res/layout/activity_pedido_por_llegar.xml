@@ -1,92 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/fondo"
-    tools:context=".Pedido">
-
-    <ListView
-        android:id="@+id/listView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:scrollbars="none"
-        android:layout_marginTop="8dp"
-        android:layout_marginBottom="64dp"
-        android:layout_marginRight="16dp"
-        android:layout_marginLeft="16dp"
-        android:childDivider="#00000000"
-        android:divider="#00000000"
-        android:groupIndicator="@null">
-    </ListView>
-
-    <ImageView
-        android:id="@+id/btnMas"
-        android:layout_width="48dp"
-        android:layout_height="48dp"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentRight="true"
-        android:layout_marginBottom="80dp"
-        android:layout_marginRight="16dp"
-        android:elevation="6dp"
-        android:alpha=".6"
-        android:padding="14dp"
-        android:src="@drawable/mas"
-        android:background="@drawable/bola_amarilla"/>
+    android:orientation="vertical"
+    tools:context="com.llamas.miinventario.PedidoPorLlegar">
 
     <LinearLayout
-        android:id="@+id/pedidoVacio"
-        android:visibility="gone"
-        android:layout_centerInParent="true"
-        android:paddingBottom="48dp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <com.llamas.miinventario.CustomClasses.MediumTextView
-            android:gravity="center"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:padding="24dp"
-            android:lineSpacingExtra="10dp"
-            android:textColor="@color/subtitulos"
-            android:textSize="16sp"
-            android:text="Desliza a la izquierda para agregar productos de catalogo o a la derecha para agregar productos por agotarse"/>
+        <RelativeLayout
+            android:id="@+id/nav"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:background="@color/colorPrimary">
 
-        <ImageView
-            android:layout_width="54dp"
-            android:layout_height="54dp"
-            android:layout_gravity="center_horizontal"
-            android:src="@drawable/double_slide"/>
+            <ImageView
+                android:layout_width="42dp"
+                android:layout_height="42dp"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="4dp"
+                android:layout_marginStart="4dp"
+                android:contentDescription="@string/regresar"
+                android:onClick="onRegresar"
+                android:padding="10dp"
+                android:src="@drawable/regresar" />
+
+        </RelativeLayout>
+
+        <com.llamas.miinventario.CustomClasses.MediumTextView
+            android:id="@+id/titulo"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:background="@color/colorPrimary"
+            android:paddingLeft="18dp"
+            android:text="Pedido"
+            android:textColor="#fff"
+            android:textSize="22sp" />
+
+        <ListView
+            android:id="@+id/listView"
+            android:layout_width="match_parent"
+            android:layout_height="fill_parent"
+            android:scrollbars="none"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="64dp"
+            android:layout_marginRight="16dp"
+            android:layout_marginLeft="16dp"
+            android:childDivider="#00000000"
+            android:divider="#00000000"
+            android:groupIndicator="@null"/>
+
+        <com.llamas.miinventario.CustomClasses.MediumTextView
+            android:layout_width="match_parent"
+            android:layout_height="64dp"
+            android:layout_marginTop="-64dp"
+            android:textColor="@color/blanco"
+            android:textSize="20dp"
+            android:gravity="center"
+            android:background="@color/azul"
+            android:onClick="agregarAInventario"
+            android:text="Agregar a Inventario"/>
 
     </LinearLayout>
-
-    <com.llamas.miinventario.CustomClasses.MediumTextView
-        android:id="@+id/total"
-        android:layout_width="match_parent"
-        android:layout_height="64dp"
-        android:layout_alignParentBottom="true"
-        android:background="@color/azul"
-        android:clickable="true"
-        android:gravity="center"
-        android:textColor="@color/blanco"
-        android:textSize="20sp" />
-
-    <ImageView
-        android:layout_width="21dp"
-        android:layout_height="21dp"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentRight="true"
-        android:layout_marginBottom="22dp"
-        android:layout_marginRight="16dp"
-        android:alpha=".9"
-        android:src="@drawable/mas"/>
 
     <RelativeLayout
         android:id="@+id/fondoVentana"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:visibility="gone"
-        android:elevation="7dp"
         android:clickable="true"
         android:background="#75000000">
 
@@ -134,7 +119,7 @@
                     android:layout_centerInParent="true"
                     android:gravity="center_horizontal"
                     android:lineSpacingExtra="6dp"
-                    android:text="¿Cuantos productos quieres agregar a tu pedido?"
+                    android:text="¿Cuantos productos llegaron en tu pedido?"
                     android:textSize="18dp" />
 
                 <LinearLayout

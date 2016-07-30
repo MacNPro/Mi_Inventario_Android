@@ -37,16 +37,17 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".FinalizarVenta"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".Ajustes"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".DetailAjustes"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".Tutorial"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" />
+        <activity android:name=".PedidoPorLlegar"></activity>
     </application>
 
 </manifest>
