@@ -131,10 +131,8 @@ public class Pedido extends Fragment {
                                     final FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
                                     final DatabaseReference databaseRef = mDatabase.child("usuarios").child(user.getUid());
 
-                                    int productosTotales = 0;
                                     for (final ProductoEnInventario producto : enPedido) {
                                         databaseRef.child("pedidoPorLlegar").child("productos").child(producto.getId()).setValue(producto.getCantidad());
-                                        productosTotales = productosTotales + producto.getCantidad();
                                     }
                                     databaseRef.child("pedidoPorLlegar").child("tiempo").setValue(fecha);
                                     mDatabase.child("usuarios").child(user.getUid()).child("pedido").setValue(null);
