@@ -1,5 +1,6 @@
 package com.llamas.miinventario;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -20,11 +21,10 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.llamas.miinventario.CustomClasses.MediumTextView;
 
-public class DetailProducto extends FragmentActivity {
+public class DetailProducto extends Activity {
 
     private DatabaseReference mDatabase;
     MediumTextView botonAgregar;
-    FrameLayout fragmentLayout;
     TextView nombreTV, puntosTV, precioTV, idTV, enInventarioTV;
     public static String id, nombre, precio, puntos, enInventario, type;
 
@@ -39,7 +39,6 @@ public class DetailProducto extends FragmentActivity {
         mDatabase = FirebaseDatabase.getInstance().getReference();
 
         botonAgregar = (MediumTextView) findViewById(R.id.botonAgregar);
-        fragmentLayout = (FrameLayout) findViewById(R.id.fragment);
         nombreTV = (TextView) findViewById(R.id.nombre);
         idTV = (TextView) findViewById(R.id.id);
         precioTV = (TextView) findViewById(R.id.precio);

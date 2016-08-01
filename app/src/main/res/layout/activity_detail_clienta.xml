@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/fondo"
+    tools:context="com.llamas.miinventario.DetailClienta">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        tools:context="com.llamas.miinventario.Clientas">
+
+        <RelativeLayout
+            android:id="@+id/nav"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:background="@color/colorPrimary">
+
+            <ImageView
+                android:layout_width="42dp"
+                android:layout_height="42dp"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="4dp"
+                android:layout_marginStart="4dp"
+                android:contentDescription="@string/regresar"
+                android:onClick="onRegresar"
+                android:padding="10dp"
+                android:src="@drawable/regresar" />
+
+        </RelativeLayout>
+
+        <com.llamas.miinventario.CustomClasses.BoldTextView
+            android:id="@+id/ttNombre"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:background="@color/colorPrimary"
+            android:paddingLeft="18dp"
+            android:text="Nombre Apellido"
+            android:textColor="#fff"
+            android:textSize="22sp" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1">
+
+            <com.llamas.miinventario.CustomClasses.MediumTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="32dp"
+                android:text="¡Cumpleaños!"
+                android:textColor="@color/titulos"
+                android:textSize="20dp" />
+
+            <com.llamas.miinventario.CustomClasses.MediumTextView
+                android:id="@+id/ttCumple"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:text="27 de Diciembre"
+                android:textColor="@color/colorPrimary"
+                android:textSize="24dp" />
+
+        </RelativeLayout>
+
+        <ListView
+            android:id="@+id/listView"
+            android:layout_width="match_parent"
+            android:layout_marginRight="12dp"
+            android:layout_marginLeft="12dp"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:childDivider="#00000000"
+            android:divider="#00000000"
+            android:groupIndicator="@null"
+            android:scrollbars="none" />
+
+    </LinearLayout>
+
+    <RelativeLayout
+        android:id="@+id/ventanaResumen"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone"
+        android:onClick="cerrarResumen"
+        android:clickable="true"
+        android:background="#60000000">
+
+        <FrameLayout
+            android:id="@+id/fragmentResumen"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_margin="24dp"/>
+
+    </RelativeLayout>
+
+</RelativeLayout>

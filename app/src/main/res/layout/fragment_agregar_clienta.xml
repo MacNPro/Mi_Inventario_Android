@@ -1,0 +1,102 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/carta_fondo"
+    android:orientation="vertical"
+    android:clickable="true"
+    tools:context="com.llamas.miinventario.AgregarClienta">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:background="@drawable/fondo_titulo_ventana">
+
+        <com.llamas.miinventario.CustomClasses.MediumTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="Agregar Clienta Nueva"
+            android:textColor="@color/blanco"
+            android:textSize="16dp" />
+
+        <ImageView
+            android:id="@+id/cerrar"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="8dp"
+            android:padding="8dp"
+            android:src="@drawable/cerrar" />
+
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="24dp"
+        android:orientation="vertical">
+
+        <EditText
+            android:id="@+id/nombre"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="24dp"
+            android:hint="Nombre Apellido"
+            android:inputType="textCapWords"
+            android:textSize="18sp" />
+
+        <com.llamas.miinventario.CustomClasses.MediumTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="16dp"
+            android:text="Fecha de Cumpleaños"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="24dp">
+
+            <Spinner
+                android:id="@+id/dias"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:background="@drawable/fondo_rosa"
+                android:layout_marginRight="6dp"
+                android:padding="8dp"
+                android:layout_weight="1" />
+
+            <Spinner
+                android:id="@+id/meses"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="6dp"
+                android:padding="8dp"
+                android:layout_gravity="center_horizontal"
+                android:background="@drawable/fondo_rosa"
+                android:layout_weight="1" />
+
+        </LinearLayout>
+
+        <com.llamas.miinventario.CustomClasses.MediumTextView
+            android:id="@+id/agregarClienta"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:background="@drawable/bola_azul"
+            android:clickable="true"
+            android:fontFamily="sans-serif-light"
+            android:gravity="center"
+            android:stateListAnimator="@null"
+            android:text="Agregar Clienta"
+            android:textAllCaps="false"
+            android:textColor="@color/blanco"
+            android:textSize="18sp" />
+
+    </LinearLayout>
+
+</LinearLayout>

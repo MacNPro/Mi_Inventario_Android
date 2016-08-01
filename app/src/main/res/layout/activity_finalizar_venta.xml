@@ -34,7 +34,7 @@
             android:layout_alignParentBottom="true"
             android:layout_margin="16dp"
             android:fontFamily="sans-serif-light"
-            android:text="Resumen de venta"
+            android:text="Elige una clienta"
             android:textColor="@color/blanco"
             android:textSize="24dp" />
 
@@ -73,6 +73,14 @@
 
             <ImageView
                 android:layout_width="64dp"
+                android:layout_alignParentLeft="true"
+                android:layout_height="match_parent"
+                android:padding="12dp"
+                android:onClick="abrirClientas"
+                android:src="@drawable/descuento"/>
+
+            <ImageView
+                android:layout_width="64dp"
                 android:layout_alignParentRight="true"
                 android:layout_height="match_parent"
                 android:padding="12dp"
@@ -92,6 +100,91 @@
             android:textSize="24sp" />
 
     </LinearLayout>
+
+    <RelativeLayout
+        android:id="@+id/fondoClienta"
+        android:visibility="gone"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:onClick="cerrarClientas"
+        android:background="#60000000">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="24dp"
+            android:background="@drawable/carta_fondo"
+            android:orientation="vertical"
+            android:clickable="true"
+            tools:context="com.llamas.miinventario.AgregarClienta">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:background="@drawable/fondo_titulo_ventana">
+
+                <com.llamas.miinventario.CustomClasses.MediumTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:text="Elige una clienta"
+                    android:textColor="@color/blanco"
+                    android:textSize="16dp" />
+
+                <ImageView
+                    android:id="@+id/cerrar"
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="8dp"
+                    android:onClick="cerrarClientas"
+                    android:padding="8dp"
+                    android:src="@drawable/cerrar" />
+
+            </RelativeLayout>
+
+            <ListView
+                android:id="@+id/clientasListView"
+                android:layout_width="match_parent"
+                android:layout_height="fill_parent"
+                android:layout_marginBottom="52dp"
+                android:scrollbars="none"
+                android:childDivider="#00000000"
+                android:divider="#00000000"
+                android:groupIndicator="@null"/>
+
+            <com.llamas.miinventario.CustomClasses.MediumTextView
+                android:id="@+id/agregarClienta"
+                android:layout_width="match_parent"
+                android:layout_height="52dp"
+                android:layout_marginTop="-52dp"
+                android:background="@color/azul"
+                android:textColor="@color/blanco"
+                android:textSize="20dp"
+                android:gravity="center"
+                android:text="Agregar Clienta"/>
+
+        </LinearLayout>
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/fondoAgregarC"
+        android:visibility="gone"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:onClick="cerrarVentana"
+        android:background="#60000000">
+
+        <FrameLayout
+            android:id="@+id/fragmentAgregarC"
+            android:layout_centerInParent="true"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="24dp"/>
+
+    </RelativeLayout>
 
     <RelativeLayout
         android:id="@+id/fondoVentana"

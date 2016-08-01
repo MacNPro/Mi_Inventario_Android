@@ -47,7 +47,9 @@
         <activity
             android:name=".Tutorial"
             android:screenOrientation="portrait" />
-        <activity android:name=".PedidoPorLlegar"></activity>
+        <activity android:name=".PedidoPorLlegar" />
+        <activity android:name=".Clientas" />
+        <activity android:name=".DetailClienta"></activity>
     </application>
 
 </manifest>

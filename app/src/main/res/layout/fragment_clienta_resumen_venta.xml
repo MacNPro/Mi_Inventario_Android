@@ -1,0 +1,70 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/carta_blanca"
+    android:clickable="true"
+    android:orientation="vertical"
+    tools:context="com.llamas.miinventario.ClientaResumenVenta">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:background="@drawable/fondo_titulo_ventana">
+
+        <com.llamas.miinventario.CustomClasses.MediumTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="Resumen de Venta"
+            android:textColor="@color/blanco"
+            android:textSize="16dp" />
+
+        <ImageView
+            android:id="@+id/cerrar"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="8dp"
+            android:padding="8dp"
+            android:src="@drawable/cerrar" />
+
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <ListView
+            android:id="@+id/listView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/titleBar"
+            android:layout_marginBottom="64dp"
+            android:childDivider="#00000000"
+            android:divider="#00000000"
+            android:paddingBottom="8dp"
+            android:paddingTop="8dp" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="64dp"
+            android:layout_marginTop="-64dp">
+
+            <com.llamas.miinventario.CustomClasses.MediumTextView
+                android:id="@+id/total"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/carta_fondo"
+                android:gravity="center"
+                android:text="Total: $2,354.00"
+                android:textColor="@color/grupos"
+                android:textSize="22sp" />
+
+        </RelativeLayout>
+
+    </LinearLayout>
+
+</LinearLayout>

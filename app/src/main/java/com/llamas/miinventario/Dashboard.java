@@ -56,8 +56,17 @@ public class Dashboard extends Fragment {
         agotados = (BoldTextView) view.findViewById(R.id.agotados);
         chart = (LineChart) view.findViewById(R.id.chart);
         RelativeLayout botonAgotados = (RelativeLayout) view.findViewById(R.id.botonAgotados);
+        RelativeLayout clientas = (RelativeLayout) view.findViewById(R.id.clientas);
 
         chart.setDescription("");
+
+        clientas.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(getActivity(), Clientas.class);
+                startActivity(i);
+            }
+        });
 
         botonAgotados.setOnClickListener(new View.OnClickListener() {
             @Override
