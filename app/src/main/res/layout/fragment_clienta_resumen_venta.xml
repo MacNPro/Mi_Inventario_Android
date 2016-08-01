@@ -40,8 +40,9 @@
         <ListView
             android:id="@+id/listView"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="320dp"
             android:layout_below="@id/titleBar"
+            android:background="@color/blanco"
             android:layout_marginBottom="64dp"
             android:childDivider="#00000000"
             android:divider="#00000000"

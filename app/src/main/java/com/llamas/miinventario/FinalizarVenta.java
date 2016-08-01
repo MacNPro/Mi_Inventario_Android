@@ -249,6 +249,9 @@ public class FinalizarVenta extends FragmentActivity {
                         int pID = producto.getId();
                         int pCantidad = producto.getCantidad();
                         mDatabase.child("usuarios").child(uID).child("ventas").child("" + ventaId).child("productos").child("" + pID).setValue("" + pCantidad);
+                        if (pID == 69){
+                            mDatabase.child("usuarios").child(uID).child("ventas").child("" + ventaId).child("descuento").setValue(producto.getPrecio());
+                        }
                     }
                     mDatabase.child("usuarios").child(uID).child("ventas").child("" + ventaId).child("total").setValue(total);
                     String date = new SimpleDateFormat("dd-MM-yyyy").format(new Date());

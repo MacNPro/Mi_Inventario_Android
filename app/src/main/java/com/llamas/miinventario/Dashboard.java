@@ -33,13 +33,18 @@ import com.llamas.miinventario.CustomClasses.RegularTextView;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 
 public class Dashboard extends Fragment {
 
     private DatabaseReference mDatabase;
 
     LineChart chart;
+    MediumTextView dia1, dia2, dia3, dia4, dia5, dia6, dia7;
+
+    ArrayList<String> dias = new ArrayList<>();
     MediumTextView bienvenida;
     BoldTextView porAgotarse, enInventario, agotados;
     int porAgotarseInt, enInventarioInt, agotadosInt;
@@ -57,6 +62,14 @@ public class Dashboard extends Fragment {
         chart = (LineChart) view.findViewById(R.id.chart);
         RelativeLayout botonAgotados = (RelativeLayout) view.findViewById(R.id.botonAgotados);
         RelativeLayout clientas = (RelativeLayout) view.findViewById(R.id.clientas);
+
+        dia1 = (MediumTextView) view.findViewById(R.id.dia1);
+        dia2 = (MediumTextView) view.findViewById(R.id.dia2);
+        dia3 = (MediumTextView) view.findViewById(R.id.dia3);
+        dia4 = (MediumTextView) view.findViewById(R.id.dia4);
+        dia5 = (MediumTextView) view.findViewById(R.id.dia5);
+        dia6 = (MediumTextView) view.findViewById(R.id.dia6);
+        dia7 = (MediumTextView) view.findViewById(R.id.dia7);
 
         chart.setDescription("");
 
@@ -84,14 +97,49 @@ public class Dashboard extends Fragment {
     }
 
     public ArrayList<String> obtenerFechas(){
-        ArrayList<String> fechas = new ArrayList<>();
-        String dia = new SimpleDateFormat("dd").format(new Date());
-        String diaAño = new SimpleDateFormat("-MM-yyyy").format(new Date());
 
-        for (int i = 0; i < 7; i++){
-            int nuevoDia = Integer.valueOf(dia) - i;
-            String fecha = nuevoDia + diaAño;
-            fechas.add(fecha);
+        ArrayList<String> fechas = new ArrayList<>();
+
+        for (int i = 6; i >= 0; i--){
+            Calendar cal = GregorianCalendar.getInstance();
+            cal.setTime(new Date());
+            cal.add(Calendar.DAY_OF_YEAR, - i);
+            Date daysBeforeDate = cal.getTime();
+            String date = new SimpleDateFormat("dd-MM-yyyy").format(daysBeforeDate);
+            String dia = new SimpleDateFormat("dd").format(daysBeforeDate);
+            fechas.add(date);
+            switch (dia){
+                case "01":
+                    dias.add("1");
+                    break;
+                case "02":
+                    dias.add("2");
+                    break;
+                case "03":
+                    dias.add("3");
+                    break;
+                case "04":
+                    dias.add("4");
+                    break;
+                case "05":
+                    dias.add("5");
+                    break;
+                case "06":
+                    dias.add("6");
+                    break;
+                case "07":
+                    dias.add("7");
+                    break;
+                case "08":
+                    dias.add("8");
+                    break;
+                case "09":
+                    dias.add("9");
+                    break;
+                default:
+                    dias.add(dia);
+                    break;
+            }
         }
         return fechas;
     }
@@ -103,6 +151,7 @@ public class Dashboard extends Fragment {
         mDatabase.child("usuarios").child(user.getUid()).child("ventas").limitToLast(50).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
+                ventasPorDia.clear();
                 for (String fecha : fechas) {
                     int ventas = 0;
                     for (DataSnapshot venta: dataSnapshot.getChildren()){
@@ -112,13 +161,7 @@ public class Dashboard extends Fragment {
                     }
                     ventasPorDia.add(ventas);
                 }
-                llenarChart(ventasPorDia.get(6),
-                        ventasPorDia.get(5),
-                        ventasPorDia.get(4),
-                        ventasPorDia.get(3),
-                        ventasPorDia.get(2),
-                        ventasPorDia.get(1),
-                        ventasPorDia.get(0));
+                llenarChart(ventasPorDia);
             }
 
             @Override
@@ -128,27 +171,21 @@ public class Dashboard extends Fragment {
         });
     }
 
-    public void llenarChart(int dia1, int dia2, int dia3, int dia4, int dia5, int dia6, int dia7){
+    public void llenarChart(ArrayList<Integer> ventasPorDias){
 
         Typeface font = Typeface.createFromAsset(getContext().getAssets(), "fonts/Avenir-Medium.ttf");
         chart.setTouchEnabled(false);
 
         ArrayList<Entry> semana = new ArrayList<>();
+        MediumTextView[] ttDias = {dia1, dia2, dia3, dia4, dia5, dia6, dia7};
 
-        Entry d1 = new Entry(1, dia1);
-        semana.add(d1);
-        Entry d2 = new Entry(2, dia2);
-        semana.add(d2);
-        Entry d3 = new Entry(3, dia3);
-        semana.add(d3);
-        Entry d4 = new Entry(4, dia4);
-        semana.add(d4);
-        Entry d5 = new Entry(5, dia5);
-        semana.add(d5);
-        Entry d6 = new Entry(6, dia6);
-        semana.add(d6);
-        Entry d7 = new Entry(7, dia7);
-        semana.add(d7);
+        int i = 0;
+        for (Integer ventas : ventasPorDias) {
+            ttDias[i].setText(dias.get(i));
+            Entry d1 = new Entry(i, ventas);
+            semana.add(d1);
+            i++;
+        }
 
         LineDataSet setComp1 = new LineDataSet(semana, "Ventas");
         setComp1.setAxisDependency(YAxis.AxisDependency.LEFT);
@@ -175,6 +212,7 @@ public class Dashboard extends Fragment {
         xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
         xAxis.setTextSize(14f);
         xAxis.setTextColor(R.color.colorPrimary);
+        xAxis.setDrawLabels(false);
         xAxis.setDrawAxisLine(true);
         xAxis.setDrawGridLines(false);
         xAxis.setAvoidFirstLastClipping(true);
@@ -186,7 +224,6 @@ public class Dashboard extends Fragment {
         yAxis.setDrawAxisLine(false);
         yAxis.setDrawLabels(false);
         yAxis.setGridColor(Color.rgb(225,225,225));
-        yAxis.setTextColor(R.color.colorPrimary);
         yAxis.setLabelCount(4, true);
 
         chart.getAxisRight().setEnabled(false);

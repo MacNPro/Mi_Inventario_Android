@@ -22,6 +22,16 @@
             android:textColor="@color/blanco"
             android:textSize="24dp" />
 
+        <com.llamas.miinventario.CustomClasses.MediumTextView
+            android:id="@+id/demo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="-4dp"
+            android:layout_marginLeft="18dp"
+            android:text="Version de prueba"
+            android:textColor="@color/blanco"
+            android:textSize="16dp" />
+
     </LinearLayout>
 
     <LinearLayout
@@ -57,7 +67,76 @@
             <com.github.mikephil.charting.charts.LineChart
                 android:id="@+id/chart"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent" />
+                android:layout_height="match_parent"
+                android:layout_marginBottom="16dp"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="4dp"
+                android:layout_alignParentBottom="true">
+
+                <com.llamas.miinventario.CustomClasses.MediumTextView
+                    android:id="@+id/dia1"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:text="1"
+                    android:gravity="center"
+                    android:layout_weight="1"/>
+
+                <com.llamas.miinventario.CustomClasses.MediumTextView
+                    android:id="@+id/dia2"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:text="2"
+                    android:gravity="center"
+                    android:layout_weight="1"/>
+
+                <com.llamas.miinventario.CustomClasses.MediumTextView
+                    android:id="@+id/dia3"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="4dp"
+                    android:text="3"
+                    android:gravity="center"
+                    android:layout_weight="1"/>
+
+                <com.llamas.miinventario.CustomClasses.MediumTextView
+                    android:id="@+id/dia4"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="5dp"
+                    android:text="4"
+                    android:gravity="center"
+                    android:layout_weight="1"/>
+
+                <com.llamas.miinventario.CustomClasses.MediumTextView
+                    android:id="@+id/dia5"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="4dp"
+                    android:text="5"
+                    android:gravity="center"
+                    android:layout_weight="1"/>
+
+                <com.llamas.miinventario.CustomClasses.MediumTextView
+                    android:id="@+id/dia6"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:text="6"
+                    android:gravity="center"
+                    android:layout_weight="1"/>
+
+                <com.llamas.miinventario.CustomClasses.MediumTextView
+                    android:id="@+id/dia7"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:text="7"
+                    android:gravity="center"
+                    android:layout_weight="1"/>
+
+            </LinearLayout>
 
         </RelativeLayout>
 

@@ -25,7 +25,11 @@ import com.llamas.miinventario.CustomClasses.MediumTextView;
 import com.llamas.miinventario.Model.Clienta;
 import com.llamas.miinventario.Model.VentaListaObj;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
 
 public class DetailClienta extends FragmentActivity {
 

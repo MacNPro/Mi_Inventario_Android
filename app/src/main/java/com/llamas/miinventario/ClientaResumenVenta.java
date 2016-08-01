@@ -36,7 +36,7 @@ public class ClientaResumenVenta extends Fragment {
     ArrayList<Producto> productos = new ArrayList<>();
     ArrayList<String> ids = new ArrayList<>();
     ArrayList<Integer> cantidades = new ArrayList<>();
-    int total;
+    int total, descuento;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -51,7 +51,7 @@ public class ClientaResumenVenta extends Fragment {
         cerrar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ((DetailClienta)getActivity()).toggleResumen();
+                ((DetailClienta) getActivity()).toggleResumen();
             }
         });
 
@@ -60,15 +60,20 @@ public class ClientaResumenVenta extends Fragment {
         return v;
     }
 
-    public void obtenerProductosDeVenta(){
-        mDatabase.child("ventas").child(DetailClienta.ventaID).child("productos").addListenerForSingleValueEvent(new ValueEventListener() {
+    public void obtenerProductosDeVenta() {
+        mDatabase.child("ventas").child(DetailClienta.ventaID).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 ids.clear();
                 cantidades.clear();
-                for (DataSnapshot producto: dataSnapshot.getChildren()){
+                for (DataSnapshot producto : dataSnapshot.child("productos").getChildren()) {
                     ids.add(producto.getKey());
                     cantidades.add(Integer.valueOf(producto.getValue(String.class)));
+                }
+                if (dataSnapshot.child("descuento").exists()) {
+                    descuento = dataSnapshot.child("descuento").getValue(Integer.class);
+                } else {
+                    descuento = 0;
                 }
                 obtenerInfo();
             }
@@ -80,27 +85,31 @@ public class ClientaResumenVenta extends Fragment {
         });
     }
 
-    public void obtenerInfo(){
+    public void obtenerInfo() {
         FirebaseDatabase.getInstance().getReference().child("catalogo").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 total = 0;
-                for (DataSnapshot categoria: dataSnapshot.getChildren()){
-                    for (DataSnapshot producto: categoria.getChildren()){
+                for (DataSnapshot categoria : dataSnapshot.getChildren()) {
+                    for (DataSnapshot producto : categoria.getChildren()) {
                         int index = ids.indexOf(producto.getKey());
-                        if (ids.contains(producto.getKey())){
-                            Log.d("TAG", "Ma NIGGA");
+                        if (ids.contains(producto.getKey())) {
                             Producto p = producto.getValue(Producto.class);
                             p.setCantidad(cantidades.get(index));
-                            total = total + (cantidades.get(index)*p.getPrecio());
+                            total = total + (cantidades.get(index) * p.getPrecio());
                             productos.add(p);
                         }
                     }
                 }
+                if (ids.contains("69")) {
+                    Producto p = new Producto("Descuento", 1, descuento, 69, 0);
+                    total = total - descuento;
+                    productos.add(p);
+                }
                 llenarListView();
                 String dineroTotal = NumberFormat.getNumberInstance(Locale.US).format(total);
                 ttTotal.setText("Total: $" + dineroTotal);
-                ((DetailClienta)getActivity()).toggleResumen();
+                ((DetailClienta) getActivity()).toggleResumen();
             }
 
             @Override

@@ -31,7 +31,11 @@ import com.google.firebase.auth.UserProfileChangeRequest;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.text.SimpleDateFormat;
 import java.util.Arrays;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
 
 public class Registrate extends Activity {
 
@@ -66,12 +70,16 @@ public class Registrate extends Activity {
                 FirebaseUser user = firebaseAuth.getCurrentUser();
                 if (user != null) {
                     Log.d(TAG, "onAuthStateChanged:signed_in:" + user.getUid());
-                    if (user.getProviders().get(0).equals("password")){
+                    if (user.getProviders().get(0).equals("password")) {
                         mDatabase.child("usuarios").child(user.getUid()).child("nombre").setValue(nombre.getText().toString());
+                        mDatabase.child("usuarios").child(user.getUid()).child("premium").setValue("0");
                     }
                     mDatabase.child("usuarios").child(user.getUid()).child("nivel").setValue("Agrega tu nivel");
                     Intent i = new Intent(getApplicationContext(), Inicio.class);
                     startActivity(i);
+
+                    mDatabase.child("usuarios").child(user.getUid()).child("creacion").setValue(obtenerFecha("creacion"));
+                    mDatabase.child("usuarios").child(user.getUid()).child("expiracion").setValue(obtenerFecha("expiracion"));
 
                 } else {
                     Log.d(TAG, "onAuthStateChanged:signed_out");
@@ -81,12 +89,35 @@ public class Registrate extends Activity {
 
     }
 
-    public void onRegistroConCorreo(View v){
+    public String obtenerFecha(String type) {
+        String date = new SimpleDateFormat("dd-MM-yyyy").format(new Date());
+        if (!type.equals("creacion")) {
+            String[] newDate = date.split("-");
+            String dia = newDate[0];
+            int mesInt = Integer.valueOf(newDate[1]);
+            int añoInt = Integer.valueOf(newDate[2]);
+            if (mesInt == 12) {
+                mesInt = 1;
+                añoInt++;
+            }
+            /**
+             * FALTA CHECAR ADICION DE MESES PARA EXPIRACION
+             * 01 <-- AGREGAR 0 A INT SI ES MENOR A 10
+             * CREO QUE YA
+             *
+             * */
+            mesInt++;
+            date = dia + "-" + mesInt + "-" + añoInt;
+        }
+        return date;
+    }
+
+    public void onRegistroConCorreo(View v) {
         final String nombreTxt = nombre.getText().toString();
         String correoTxt = correo.getText().toString();
         String contraseña1Txt = contraseña1.getText().toString();
         String contraseña2Txt = contraseña2.getText().toString();
-        if (contraseña1Txt.equals(contraseña2Txt)){
+        if (contraseña1Txt.equals(contraseña2Txt)) {
             mAuth.createUserWithEmailAndPassword(correoTxt, contraseña1Txt)
                     .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                         @Override
@@ -104,7 +135,7 @@ public class Registrate extends Activity {
         }
     }
 
-    public void agregarInformacionAlUsuario(String name){
+    public void agregarInformacionAlUsuario(String name) {
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
                 .setDisplayName(name)
@@ -120,7 +151,7 @@ public class Registrate extends Activity {
                 });
     }
 
-    public void onIniciarConFacebook(View v){
+    public void onIniciarConFacebook(View v) {
         FacebookSdk.sdkInitialize(this.getApplicationContext());
         mCallbackManager = CallbackManager.Factory.create();
         loginManager = LoginManager.getInstance();
@@ -154,7 +185,7 @@ public class Registrate extends Activity {
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (!task.isSuccessful()) {
                             Log.w(TAG, "signInWithCredential", task.getException());
-                            Toast.makeText(Registrate.this, "Error al Iniciar Sesión",Toast.LENGTH_SHORT).show();
+                            Toast.makeText(Registrate.this, "Error al Iniciar Sesión", Toast.LENGTH_SHORT).show();
                         }
                     }
                 });
@@ -180,12 +211,12 @@ public class Registrate extends Activity {
         mCallbackManager.onActivityResult(requestCode, resultCode, data);
     }
 
-    public void afuera(View v){
+    public void afuera(View v) {
         hideSoftKeyboard(this);
     }
 
     public static void hideSoftKeyboard(Activity activity) {
-        InputMethodManager inputMethodManager = (InputMethodManager)  activity.getSystemService(Activity.INPUT_METHOD_SERVICE);
+        InputMethodManager inputMethodManager = (InputMethodManager) activity.getSystemService(Activity.INPUT_METHOD_SERVICE);
         inputMethodManager.hideSoftInputFromWindow(activity.getCurrentFocus().getWindowToken(), 0);
     }
 
