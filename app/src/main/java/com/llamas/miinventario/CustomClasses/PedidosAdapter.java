@@ -36,7 +36,7 @@ public class PedidosAdapter extends ArrayAdapter<Producto> {
 
         if (v == null) {
             LayoutInflater vi = LayoutInflater.from(getContext());
-            v = vi.inflate(R.layout.list_item_pedido, null);
+            v = vi.inflate(R.layout.list_item_pedido, parent, false);
         }
 
         Producto p = getItem(position);

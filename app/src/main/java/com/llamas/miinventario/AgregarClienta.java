@@ -7,10 +7,12 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -33,7 +35,7 @@ public class AgregarClienta extends Fragment implements AdapterView.OnItemSelect
     String type;
     int numeroDeClientas;
 
-    public static AgregarClienta newInstance(String type){
+    public static AgregarClienta newInstance(String type) {
         Bundle args = new Bundle();
         args.putString("Type", type);
         AgregarClienta fragment = new AgregarClienta();
@@ -48,49 +50,54 @@ public class AgregarClienta extends Fragment implements AdapterView.OnItemSelect
         mDatabase = FirebaseDatabase.getInstance().getReference().child("usuarios").child(user.getUid()).child("clientas");
         type = getArguments().getString("Type");
 
-        if (type.equals("Clientas")){
-            numeroDeClientas = Clientas.numeroDeClientas;
-            Log.d("TAG", "" + numeroDeClientas);
-        } else {
-            mDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
-                @Override
-                public void onDataChange(DataSnapshot dataSnapshot) {
-                    numeroDeClientas = (int) dataSnapshot.getChildrenCount();
-                    Log.d("TAG", "" + numeroDeClientas);
-                }
+        mDatabase.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                numeroDeClientas = (int) dataSnapshot.getChildrenCount();
+                Log.d("TAG", "" + numeroDeClientas);
+            }
 
-                @Override
-                public void onCancelled(DatabaseError databaseError) {
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
 
-                }
-            });
-        }
+            }
+        });
+
 
         final EditText nombre = (EditText) v.findViewById(R.id.nombre);
         Spinner dias = (Spinner) v.findViewById(R.id.dias);
         Spinner meses = (Spinner) v.findViewById(R.id.meses);
         ImageView cerrar = (ImageView) v.findViewById(R.id.cerrar);
         MediumTextView agregarClienta = (MediumTextView) v.findViewById(R.id.agregarClienta);
+        LinearLayout fondo = (LinearLayout) v.findViewById(R.id.fondo);
 
         setupSpinners(dias, meses);
+
+        fondo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                hideSoftKeyboard(getActivity());
+            }
+        });
 
         agregarClienta.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 String n = nombre.getText().toString();
                 String cumple = dia + " de " + mes;
-                if (!n.isEmpty()){
+                if (!n.isEmpty()) {
                     Map<String, String> valoresClienta = new HashMap<>();
                     valoresClienta.put("nombre", n);
                     valoresClienta.put("cumpleaños", cumple);
-                    mDatabase.child(""+numeroDeClientas).setValue(valoresClienta);
+                    mDatabase.child("" + numeroDeClientas).setValue(valoresClienta);
                     if (type.equals("Clientas")) {
                         ((Clientas) getActivity()).toggleVentana();
                     } else {
-                        ((FinalizarVenta)getActivity()).toggleAgregarC();
-                        ((FinalizarVenta)getActivity()).setNombre(n);
+                        ((FinalizarVenta) getActivity()).toggleAgregarC();
+                        ((FinalizarVenta) getActivity()).setNombre(n);
                         FinalizarVenta.clientaID = numeroDeClientas;
                     }
+                    nombre.setText("");
                 } else {
                     Toast.makeText(getActivity(), "No olvides llenar todos los datos", Toast.LENGTH_SHORT).show();
                 }
@@ -103,7 +110,7 @@ public class AgregarClienta extends Fragment implements AdapterView.OnItemSelect
                 if (type.equals("Clientas")) {
                     ((Clientas) getActivity()).toggleVentana();
                 } else {
-                    ((FinalizarVenta)getActivity()).toggleAgregarC();
+                    ((FinalizarVenta) getActivity()).toggleAgregarC();
                 }
             }
         });
@@ -111,7 +118,7 @@ public class AgregarClienta extends Fragment implements AdapterView.OnItemSelect
         return v;
     }
 
-    private void setupSpinners(Spinner dias, Spinner meses){
+    private void setupSpinners(Spinner dias, Spinner meses) {
         ArrayAdapter<CharSequence> diasAdapter = ArrayAdapter.createFromResource(getActivity(), R.array.dias, R.layout.spinner_item);
         ArrayAdapter<CharSequence> mesesAdapter = ArrayAdapter.createFromResource(getActivity(), R.array.meses, R.layout.spinner_item);
         diasAdapter.setDropDownViewResource(R.layout.spinner_list_item);
@@ -123,7 +130,7 @@ public class AgregarClienta extends Fragment implements AdapterView.OnItemSelect
     }
 
     public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
-        if (parent.getCount() == 12){
+        if (parent.getCount() == 12) {
             mes = parent.getItemAtPosition(pos).toString();
         } else {
             dia = parent.getItemAtPosition(pos).toString();
@@ -131,6 +138,11 @@ public class AgregarClienta extends Fragment implements AdapterView.OnItemSelect
     }
 
     public void onNothingSelected(AdapterView<?> parent) {
+    }
+
+    public static void hideSoftKeyboard(Activity activity) {
+        InputMethodManager inputMethodManager = (InputMethodManager) activity.getSystemService(Activity.INPUT_METHOD_SERVICE);
+        inputMethodManager.hideSoftInputFromWindow(activity.getCurrentFocus().getWindowToken(), 0);
     }
 
 }

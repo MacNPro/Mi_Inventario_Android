@@ -29,18 +29,20 @@
         android:orientation="horizontal">
 
         <ImageView
-            android:layout_width="64dp"
-            android:layout_height="64dp"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
             android:layout_marginRight="8dp"
-            android:background="@drawable/bola_rosa" />
+            android:src="@mipmap/ic_launcher"/>
 
-        <TextView
+        <com.llamas.miinventario.CustomClasses.BoldTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:layout_marginLeft="8dp"
             android:text="@string/titulo"
+            android:fontFamily="sans-serif-light"
             android:textColor="@color/blanco"
+            android:lineSpacingExtra="3dp"
             android:textSize="18sp" />
 
     </LinearLayout>

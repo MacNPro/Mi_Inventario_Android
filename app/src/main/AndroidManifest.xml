@@ -3,6 +3,7 @@
     package="com.llamas.miinventario">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="com.android.vending.BILLING" />
 
     <application
         android:allowBackup="true"
@@ -47,9 +48,18 @@
         <activity
             android:name=".Tutorial"
             android:screenOrientation="portrait" />
-        <activity android:name=".PedidoPorLlegar" />
-        <activity android:name=".Clientas" />
-        <activity android:name=".DetailClienta"></activity>
+        <activity
+            android:name=".PedidoPorLlegar"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".Clientas"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".DetailClienta"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".ComprarPremium"
+            android:screenOrientation="portrait"/>
     </application>
 
 </manifest>

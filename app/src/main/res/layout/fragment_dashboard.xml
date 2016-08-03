@@ -1,4 +1,4 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -7,300 +7,329 @@
     tools:context="com.llamas.miinventario.Dashboard">
 
     <LinearLayout
-        android:id="@+id/titleBar"
         android:layout_width="match_parent"
-        android:layout_height="48dp"
-        android:orientation="vertical"
-        android:background="@color/colorPrimary">
+        android:layout_height="match_parent"
+        android:background="@color/fondo"
+        android:orientation="vertical">
 
-        <com.llamas.miinventario.CustomClasses.MediumTextView
-            android:id="@+id/nombre"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="16dp"
-            android:text="Bienvenida Nombre"
-            android:textColor="@color/blanco"
-            android:textSize="24dp" />
-
-        <com.llamas.miinventario.CustomClasses.MediumTextView
-            android:id="@+id/demo"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="-4dp"
-            android:layout_marginLeft="18dp"
-            android:text="Version de prueba"
-            android:textColor="@color/blanco"
-            android:textSize="16dp" />
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:layout_marginTop="16dp"
-        android:layout_marginLeft="16dp"
-        android:layout_marginRight="16dp"
-        android:orientation="vertical"
-        android:background="@drawable/carta_blanca">
-
-        <RelativeLayout
+        <LinearLayout
+            android:id="@+id/titleBar"
             android:layout_width="match_parent"
-            android:layout_height="28dp"
-            android:background="@drawable/fondo_titulo_ventana">
+            android:layout_height="48dp"
+            android:background="@color/colorPrimary"
+            android:orientation="vertical">
 
-            <com.llamas.miinventario.CustomClasses.BoldTextView
+            <com.llamas.miinventario.CustomClasses.MediumTextView
+                android:id="@+id/nombre"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:text="Ventas de los ultimos 7 días"
-                android:textSize="16dp"
-                android:textColor="@color/blanco"/>
+                android:layout_marginLeft="16dp"
+                android:text="Bienvenida Nombre"
+                android:textColor="@color/blanco"
+                android:textSize="24dp" />
 
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:padding="2dp">
-
-            <com.github.mikephil.charting.charts.LineChart
-                android:id="@+id/chart"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginBottom="16dp"/>
-
-            <LinearLayout
-                android:layout_width="match_parent"
+            <com.llamas.miinventario.CustomClasses.MediumTextView
+                android:id="@+id/demo"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="4dp"
-                android:layout_alignParentBottom="true">
+                android:layout_marginLeft="18dp"
+                android:layout_marginTop="-4dp"
+                android:text="Version de prueba"
+                android:textColor="@color/blanco"
+                android:textSize="16dp"
+                android:visibility="gone" />
 
-                <com.llamas.miinventario.CustomClasses.MediumTextView
-                    android:id="@+id/dia1"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:text="1"
-                    android:gravity="center"
-                    android:layout_weight="1"/>
-
-                <com.llamas.miinventario.CustomClasses.MediumTextView
-                    android:id="@+id/dia2"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:text="2"
-                    android:gravity="center"
-                    android:layout_weight="1"/>
-
-                <com.llamas.miinventario.CustomClasses.MediumTextView
-                    android:id="@+id/dia3"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="4dp"
-                    android:text="3"
-                    android:gravity="center"
-                    android:layout_weight="1"/>
-
-                <com.llamas.miinventario.CustomClasses.MediumTextView
-                    android:id="@+id/dia4"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="5dp"
-                    android:layout_marginRight="5dp"
-                    android:text="4"
-                    android:gravity="center"
-                    android:layout_weight="1"/>
-
-                <com.llamas.miinventario.CustomClasses.MediumTextView
-                    android:id="@+id/dia5"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginRight="4dp"
-                    android:text="5"
-                    android:gravity="center"
-                    android:layout_weight="1"/>
-
-                <com.llamas.miinventario.CustomClasses.MediumTextView
-                    android:id="@+id/dia6"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:text="6"
-                    android:gravity="center"
-                    android:layout_weight="1"/>
-
-                <com.llamas.miinventario.CustomClasses.MediumTextView
-                    android:id="@+id/dia7"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:text="7"
-                    android:gravity="center"
-                    android:layout_weight="1"/>
-
-            </LinearLayout>
-
-        </RelativeLayout>
-
-    </LinearLayout>
-
-    <HorizontalScrollView
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:scrollbarSize="0dp"
-        android:layout_marginTop="16dp">
+        </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="horizontal">
+            android:layout_height="0dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:layout_marginTop="16dp"
+            android:layout_weight="1"
+            android:background="@drawable/carta_blanca"
+            android:orientation="vertical">
 
             <RelativeLayout
-                android:layout_width="100dp"
-                android:layout_height="match_parent"
-                android:layout_marginLeft="16dp"
-                android:background="@drawable/carta_blanca"
-                android:padding="4dp"
-                android:layout_weight="1">
+                android:layout_width="match_parent"
+                android:layout_height="28dp"
+                android:background="@drawable/fondo_titulo_ventana">
 
                 <com.llamas.miinventario.CustomClasses.BoldTextView
-                    android:id="@+id/porAgotarse"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textColor="@color/amarillo"
-                    android:alpha=".7"
                     android:layout_centerInParent="true"
-                    android:textSize="32dp"/>
-
-                <com.llamas.miinventario.CustomClasses.BoldTextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:layout_alignParentBottom="true"
-                    android:layout_centerHorizontal="true"
-                    android:text="Por Agotarse" />
+                    android:text="Ventas de los ultimos 7 días"
+                    android:textColor="@color/blanco"
+                    android:textSize="16dp" />
 
             </RelativeLayout>
 
             <RelativeLayout
-                android:layout_width="100dp"
+                android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginLeft="8dp"
-                android:background="@drawable/carta_blanca"
-                android:layout_weight="1">
+                android:padding="2dp">
 
-                <com.llamas.miinventario.CustomClasses.BoldTextView
-                    android:id="@+id/enInventario"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textSize="32dp"
-                    android:textColor="@color/verde"
-                    android:layout_centerInParent="true"/>
+                <com.github.mikephil.charting.charts.LineChart
+                    android:id="@+id/chart"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginBottom="16dp" />
 
-                <com.llamas.miinventario.CustomClasses.BoldTextView
-                    android:layout_width="wrap_content"
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:gravity="center"
                     android:layout_alignParentBottom="true"
-                    android:layout_centerHorizontal="true"
-                    android:text="En Inventario" />
+                    android:layout_marginBottom="4dp">
 
-            </RelativeLayout>
+                    <com.llamas.miinventario.CustomClasses.MediumTextView
+                        android:id="@+id/dia1"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:text="1" />
 
-            <RelativeLayout
-                android:id="@+id/botonAgotados"
-                android:layout_width="100dp"
-                android:layout_height="match_parent"
-                android:layout_marginLeft="8dp"
-                android:background="@drawable/carta_blanca"
-                android:layout_weight="1">
+                    <com.llamas.miinventario.CustomClasses.MediumTextView
+                        android:id="@+id/dia2"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:text="2" />
 
-                <com.llamas.miinventario.CustomClasses.BoldTextView
-                    android:id="@+id/agotados"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textSize="32dp"
-                    android:alpha=".7"
-                    android:textColor="@color/rojo"
-                    android:layout_centerInParent="true"/>
+                    <com.llamas.miinventario.CustomClasses.MediumTextView
+                        android:id="@+id/dia3"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="4dp"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:text="3" />
 
-                <com.llamas.miinventario.CustomClasses.BoldTextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:layout_alignParentBottom="true"
-                    android:layout_centerHorizontal="true"
-                    android:text="Pedido Pendiente" />
+                    <com.llamas.miinventario.CustomClasses.MediumTextView
+                        android:id="@+id/dia4"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="5dp"
+                        android:layout_marginRight="5dp"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:text="4" />
 
-            </RelativeLayout>
+                    <com.llamas.miinventario.CustomClasses.MediumTextView
+                        android:id="@+id/dia5"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="4dp"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:text="5" />
 
-            <RelativeLayout
-                android:id="@+id/clientas"
-                android:layout_width="100dp"
-                android:layout_height="match_parent"
-                android:layout_marginLeft="8dp"
-                android:layout_marginRight="16dp"
-                android:background="@drawable/carta_blanca"
-                android:layout_weight="1">
+                    <com.llamas.miinventario.CustomClasses.MediumTextView
+                        android:id="@+id/dia6"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:text="6" />
 
-                <com.llamas.miinventario.CustomClasses.BoldTextView
-                    android:id="@+id/pedidoPendiente"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textSize="32dp"
-                    android:alpha=".7"
-                    android:textColor="@color/rojo"
-                    android:layout_centerInParent="true"/>
+                    <com.llamas.miinventario.CustomClasses.MediumTextView
+                        android:id="@+id/dia7"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:text="7" />
 
-                <com.llamas.miinventario.CustomClasses.BoldTextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:layout_alignParentBottom="true"
-                    android:layout_centerHorizontal="true"
-                    android:text="Clientas" />
+                </LinearLayout>
 
             </RelativeLayout>
 
         </LinearLayout>
 
-    </HorizontalScrollView>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:layout_margin="16dp"
-        android:orientation="vertical"
-        android:background="@drawable/carta_blanca">
-
-        <RelativeLayout
+        <HorizontalScrollView
             android:layout_width="match_parent"
-            android:layout_height="28dp"
-            android:background="@drawable/fondo_titulo_ventana">
+            android:layout_height="110dp"
+            android:layout_marginTop="16dp"
+            android:scrollbarSize="0dp">
 
-            <com.llamas.miinventario.CustomClasses.BoldTextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:text="Escalera del Éxito"
-                android:textSize="16dp"
-                android:textColor="@color/blanco"/>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
 
-        </RelativeLayout>
+                <RelativeLayout
+                    android:id="@+id/porAgotarseBtn"
+                    android:layout_width="100dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="16dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/carta_blanca"
+                    android:padding="6dp">
 
-        <RelativeLayout
+                    <com.llamas.miinventario.CustomClasses.BoldTextView
+                        android:id="@+id/porAgotarse"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerInParent="true"
+                        android:alpha=".7"
+                        android:paddingBottom="12dp"
+                        android:textColor="@color/amarillo"
+                        android:textSize="32dp" />
+
+                    <com.llamas.miinventario.CustomClasses.BoldTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentBottom="true"
+                        android:layout_centerHorizontal="true"
+                        android:gravity="center"
+                        android:text="Por Agotarse" />
+
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/clientasBtn"
+                    android:layout_width="100dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="8dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/carta_blanca"
+                    android:padding="6dp">
+
+                    <com.llamas.miinventario.CustomClasses.BoldTextView
+                        android:id="@+id/ttClientas"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerInParent="true"
+                        android:paddingBottom="12dp"
+                        android:textColor="@color/verde"
+                        android:textSize="32dp" />
+
+                    <com.llamas.miinventario.CustomClasses.BoldTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentBottom="true"
+                        android:layout_centerHorizontal="true"
+                        android:gravity="center"
+                        android:text="Clientas" />
+
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/pendienteBtn"
+                    android:layout_width="100dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="8dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/carta_blanca"
+                    android:padding="6dp">
+
+                    <com.llamas.miinventario.CustomClasses.BoldTextView
+                        android:id="@+id/agotados"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerInParent="true"
+                        android:paddingBottom="12dp"
+                        android:textColor="@color/verde"
+                        android:textSize="32dp" />
+
+                    <com.llamas.miinventario.CustomClasses.BoldTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentBottom="true"
+                        android:layout_centerHorizontal="true"
+                        android:gravity="center"
+                        android:lineSpacingExtra="2dp"
+                        android:text="Pedido Pendiente" />
+
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/inventarioBtn"
+                    android:layout_width="100dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="8dp"
+                    android:layout_marginRight="16dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/carta_blanca"
+                    android:padding="6dp">
+
+                    <com.llamas.miinventario.CustomClasses.BoldTextView
+                        android:id="@+id/enInventario"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerInParent="true"
+                        android:paddingBottom="12dp"
+                        android:textColor="@color/verde"
+                        android:textSize="32dp" />
+
+                    <com.llamas.miinventario.CustomClasses.BoldTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentBottom="true"
+                        android:layout_centerHorizontal="true"
+                        android:gravity="center"
+                        android:text="En Inventario" />
+
+                </RelativeLayout>
+
+            </LinearLayout>
+
+        </HorizontalScrollView>
+
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:padding="6dp">
+            android:layout_height="0dp"
+            android:layout_margin="16dp"
+            android:layout_weight="1"
+            android:background="@drawable/carta_blanca"
+            android:orientation="vertical">
 
-            <com.llamas.miinventario.CustomClasses.BoldTextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:text="Próximamente"/>
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="28dp"
+                android:background="@drawable/fondo_titulo_ventana">
 
-        </RelativeLayout>
+                <com.llamas.miinventario.CustomClasses.BoldTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:text="Escalera del Éxito"
+                    android:textColor="@color/blanco"
+                    android:textSize="16dp" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:padding="6dp">
+
+                <com.llamas.miinventario.CustomClasses.BoldTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:text="Próximamente" />
+
+            </RelativeLayout>
+
+        </LinearLayout>
 
     </LinearLayout>
 
-</LinearLayout>
+    <ImageView
+        android:id="@+id/botonComprar"
+        android:layout_width="56dp"
+        android:layout_height="56dp"
+        android:visibility="gone"
+        android:src="@drawable/shopping_cart"
+        android:padding="12dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_margin="16dp"
+        android:elevation="6dp"
+        android:background="@drawable/bola_amarilla"/>
+
+</RelativeLayout>

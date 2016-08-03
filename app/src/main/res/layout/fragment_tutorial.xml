@@ -51,7 +51,7 @@
             android:layout_weight="1"
             android:orientation="vertical">
 
-            <com.llamas.miinventario.CustomClasses.RegularTextView
+            <com.llamas.miinventario.CustomClasses.MediumTextView
                 android:id="@+id/texto"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -59,7 +59,7 @@
                 android:layout_centerInParent="true"
                 android:gravity="center"
                 android:lineSpacingExtra="5dp"
-                android:text="Gracias por descargar Mi Inventario, Esta aplicación sigue en desarrollo, por lo que podra haber algunos errores.\n\nPara mayor informacion contactar por medio del correo daniel.llamas@hotmail.es"
+                android:text="Dummy Text"
                 android:textSize="18dp" />
 
         </RelativeLayout>

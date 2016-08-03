@@ -3,7 +3,6 @@ package com.llamas.miinventario;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.provider.ContactsContract;
 import android.support.annotation.NonNull;
 import android.util.Log;
 import android.view.View;
@@ -28,14 +27,16 @@ import com.google.firebase.auth.FacebookAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.GregorianCalendar;
 
 public class Registrate extends Activity {
 
@@ -67,20 +68,79 @@ public class Registrate extends Activity {
         mAuthListener = new FirebaseAuth.AuthStateListener() {
             @Override
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
-                FirebaseUser user = firebaseAuth.getCurrentUser();
+                final FirebaseUser user = firebaseAuth.getCurrentUser();
                 if (user != null) {
-                    Log.d(TAG, "onAuthStateChanged:signed_in:" + user.getUid());
-                    if (user.getProviders().get(0).equals("password")) {
-                        mDatabase.child("usuarios").child(user.getUid()).child("nombre").setValue(nombre.getText().toString());
-                        mDatabase.child("usuarios").child(user.getUid()).child("premium").setValue("0");
-                    }
-                    mDatabase.child("usuarios").child(user.getUid()).child("nivel").setValue("Agrega tu nivel");
-                    Intent i = new Intent(getApplicationContext(), Inicio.class);
-                    startActivity(i);
+                    mDatabase.child("usuarios").child(user.getUid()).child("creacion").addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(DataSnapshot dataSnapshot) {
+                            if (!dataSnapshot.exists()){
+                                mDatabase.child("usuarios").child(user.getUid()).child("creacion").setValue(obtenerFecha());
+                            }
+                        }
 
-                    mDatabase.child("usuarios").child(user.getUid()).child("creacion").setValue(obtenerFecha("creacion"));
-                    mDatabase.child("usuarios").child(user.getUid()).child("expiracion").setValue(obtenerFecha("expiracion"));
+                        @Override
+                        public void onCancelled(DatabaseError databaseError) {
 
+                        }
+                    });
+                    mDatabase.child("usuarios").child(user.getUid()).child("expiracion").addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(DataSnapshot dataSnapshot) {
+                            if (!dataSnapshot.exists()){
+                                mDatabase.child("usuarios").child(user.getUid()).child("expiracion").setValue(obtenerFechaDeExpiracion());
+                            }
+                        }
+
+                        @Override
+                        public void onCancelled(DatabaseError databaseError) {
+
+                        }
+                    });
+                    mDatabase.child("usuarios").child(user.getUid()).child("premium").addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(DataSnapshot dataSnapshot) {
+                            if (!dataSnapshot.exists()){
+                                mDatabase.child("usuarios").child(user.getUid()).child("premium").setValue(0);
+                            }
+                        }
+
+                        @Override
+                        public void onCancelled(DatabaseError databaseError) {
+
+                        }
+                    });
+                    mDatabase.child("usuarios").child(user.getUid()).child("nivel").addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(DataSnapshot dataSnapshot) {
+                            if (!dataSnapshot.exists()){
+                                mDatabase.child("usuarios").child(user.getUid()).child("nivel").setValue("Agrega tu nivel");
+                            }
+                        }
+
+                        @Override
+                        public void onCancelled(DatabaseError databaseError) {
+
+                        }
+                    });
+                    mDatabase.child("usuarios").child(user.getUid()).child("nombre").addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(DataSnapshot dataSnapshot) {
+                            if (!dataSnapshot.exists()){
+                                if (user.getDisplayName() != null){
+                                    mDatabase.child("usuarios").child(user.getUid()).child("nombre").setValue(user.getDisplayName());
+                                } else {
+                                    mDatabase.child("usuarios").child(user.getUid()).child("nombre").setValue(nombre.getText().toString());
+                                }
+                            }
+                            Intent i = new Intent(getApplicationContext(), Tutorial.class);
+                            startActivity(i);
+                        }
+
+                        @Override
+                        public void onCancelled(DatabaseError databaseError) {
+
+                        }
+                    });
                 } else {
                     Log.d(TAG, "onAuthStateChanged:signed_out");
                 }
@@ -89,27 +149,17 @@ public class Registrate extends Activity {
 
     }
 
-    public String obtenerFecha(String type) {
-        String date = new SimpleDateFormat("dd-MM-yyyy").format(new Date());
-        if (!type.equals("creacion")) {
-            String[] newDate = date.split("-");
-            String dia = newDate[0];
-            int mesInt = Integer.valueOf(newDate[1]);
-            int añoInt = Integer.valueOf(newDate[2]);
-            if (mesInt == 12) {
-                mesInt = 1;
-                añoInt++;
-            }
-            /**
-             * FALTA CHECAR ADICION DE MESES PARA EXPIRACION
-             * 01 <-- AGREGAR 0 A INT SI ES MENOR A 10
-             * CREO QUE YA
-             *
-             * */
-            mesInt++;
-            date = dia + "-" + mesInt + "-" + añoInt;
-        }
-        return date;
+    public String obtenerFechaDeExpiracion(){
+        Date current = new Date();
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(current);
+        cal.set(Calendar.MONTH, (cal.get(Calendar.MONTH)) + 1);
+        Date date = cal.getTime();
+        return new SimpleDateFormat("dd-MM-yyyy").format(date);
+    }
+
+    public String obtenerFecha() {
+        return new SimpleDateFormat("dd-MM-yyyy").format(new Date());
     }
 
     public void onRegistroConCorreo(View v) {

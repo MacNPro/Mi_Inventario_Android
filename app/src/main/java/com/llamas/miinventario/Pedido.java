@@ -123,7 +123,7 @@ public class Pedido extends Fragment {
                 if (enPedido.size() > 0) {
                     new AlertDialog.Builder(getActivity())
                             .setTitle("Realizar Pedido")
-                            .setMessage("Este pedido se agregara a “Pedidos por llegar”")
+                            .setMessage("Este pedido se agregara a “Pedido Pendiente”")
                             .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialog, int which) {
                                     Intent i = new Intent(getActivity(), Inicio.class);
@@ -306,20 +306,22 @@ public class Pedido extends Fragment {
     }
 
     public void crearListView() {
-        String totalFinal = NumberFormat.getNumberInstance(Locale.US).format(total);
-        totalView.setText("$" + totalFinal + ".00");
-        PedidosAdapter customAdapter = new PedidosAdapter(getActivity(), R.layout.list_item_pedido, productos, 1);
-        listView.setAdapter(customAdapter);
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                toggeVentana();
-                cantidadDeProducto = productos.get(i).getCantidad();
-                pID = String.valueOf(productos.get(i).getId());
-                Log.d("Cantidad", "" + cantidadDeProducto);
-                cantidad.setText("" + cantidadDeProducto);
-            }
-        });
+        if (getActivity() != null) {
+            String totalFinal = NumberFormat.getNumberInstance(Locale.US).format(total);
+            totalView.setText("$" + totalFinal + ".00");
+            PedidosAdapter customAdapter = new PedidosAdapter(getActivity(), R.layout.list_item_pedido, productos, 1);
+            listView.setAdapter(customAdapter);
+            listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                    toggeVentana();
+                    cantidadDeProducto = productos.get(i).getCantidad();
+                    pID = String.valueOf(productos.get(i).getId());
+                    Log.d("Cantidad", "" + cantidadDeProducto);
+                    cantidad.setText("" + cantidadDeProducto);
+                }
+            });
+        }
     }
 
     public void toggeVentana() {

@@ -58,16 +58,13 @@ public class DetailProducto extends Activity {
             botonAgregar.setText("Agregar a Pedido");
         }
 
-        botonAgregar.setAlpha(0.6f);
-        botonAgregar.setClickable(false);
-
         nombreTV.setText(nombre);
         idTV.setText(id);
         precioTV.setText("$" + precio + ".00");
         puntosTV.setText("" + puntos + " Pts.");
         enInventarioTV.setText(enInventario);
 
-        cantidad.setText("" + cantidadIntCounter);
+        obtenerCantidadEnPedido();
 
         RelativeLayout mas = (RelativeLayout) findViewById(R.id.mas);
         mas.setOnClickListener(new View.OnClickListener() {
@@ -99,6 +96,42 @@ public class DetailProducto extends Activity {
 
     }
 
+    public void obtenerCantidadEnPedido() {
+        final FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        String key;
+        if (type.equals("Inventario")) {
+            key = "inventario";
+        } else {
+            key = "pedido";
+        }
+        mDatabase.child("usuarios").child(user.getUid()).child(key).child(id).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if (dataSnapshot.exists()) {
+                    if (type.equals("Inventario")) {
+                        cantidadIntCounter = 0;
+                        cantidad.setText("" + cantidadIntCounter);
+                        botonAgregar.setAlpha(0.6f);
+                        botonAgregar.setClickable(false);
+                    } else {
+                        cantidadIntCounter = dataSnapshot.getValue(Integer.class);
+                        cantidad.setText("" + cantidadIntCounter);
+                    }
+                } else {
+                    cantidadIntCounter = 0;
+                    cantidad.setText("" + cantidadIntCounter);
+                    botonAgregar.setAlpha(0.6f);
+                    botonAgregar.setClickable(false);
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+    }
+
     public void onAgregar(View v) {
         if (type.equals("Inventario")) {
             if (cantidadIntCounter > 0) {
@@ -122,7 +155,7 @@ public class DetailProducto extends Activity {
             }
         } else {
             final FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-            if (cantidadIntCounter == 0){
+            if (cantidadIntCounter == 0) {
                 mDatabase.child("usuarios").child(user.getUid()).child("pedido").child(id).removeValue();
             } else {
                 mDatabase.child("usuarios").child(user.getUid()).child("pedido").child(id).setValue(cantidadIntCounter);

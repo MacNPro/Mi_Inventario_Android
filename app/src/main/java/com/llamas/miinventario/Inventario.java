@@ -39,7 +39,7 @@ public class Inventario extends Fragment {
     public static ArrayList<ProductoEnInventario> enInventario = new ArrayList<>();
     public static ArrayList<String> idsEnVenta = new ArrayList<>();
 
-    LinearLayout inventarioVacio;
+    LinearLayout inventarioVacio, inventarioVacioVentas;
     MediumTextView guardar, cantidad, fraseDisponible;
     ImageView cerrar;
     RelativeLayout ventana, mas, menos;
@@ -66,6 +66,7 @@ public class Inventario extends Fragment {
         getInventario();
         expandableListView = (ExpandableListView) view.findViewById(R.id.expandableListView);
         inventarioVacio = (LinearLayout) view.findViewById(R.id.inventarioVacio);
+        inventarioVacioVentas = (LinearLayout) view.findViewById(R.id.inventarioVacioVentas);
         ImageView btnMas = (ImageView) view.findViewById(R.id.btnMas);
 
         btnMas.setOnClickListener(new View.OnClickListener() {
@@ -76,7 +77,7 @@ public class Inventario extends Fragment {
             }
         });
 
-        if (type.equals("Venta")){
+        if (type.equals("Venta")) {
             getidsEnVenta();
             btnMas.setVisibility(View.GONE);
             ventana = (RelativeLayout) view.findViewById(R.id.fondoVentana);
@@ -96,7 +97,7 @@ public class Inventario extends Fragment {
             mas.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    if (cantidadDeProductoAVender < cantidadDeProductoDisponible){
+                    if (cantidadDeProductoAVender < cantidadDeProductoDisponible) {
                         cantidadDeProductoAVender++;
                         cantidadDeProductoDisponibleLive--;
                         fraseDisponible.setText("Actualmente tienes " + cantidadDeProductoDisponibleLive + " productos disponibles para vender");
@@ -122,9 +123,9 @@ public class Inventario extends Fragment {
                 public void onClick(View view) {
                     FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
                     if (cantidadDeProductoAVender == 0) {
-                        mDatabase.child("usuarios").child(user.getUid()).child("venta").child(""+pid).removeValue();
+                        mDatabase.child("usuarios").child(user.getUid()).child("venta").child("" + pid).removeValue();
                     } else {
-                        mDatabase.child("usuarios").child(user.getUid()).child("venta").child(""+pid).setValue(cantidadDeProductoAVender);
+                        mDatabase.child("usuarios").child(user.getUid()).child("venta").child("" + pid).setValue(cantidadDeProductoAVender);
                     }
                     toggeVentana();
                 }
@@ -158,14 +159,17 @@ public class Inventario extends Fragment {
                                 }
                             }
                         }
-                        if (!type.equals("Venta")) {
-                            if (enInventario.size() <= 0) {
+                        if (enInventario.size() <= 0) {
+                            if (!type.equals("Venta")) {
                                 inventarioVacio.setVisibility(View.VISIBLE);
+                                inventarioVacioVentas.setVisibility(View.GONE);
                             } else {
                                 inventarioVacio.setVisibility(View.GONE);
+                                inventarioVacioVentas.setVisibility(View.VISIBLE);
                             }
-                        }else{
+                        } else {
                             inventarioVacio.setVisibility(View.GONE);
+                            inventarioVacioVentas.setVisibility(View.GONE);
                         }
                         crearArrayListView();
                     }
@@ -224,13 +228,13 @@ public class Inventario extends Fragment {
 
     }
 
-    public void getidsEnVenta(){
+    public void getidsEnVenta() {
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         mDatabase.child("usuarios").child(user.getUid()).child("venta").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 idsEnVenta.clear();
-                for (DataSnapshot producto: dataSnapshot.getChildren()){
+                for (DataSnapshot producto : dataSnapshot.getChildren()) {
                     idsEnVenta.add(producto.getKey());
                 }
             }
@@ -243,67 +247,68 @@ public class Inventario extends Fragment {
     }
 
     public void crearListView() {
+        if (getActivity() != null) {
+            expandableListAdapter = new ExpandableListAdapter(getActivity(), categorias);
+            expandableListView.deferNotifyDataSetChanged();
+            expandableListView.setAdapter(expandableListAdapter);
+            expandableListView.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
 
-        expandableListAdapter = new ExpandableListAdapter(getActivity(), categorias);
-        expandableListView.deferNotifyDataSetChanged();
-        expandableListView.setAdapter(expandableListAdapter);
-        expandableListView.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
+                @Override
+                public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
 
-            @Override
-            public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
+                    final Producto producto = categorias.get(groupPosition).getProductos().get(childPosition);
+                    if (type.equals("Inventario")) {
 
-                final Producto producto = categorias.get(groupPosition).getProductos().get(childPosition);
-                if (type.equals("Inventario")) {
+                        String pID = String.valueOf(producto.getId());
+                        String nombre = String.valueOf(producto.getNombre());
+                        String precio = String.valueOf(producto.getPrecio());
+                        String puntos = String.valueOf(producto.getPuntos());
+                        String enInventario = String.valueOf(producto.getCantidad());
 
-                    String pID = String.valueOf(producto.getId());
-                    String nombre = String.valueOf(producto.getNombre());
-                    String precio = String.valueOf(producto.getPrecio());
-                    String puntos = String.valueOf(producto.getPuntos());
-                    String enInventario = String.valueOf(producto.getCantidad());
+                        Intent i = new Intent(getActivity(), DetailProducto.class);
+                        i.putExtra("ID", pID);
+                        i.putExtra("Nombre", nombre);
+                        i.putExtra("Precio", precio);
+                        i.putExtra("Puntos", puntos);
+                        i.putExtra("enInventario", enInventario);
+                        i.putExtra("Type", "Inventario");
+                        startActivity(i);
 
-                    Intent i = new Intent(getActivity(), DetailProducto.class);
-                    i.putExtra("ID", pID);
-                    i.putExtra("Nombre", nombre);
-                    i.putExtra("Precio", precio);
-                    i.putExtra("Puntos", puntos);
-                    i.putExtra("enInventario", enInventario);
-                    i.putExtra("Type", "Inventario");
-                    startActivity(i);
-
-                } else {
-                    pid = producto.getId();
-                    FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-                    if (idsEnVenta.contains(String.valueOf(pid))){
-                        mDatabase.child("usuarios").child(user.getUid()).child("venta").child(""+pid).addListenerForSingleValueEvent(new ValueEventListener() {
-                            @Override
-                            public void onDataChange(DataSnapshot dataSnapshot) {
-                                cantidadDeProductoAVender = dataSnapshot.getValue(Integer.class);
-                                cantidadDeProductoDisponible = producto.getCantidad();
-                                cantidadDeProductoDisponibleLive = cantidadDeProductoDisponible - cantidadDeProductoAVender;
-                                fraseDisponible.setText("Actualmente tienes " + cantidadDeProductoDisponibleLive + " productos disponibles para vender");
-                                cantidad.setText("" + cantidadDeProductoAVender);
-                                toggeVentana();
-                            }
-
-                            @Override
-                            public void onCancelled(DatabaseError databaseError) {
-
-                            }
-                        });
                     } else {
-                        cantidadDeProductoAVender = 0;
-                        cantidadDeProductoDisponible = producto.getCantidad();
-                        cantidadDeProductoDisponibleLive = cantidadDeProductoDisponible - cantidadDeProductoAVender;
-                        fraseDisponible.setText("Actualmente tienes " + cantidadDeProductoDisponibleLive + " productos disponibles para vender");
-                        cantidad.setText("" + cantidadDeProductoAVender);
-                        toggeVentana();
+                        pid = producto.getId();
+                        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+                        if (idsEnVenta.contains(String.valueOf(pid))) {
+                            mDatabase.child("usuarios").child(user.getUid()).child("venta").child("" + pid).addListenerForSingleValueEvent(new ValueEventListener() {
+                                @Override
+                                public void onDataChange(DataSnapshot dataSnapshot) {
+                                    cantidadDeProductoAVender = dataSnapshot.getValue(Integer.class);
+                                    cantidadDeProductoDisponible = producto.getCantidad();
+                                    cantidadDeProductoDisponibleLive = cantidadDeProductoDisponible - cantidadDeProductoAVender;
+                                    fraseDisponible.setText("Actualmente tienes " + cantidadDeProductoDisponibleLive + " productos disponibles para vender");
+                                    cantidad.setText("" + cantidadDeProductoAVender);
+                                    toggeVentana();
+                                }
+
+                                @Override
+                                public void onCancelled(DatabaseError databaseError) {
+
+                                }
+                            });
+                        } else {
+                            cantidadDeProductoAVender = 0;
+                            cantidadDeProductoDisponible = producto.getCantidad();
+                            cantidadDeProductoDisponibleLive = cantidadDeProductoDisponible - cantidadDeProductoAVender;
+                            fraseDisponible.setText("Actualmente tienes " + cantidadDeProductoDisponibleLive + " productos disponibles para vender");
+                            cantidad.setText("" + cantidadDeProductoAVender);
+                            toggeVentana();
+                        }
                     }
+
+                    return true;
                 }
 
-                return true;
-            }
-
-        });
+            });
+        }
 
     }
 

@@ -82,40 +82,41 @@ public class Catalogo extends Fragment {
                 });
     }
 
-    public void crearListView(){
+    public void crearListView() {
+        if (getActivity() != null) {
+            expandableListAdapter = new ExpandableListAdapter(getActivity(), categorias);
+            expandableListView.setAdapter(expandableListAdapter);
+            expandableListView.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
 
-        expandableListAdapter = new ExpandableListAdapter(getActivity(), categorias);
-        expandableListView.setAdapter(expandableListAdapter);
-        expandableListView.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
+                @Override
+                public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
 
-            @Override
-            public boolean onChildClick(ExpandableListView parent, View v,int groupPosition, int childPosition, long id) {
+                    Producto producto = categorias.get(groupPosition).getProductos().get(childPosition);
 
-                Producto producto = categorias.get(groupPosition).getProductos().get(childPosition);
+                    String pID = String.valueOf(producto.getId());
+                    String nombre = String.valueOf(producto.getNombre());
+                    String precio = String.valueOf(producto.getPrecio());
+                    String puntos = String.valueOf(producto.getPuntos());
+                    String enInventario = String.valueOf(producto.getCantidad());
 
-                String pID = String.valueOf(producto.getId());
-                String nombre = String.valueOf(producto.getNombre());
-                String precio = String.valueOf(producto.getPrecio());
-                String puntos = String.valueOf(producto.getPuntos());
-                String enInventario = String.valueOf(producto.getCantidad());
+                    Intent i = new Intent(getActivity(), DetailProducto.class);
+                    i.putExtra("ID", pID);
+                    i.putExtra("Nombre", nombre);
+                    i.putExtra("Precio", precio);
+                    i.putExtra("Puntos", puntos);
+                    i.putExtra("enInventario", enInventario);
+                    i.putExtra("Type", type);
+                    startActivity(i);
 
-                Intent i = new Intent(getActivity(), DetailProducto.class);
-                i.putExtra("ID", pID);
-                i.putExtra("Nombre", nombre);
-                i.putExtra("Precio", precio);
-                i.putExtra("Puntos", puntos);
-                i.putExtra("enInventario", enInventario);
-                i.putExtra("Type", type);
-                startActivity(i);
+                    return true;
+                }
 
-                return true;
-            }
-
-        });
+            });
+        }
 
     }
 
-    public void crearArrayListView(){
+    public void crearArrayListView() {
         mDatabase.child("catalogo").addValueEventListener(
 
                 new ValueEventListener() {

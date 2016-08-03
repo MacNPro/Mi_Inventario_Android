@@ -214,32 +214,34 @@ public class Venta extends Fragment {
     }
 
     public void crearListView() {
-        VentasAdapter customAdapter = new VentasAdapter(getActivity(), R.layout.list_item_pedido, productos, 0);
-        listView.setAdapter(customAdapter);
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                final int index = i;
-                pID = String.valueOf(productos.get(i).getId());
-                FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-                mDatabase.child("usuarios").child(user.getUid()).child("inventario").child(pID).addListenerForSingleValueEvent(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(DataSnapshot dataSnapshot) {
-                        cantidadDeProductoDisponible = dataSnapshot.getValue(Integer.class);
-                        cantidadDeProductoAVender = productos.get(index).getCantidad();
-                        cantidad.setText("" + cantidadDeProductoAVender);
-                        cantidadDeProductoDisponibleLive = cantidadDeProductoDisponible - cantidadDeProductoAVender;
-                        fraseDisponible.setText("Actualmente tienes " + cantidadDeProductoDisponibleLive + " productos disponibles para vender");
-                        toggeVentana();
-                    }
+        if (getActivity() != null) {
+            VentasAdapter customAdapter = new VentasAdapter(getActivity(), R.layout.list_item_pedido, productos, 0);
+            listView.setAdapter(customAdapter);
+            listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                    final int index = i;
+                    pID = String.valueOf(productos.get(i).getId());
+                    FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+                    mDatabase.child("usuarios").child(user.getUid()).child("inventario").child(pID).addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(DataSnapshot dataSnapshot) {
+                            cantidadDeProductoDisponible = dataSnapshot.getValue(Integer.class);
+                            cantidadDeProductoAVender = productos.get(index).getCantidad();
+                            cantidad.setText("" + cantidadDeProductoAVender);
+                            cantidadDeProductoDisponibleLive = cantidadDeProductoDisponible - cantidadDeProductoAVender;
+                            fraseDisponible.setText("Actualmente tienes " + cantidadDeProductoDisponibleLive + " productos disponibles para vender");
+                            toggeVentana();
+                        }
 
-                    @Override
-                    public void onCancelled(DatabaseError databaseError) {
+                        @Override
+                        public void onCancelled(DatabaseError databaseError) {
 
-                    }
-                });
-            }
-        });
+                        }
+                    });
+                }
+            });
+        }
     }
 
     public void toggeVentana() {

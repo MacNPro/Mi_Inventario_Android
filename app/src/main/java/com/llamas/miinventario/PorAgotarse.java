@@ -95,6 +95,27 @@ public class PorAgotarse extends Fragment {
         return view;
     }
 
+    public void obtenerCantidadEnPedido(){
+        final FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        mDatabase.child("usuarios").child(user.getUid()).child("pedido").child(pID).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if (dataSnapshot.exists()){
+                    cantidadDeProducto = dataSnapshot.getValue(Integer.class);
+                    cantidad.setText("" + cantidadDeProducto);
+                } else {
+                    cantidadDeProducto = 0;
+                    cantidad.setText("" + cantidadDeProducto);
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+    }
+
     public void getPedido() {
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         mDatabase.child("usuarios").child(user.getUid()).child("inventario").addValueEventListener(
@@ -163,18 +184,19 @@ public class PorAgotarse extends Fragment {
     }
 
     public void crearListView() {
-        PedidosAdapter customAdapter = new PedidosAdapter(getActivity(), R.layout.list_item_pedido, productos, 0);
-        listView.setAdapter(customAdapter);
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                toggeVentana();
-                cantidadDeProducto = productos.get(i).getCantidad();
-                pID = String.valueOf(productos.get(i).getId());
-                Log.d("Cantidad", ""+cantidadDeProducto);
-                cantidad.setText(""+cantidadDeProducto);
-            }
-        });
+        if (getActivity() != null) {
+            PedidosAdapter customAdapter = new PedidosAdapter(getActivity(), R.layout.list_item_pedido, productos, 0);
+            listView.setAdapter(customAdapter);
+            listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                    toggeVentana();
+                    cantidadDeProducto = productos.get(i).getCantidad();
+                    pID = String.valueOf(productos.get(i).getId());
+                    obtenerCantidadEnPedido();
+                }
+            });
+        }
     }
 
     public void toggeVentana(){

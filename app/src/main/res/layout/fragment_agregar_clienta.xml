@@ -1,11 +1,18 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/fondo"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@drawable/carta_fondo"
     android:orientation="vertical"
     android:clickable="true"
     tools:context="com.llamas.miinventario.AgregarClienta">
+
+    <LinearLayout
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        android:layout_width="0px"
+        android:layout_height="0px"/>
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -42,10 +49,19 @@
             android:id="@+id/nombre"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="24dp"
             android:hint="Nombre Apellido"
+            android:layout_marginBottom="6dp"
+            android:textColor="@color/titulos"
             android:inputType="textCapWords"
+            android:background="#00000000"
+            android:textColorHint="#BDBDBD"
             android:textSize="18sp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginBottom="24dp"
+            android:background="@color/colorPrimary"/>
 
         <com.llamas.miinventario.CustomClasses.MediumTextView
             android:layout_width="wrap_content"

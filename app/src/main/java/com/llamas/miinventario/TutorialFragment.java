@@ -9,12 +9,13 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import com.bumptech.glide.Glide;
+import com.llamas.miinventario.CustomClasses.BoldTextView;
 import com.llamas.miinventario.CustomClasses.MediumTextView;
 import com.llamas.miinventario.CustomClasses.RegularTextView;
 
 public class TutorialFragment extends Fragment {
 
-    RegularTextView texto;
+    MediumTextView texto;
     MediumTextView titulo;
     ImageView imagen;
     LinearLayout imagenLayout;
@@ -32,7 +33,7 @@ public class TutorialFragment extends Fragment {
         View v = inflater.inflate(R.layout.fragment_tutorial, container, false);
 
         titulo = (MediumTextView) v.findViewById(R.id.titulo);
-        texto = (RegularTextView) v.findViewById(R.id.texto);
+        texto = (MediumTextView) v.findViewById(R.id.texto);
         imagen = (ImageView) v.findViewById(R.id.imagen);
         imagenLayout = (LinearLayout) v.findViewById(R.id.imagenLayout);
 
@@ -46,12 +47,14 @@ public class TutorialFragment extends Fragment {
         switch (type){
             case "Inicio":
                 titulo.setText("¡Bienvenida!");
-                imagenLayout.setVisibility(View.GONE);
+                Glide.with(this).load(R.drawable.bnr).into(imagen);
+                texto.setText("Disfruta de 30 días gratis y\nve como crece tu negocio");
+                imagenLayout.setVisibility(View.VISIBLE);
                 return;
             case "Inventario":
                 titulo.setText("Inventario");
                 Glide.with(this).load(R.drawable.screenshoot_inventario).into(imagen);
-                texto.setText("Lleva tu inventario a cualquier lado, solo agrega tus productos");
+                texto.setText("Lleva tu inventario a cualquier lado,\nsolo agrega tus productos");
                 imagenLayout.setVisibility(View.VISIBLE);
                 return;
             case "Pedido":
@@ -64,6 +67,12 @@ public class TutorialFragment extends Fragment {
                 titulo.setText("Venta");
                 Glide.with(this).load(R.drawable.screenshoot_venta).into(imagen);
                 texto.setText("Lleva un registro de todas tus ventas y analiza tus ganancias");
+                imagenLayout.setVisibility(View.VISIBLE);
+                return;
+            case "Clientas":
+                titulo.setText("Clientas");
+                Glide.with(this).load(R.drawable.screenshoot_clientas).into(imagen);
+                texto.setText("Un directorio de clientas, donde ves todo lo que le has vendido");
                 imagenLayout.setVisibility(View.VISIBLE);
                 return;
             default:

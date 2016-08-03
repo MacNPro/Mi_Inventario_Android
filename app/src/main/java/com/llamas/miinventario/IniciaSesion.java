@@ -34,7 +34,10 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.text.SimpleDateFormat;
 import java.util.Arrays;
+import java.util.Calendar;
+import java.util.Date;
 
 public class IniciaSesion extends Activity {
 
@@ -64,13 +67,51 @@ public class IniciaSesion extends Activity {
         mAuthListener = new FirebaseAuth.AuthStateListener() {
             @Override
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
-                final FirebaseUser user= firebaseAuth.getCurrentUser();
+                final FirebaseUser user = firebaseAuth.getCurrentUser();
                 if (user != null) {
-                    Log.d(TAG, "onAuthStateChanged:signed_in:" + user.getUid());
+                    mDatabase.child("usuarios").child(user.getUid()).child("creacion").addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(DataSnapshot dataSnapshot) {
+                            if (!dataSnapshot.exists()) {
+                                mDatabase.child("usuarios").child(user.getUid()).child("creacion").setValue(obtenerFecha());
+                            }
+                        }
+
+                        @Override
+                        public void onCancelled(DatabaseError databaseError) {
+
+                        }
+                    });
+                    mDatabase.child("usuarios").child(user.getUid()).child("expiracion").addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(DataSnapshot dataSnapshot) {
+                            if (!dataSnapshot.exists()) {
+                                mDatabase.child("usuarios").child(user.getUid()).child("expiracion").setValue(obtenerFechaDeExpiracion());
+                            }
+                        }
+
+                        @Override
+                        public void onCancelled(DatabaseError databaseError) {
+
+                        }
+                    });
+                    mDatabase.child("usuarios").child(user.getUid()).child("premium").addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(DataSnapshot dataSnapshot) {
+                            if (!dataSnapshot.exists()) {
+                                mDatabase.child("usuarios").child(user.getUid()).child("premium").setValue(0);
+                            }
+                        }
+
+                        @Override
+                        public void onCancelled(DatabaseError databaseError) {
+
+                        }
+                    });
                     mDatabase.child("usuarios").child(user.getUid()).child("nivel").addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
                         public void onDataChange(DataSnapshot dataSnapshot) {
-                            if (dataSnapshot.getValue(String.class) == null){
+                            if (!dataSnapshot.exists()) {
                                 mDatabase.child("usuarios").child(user.getUid()).child("nivel").setValue("Agrega tu nivel");
                             }
                         }
@@ -80,8 +121,23 @@ public class IniciaSesion extends Activity {
 
                         }
                     });
-                    Intent i = new Intent(getApplicationContext(), Tutorial.class);
-                    startActivity(i);
+                    mDatabase.child("usuarios").child(user.getUid()).child("nombre").addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(DataSnapshot dataSnapshot) {
+                            if (!dataSnapshot.exists()) {
+                                if (user.getDisplayName() != null) {
+                                    mDatabase.child("usuarios").child(user.getUid()).child("nombre").setValue(user.getDisplayName());
+                                }
+                            }
+                            Intent i = new Intent(getApplicationContext(), Inicio.class);
+                            startActivity(i);
+                        }
+
+                        @Override
+                        public void onCancelled(DatabaseError databaseError) {
+
+                        }
+                    });
                 } else {
                     Log.d(TAG, "onAuthStateChanged:signed_out");
                 }
@@ -90,10 +146,23 @@ public class IniciaSesion extends Activity {
 
     }
 
-    public void onIniciarConFirebase(View v){
+    public String obtenerFechaDeExpiracion() {
+        Date current = new Date();
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(current);
+        cal.set(Calendar.MONTH, (cal.get(Calendar.MONTH)) + 1);
+        Date date = cal.getTime();
+        return new SimpleDateFormat("dd-MM-yyyy").format(date);
+    }
+
+    public String obtenerFecha() {
+        return new SimpleDateFormat("dd-MM-yyyy").format(new Date());
+    }
+
+    public void onIniciarConFirebase(View v) {
         String correoTxt = correo.getText().toString();
         String contraseñaTxt = contraseña.getText().toString();
-        if (!correoTxt.equals("") && !contraseñaTxt.equals("")){
+        if (!correoTxt.equals("") && !contraseñaTxt.equals("")) {
             mAuth.signInWithEmailAndPassword(correoTxt, contraseñaTxt)
                     .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                         @Override
@@ -105,11 +174,11 @@ public class IniciaSesion extends Activity {
                         }
                     });
         } else {
-            Toast.makeText(IniciaSesion.this, "Ingresa tus datos",Toast.LENGTH_SHORT).show();
+            Toast.makeText(IniciaSesion.this, "Ingresa tus datos", Toast.LENGTH_SHORT).show();
         }
     }
 
-    public void onIniciarConFacebook(View v){
+    public void onIniciarConFacebook(View v) {
         FacebookSdk.sdkInitialize(this.getApplicationContext());
         mCallbackManager = CallbackManager.Factory.create();
         loginManager = LoginManager.getInstance();
@@ -143,7 +212,7 @@ public class IniciaSesion extends Activity {
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (!task.isSuccessful()) {
                             Log.w(TAG, "signInWithCredential", task.getException());
-                            Toast.makeText(IniciaSesion.this, "Error al Iniciar Sesión",Toast.LENGTH_SHORT).show();
+                            Toast.makeText(IniciaSesion.this, "Error al Iniciar Sesión", Toast.LENGTH_SHORT).show();
                         }
                     }
                 });
@@ -169,12 +238,12 @@ public class IniciaSesion extends Activity {
         mCallbackManager.onActivityResult(requestCode, resultCode, data);
     }
 
-    public void afuera(View v){
+    public void afuera(View v) {
         hideSoftKeyboard(this);
     }
 
     public static void hideSoftKeyboard(Activity activity) {
-        InputMethodManager inputMethodManager = (InputMethodManager)  activity.getSystemService(Activity.INPUT_METHOD_SERVICE);
+        InputMethodManager inputMethodManager = (InputMethodManager) activity.getSystemService(Activity.INPUT_METHOD_SERVICE);
         inputMethodManager.hideSoftInputFromWindow(activity.getCurrentFocus().getWindowToken(), 0);
     }
 

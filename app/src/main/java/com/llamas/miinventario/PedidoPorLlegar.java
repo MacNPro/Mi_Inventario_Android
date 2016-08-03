@@ -11,6 +11,7 @@ import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
+import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -219,6 +220,7 @@ public class PedidoPorLlegar extends Activity {
                                             }
                                             FirebaseDatabase.getInstance().getReference().child("usuarios").child(user.getUid()).child("inventario").child(String.valueOf(producto.getId())).setValue(nuevaCantidad);
                                             mDatabase.setValue(null);
+                                            Toast.makeText(getApplicationContext(), "Los productos se agregaron correctamente", Toast.LENGTH_SHORT).show();
                                         }
 
                                         @Override

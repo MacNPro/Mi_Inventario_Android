@@ -6,6 +6,26 @@
     tools:context="com.llamas.miinventario.Inventario">
 
     <LinearLayout
+        android:id="@+id/inventarioVacioVentas"
+        android:visibility="gone"
+        android:layout_centerInParent="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <com.llamas.miinventario.CustomClasses.MediumTextView
+            android:gravity="center"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="24dp"
+            android:lineSpacingExtra="10dp"
+            android:textColor="@color/subtitulos"
+            android:textSize="16sp"
+            android:text="No hay productos para vender"/>
+
+    </LinearLayout>
+
+    <LinearLayout
         android:id="@+id/inventarioVacio"
         android:visibility="gone"
         android:layout_centerInParent="true"

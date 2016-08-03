@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
 import com.github.mikephil.charting.charts.LineChart;
@@ -45,23 +46,31 @@ public class Dashboard extends Fragment {
     MediumTextView dia1, dia2, dia3, dia4, dia5, dia6, dia7;
 
     ArrayList<String> dias = new ArrayList<>();
-    MediumTextView bienvenida;
-    BoldTextView porAgotarse, enInventario, agotados;
-    int porAgotarseInt, enInventarioInt, agotadosInt;
-    long ventasInt;
+    MediumTextView bienvenida, demo;
+    ImageView botonComprar;
+    BoldTextView porAgotarse, enInventario, agotados, ttClientas;
+    int porAgotarseInt, enInventarioInt;
+    boolean clickable = true;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_dashboard, container, false);
         mDatabase = FirebaseDatabase.getInstance().getReference();
 
+        obtenerPremium();
+
         bienvenida = (MediumTextView) view.findViewById(R.id.nombre);
+        demo = (MediumTextView) view.findViewById(R.id.demo);
         porAgotarse = (BoldTextView) view.findViewById(R.id.porAgotarse);
+        ttClientas = (BoldTextView) view.findViewById(R.id.ttClientas);
         enInventario = (BoldTextView) view.findViewById(R.id.enInventario);
         agotados = (BoldTextView) view.findViewById(R.id.agotados);
         chart = (LineChart) view.findViewById(R.id.chart);
-        RelativeLayout botonAgotados = (RelativeLayout) view.findViewById(R.id.botonAgotados);
-        RelativeLayout clientas = (RelativeLayout) view.findViewById(R.id.clientas);
+        botonComprar = (ImageView) view.findViewById(R.id.botonComprar);
+        RelativeLayout porAgotarse = (RelativeLayout) view.findViewById(R.id.porAgotarseBtn);
+        RelativeLayout clientas = (RelativeLayout) view.findViewById(R.id.clientasBtn);
+        RelativeLayout pedidoPendiente = (RelativeLayout) view.findViewById(R.id.pendienteBtn);
+        RelativeLayout inventario = (RelativeLayout) view.findViewById(R.id.inventarioBtn);
 
         dia1 = (MediumTextView) view.findViewById(R.id.dia1);
         dia2 = (MediumTextView) view.findViewById(R.id.dia2);
@@ -73,22 +82,47 @@ public class Dashboard extends Fragment {
 
         chart.setDescription("");
 
+        porAgotarse.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ((Inicio) getActivity()).abrirPedido(0);
+            }
+        });
+
         clientas.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent i = new Intent(getActivity(), Clientas.class);
+                Intent i = new Intent(getActivity(), Tutorial.class);
                 startActivity(i);
             }
         });
 
-        botonAgotados.setOnClickListener(new View.OnClickListener() {
+        pedidoPendiente.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent i = new Intent(getActivity(), PedidoPorLlegar.class);
+                if (clickable) {
+                    Intent i = new Intent(getActivity(), PedidoPorLlegar.class);
+                    startActivity(i);
+                }
+            }
+        });
+
+        inventario.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ((Inicio) getActivity()).abrirInventario();
+            }
+        });
+
+        botonComprar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(getActivity(), ComprarPremium.class);
                 startActivity(i);
             }
         });
 
+        obtenerNumeroDeClientas();
         cargarUsuario();
         cargarInformacion();
         obtenerVentas();
@@ -96,19 +130,59 @@ public class Dashboard extends Fragment {
         return view;
     }
 
-    public ArrayList<String> obtenerFechas(){
+    private void obtenerNumeroDeClientas() {
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        mDatabase.child("usuarios").child(user.getUid()).child("clientas").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                int clientas = (int) dataSnapshot.getChildrenCount();
+                ttClientas.setText("" + clientas);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+    }
+
+    public void obtenerPremium() {
+        final FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        mDatabase.child("usuarios").child(user.getUid()).child("premium").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if (dataSnapshot.exists()) {
+                    int premium = dataSnapshot.getValue(Integer.class);
+                    if (premium == 0) {
+                        demo.setVisibility(View.VISIBLE);
+                        botonComprar.setVisibility(View.VISIBLE);
+                    } else {
+                        demo.setVisibility(View.GONE);
+                        botonComprar.setVisibility(View.GONE);
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+    }
+
+    public ArrayList<String> obtenerFechas() {
 
         ArrayList<String> fechas = new ArrayList<>();
 
-        for (int i = 6; i >= 0; i--){
+        for (int i = 6; i >= 0; i--) {
             Calendar cal = GregorianCalendar.getInstance();
             cal.setTime(new Date());
-            cal.add(Calendar.DAY_OF_YEAR, - i);
+            cal.add(Calendar.DAY_OF_YEAR, -i);
             Date daysBeforeDate = cal.getTime();
             String date = new SimpleDateFormat("dd-MM-yyyy").format(daysBeforeDate);
             String dia = new SimpleDateFormat("dd").format(daysBeforeDate);
             fechas.add(date);
-            switch (dia){
+            switch (dia) {
                 case "01":
                     dias.add("1");
                     break;
@@ -144,7 +218,7 @@ public class Dashboard extends Fragment {
         return fechas;
     }
 
-    public void obtenerVentas(){
+    public void obtenerVentas() {
         final FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         final ArrayList<String> fechas = obtenerFechas();
         final ArrayList<Integer> ventasPorDia = new ArrayList<>();
@@ -154,7 +228,7 @@ public class Dashboard extends Fragment {
                 ventasPorDia.clear();
                 for (String fecha : fechas) {
                     int ventas = 0;
-                    for (DataSnapshot venta: dataSnapshot.getChildren()){
+                    for (DataSnapshot venta : dataSnapshot.getChildren()) {
                         if (fecha.equals(venta.child("tiempo").getValue(String.class))) {
                             ventas++;
                         }
@@ -171,9 +245,8 @@ public class Dashboard extends Fragment {
         });
     }
 
-    public void llenarChart(ArrayList<Integer> ventasPorDias){
+    public void llenarChart(ArrayList<Integer> ventasPorDias) {
 
-        Typeface font = Typeface.createFromAsset(getContext().getAssets(), "fonts/Avenir-Medium.ttf");
         chart.setTouchEnabled(false);
 
         ArrayList<Entry> semana = new ArrayList<>();
@@ -190,14 +263,17 @@ public class Dashboard extends Fragment {
         LineDataSet setComp1 = new LineDataSet(semana, "Ventas");
         setComp1.setAxisDependency(YAxis.AxisDependency.LEFT);
         setComp1.setMode(LineDataSet.Mode.CUBIC_BEZIER);
-        setComp1.setValueTypeface(font);
-        setComp1.setColor(Color.rgb(250,106,130));
-        setComp1.setCircleColor(Color.rgb(250,106,130));
+        setComp1.setColor(Color.rgb(250, 106, 130));
+        setComp1.setCircleColor(Color.rgb(250, 106, 130));
         setComp1.setCircleRadius(4);
         setComp1.setCircleHoleRadius(3);
         setComp1.setValueTextSize(10f);
         setComp1.setValueTextColor(R.color.colorPrimary);
         setComp1.setValueFormatter(new LargeValueFormatter());
+        if (getActivity() != null) {
+            Typeface font = Typeface.createFromAsset(getContext().getAssets(), "fonts/Avenir-Medium.ttf");
+            setComp1.setValueTypeface(font);
+        }
 
         // use the interface ILineDataSet
         ArrayList<ILineDataSet> dataSets = new ArrayList<>();
@@ -208,7 +284,6 @@ public class Dashboard extends Fragment {
         chart.invalidate(); // refresh
 
         XAxis xAxis = chart.getXAxis();
-        xAxis.setTypeface(font);
         xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
         xAxis.setTextSize(14f);
         xAxis.setTextColor(R.color.colorPrimary);
@@ -216,15 +291,24 @@ public class Dashboard extends Fragment {
         xAxis.setDrawAxisLine(true);
         xAxis.setDrawGridLines(false);
         xAxis.setAvoidFirstLastClipping(true);
+        if (getActivity() != null) {
+            Typeface font = Typeface.createFromAsset(getContext().getAssets(), "fonts/Avenir-Medium.ttf");
+            xAxis.setTypeface(font);
+        }
 
         YAxis yAxis = chart.getAxisLeft();
-        yAxis.setTypeface(font);
         yAxis.setTextSize(12f);
         yAxis.setAxisMinValue(0f);
         yAxis.setDrawAxisLine(false);
         yAxis.setDrawLabels(false);
-        yAxis.setGridColor(Color.rgb(225,225,225));
+        yAxis.setGridColor(Color.rgb(225, 225, 225));
         yAxis.setLabelCount(4, true);
+        if (getActivity() != null) {
+            Typeface font = Typeface.createFromAsset(getContext().getAssets(), "fonts/Avenir-Medium.ttf");
+            yAxis.setTypeface(font);
+        }
+
+        chart.getLegend().setEnabled(false);
 
         chart.getAxisRight().setEnabled(false);
 
@@ -262,9 +346,7 @@ public class Dashboard extends Fragment {
                 enInventarioInt = 0;
                 for (DataSnapshot producto : dataSnapshot.getChildren()) {
                     int cantidad = producto.getValue(Integer.class);
-                    if (cantidad <= 0) {
-                        agotadosInt++;
-                    } else if (cantidad > 0 && cantidad <= 2) {
+                    if (cantidad <= 2) {
                         porAgotarseInt++;
                     }
                     enInventarioInt = enInventarioInt + cantidad;
@@ -279,26 +361,16 @@ public class Dashboard extends Fragment {
             }
         });
 
-        mDatabase.child("usuarios").child(user.getUid()).child("pedidoPorLlegar").child("tiempo").addListenerForSingleValueEvent(new ValueEventListener() {
+        mDatabase.child("usuarios").child(user.getUid()).child("pedidoPorLlegar").child("tiempo").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 if (dataSnapshot.getValue(String.class) != null) {
                     agotados.setText("1");
+                    clickable = true;
                 } else {
                     agotados.setText("0");
+                    clickable = false;
                 }
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        });
-
-        mDatabase.child("usuarios").child(user.getUid()).child("ventas").addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                ventasInt = dataSnapshot.getChildrenCount();
             }
 
             @Override

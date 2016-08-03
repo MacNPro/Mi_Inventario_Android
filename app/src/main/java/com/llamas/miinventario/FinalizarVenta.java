@@ -260,6 +260,7 @@ public class FinalizarVenta extends FragmentActivity {
                     Map<String, Object> childUpdates = new HashMap<>();
                     childUpdates.put("/usuarios/" + uID + "/clientas/" + clientaID + "/ventas/" + ventaId, total);
                     mDatabase.updateChildren(childUpdates);
+                    Toast.makeText(getApplicationContext(), "La venta se realizó exitosamente", Toast.LENGTH_SHORT).show();
                 }
 
                 @Override
@@ -289,7 +290,7 @@ public class FinalizarVenta extends FragmentActivity {
             finish();
 
         } else {
-            Toast.makeText(this, "Elige una clienta presionando en el titulo o en el icono", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Presiona el icono de la izquierda para elegir una clienta", Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -306,7 +307,9 @@ public class FinalizarVenta extends FragmentActivity {
 
     @Override
     public void onBackPressed() {
-        finish();
+        Intent i = new Intent(this, Inicio.class);
+        i.putExtra("type","ventas");
+        startActivity(i);
     }
 
 }

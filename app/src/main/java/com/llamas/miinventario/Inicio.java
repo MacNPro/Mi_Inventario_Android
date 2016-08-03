@@ -18,6 +18,7 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
 import android.text.Spannable;
 import android.text.SpannableString;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.Menu;
@@ -39,6 +40,10 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.llamas.miinventario.CustomClasses.CustomTypefaceSpan;
 import com.llamas.miinventario.CustomClasses.MediumTextView;
+
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
 
 import jp.wasabeef.glide.transformations.CropCircleTransformation;
 
@@ -68,6 +73,8 @@ public class Inicio extends FragmentActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_inicio);
         mDatabase = FirebaseDatabase.getInstance().getReference();
+        obtenerPremium();
+
         inventarioAdapter = new inventarioAdapter(getSupportFragmentManager());
         pedidoAdapter = new pedidoAdapter(getSupportFragmentManager());
         ventasAdapter = new ventasAdapter(getSupportFragmentManager());
@@ -106,6 +113,67 @@ public class Inicio extends FragmentActivity {
         iniciarFragmento(newFragment);
         enDashboard = true;
 
+        if (getIntent().getStringExtra("type") != null) {
+            if (getIntent().getStringExtra("type").equals("ventas")) {
+                abrirVentas();
+            }
+        }
+
+    }
+
+    public void obtenerPremium() {
+        final FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        mDatabase.child("usuarios").child(user.getUid()).child("premium").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if (dataSnapshot.exists()){
+                    int premium = dataSnapshot.getValue(Integer.class);
+                    if (premium == 0) {
+                        mDatabase.child("usuarios").child(user.getUid()).child("expiracion").addListenerForSingleValueEvent(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(DataSnapshot dataSnapshot) {
+                                String exp = dataSnapshot.getValue(String.class);
+                                String hoy = new SimpleDateFormat("dd-MM-yyyy").format(new Date());
+
+                                String[] fHoy = hoy.split("-");
+                                String[] fExp = exp.split("-");
+                                ArrayList<Integer> fechaHoy = new ArrayList<>();
+                                ArrayList<Integer> fechaExp = new ArrayList<>();
+
+                                for (int i = 0; i < 3; i++){
+                                    fechaHoy.add(Integer.valueOf(fHoy[i]));
+                                    fechaExp.add(Integer.valueOf(fExp[i]));
+                                }
+
+                                if (fechaExp.get(1) == 1){
+                                    if (((fechaHoy.get(0) > fechaExp.get(0)) && (fechaHoy.get(2).equals(fechaExp.get(2)))) || (fechaHoy.get(1) > fechaExp.get(1)) || (fechaHoy.get(2) > fechaExp.get(2))){
+                                        Intent i = new Intent(getApplicationContext(), ComprarPremium.class);
+                                        startActivity(i);
+                                        finish();
+                                    }
+                                } else {
+                                    if ((fechaHoy.get(0) >= fechaExp.get(0)) && (fechaHoy.get(1) == fechaExp.get(1)) || (fechaHoy.get(1) > fechaExp.get(1)) ||(fechaHoy.get(2) > fechaExp.get(2))){
+                                        Intent i = new Intent(getApplicationContext(), ComprarPremium.class);
+                                        startActivity(i);
+                                        finish();
+                                    }
+                                }
+                            }
+
+                            @Override
+                            public void onCancelled(DatabaseError databaseError) {
+
+                            }
+                        });
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
     }
 
     public void initNavigationDrawer() {
@@ -132,119 +200,21 @@ public class Inicio extends FragmentActivity {
             @Override
             public void onDrawerClosed(View v) {
                 menuAbierto = false;
-                final MediumTextView titulo = (MediumTextView) findViewById(R.id.tituloInventario);
                 switch (drawerID) {
                     case R.id.inicio:
-                        enDashboard = true;
-                        fragment.setVisibility(View.VISIBLE);
-                        catalogoFragment.setVisibility(View.GONE);
-                        linearLayout.setVisibility(View.GONE);
-                        titleInventario.setVisibility(View.GONE);
-                        iniciarFragmento(new Dashboard());
+                        abrirDashboard();
                         break;
                     case R.id.inventario:
-                        enDashboard = false;
-                        fragment.setVisibility(View.GONE);
-                        catalogoFragment.setVisibility(View.GONE);
-                        linearLayout.setVisibility(View.VISIBLE);
-                        inventarioPager.setVisibility(View.VISIBLE);
-                        titleInventario.setVisibility(View.VISIBLE);
-                        pedidoPager.setVisibility(View.GONE);
-                        ventasPager.setVisibility(View.GONE);
-                        inventarioPager.setAdapter(inventarioAdapter);
-                        titulo.setText("Inventario");
-                        inventarioPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-                            @Override
-                            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-
-                            }
-
-                            @Override
-                            public void onPageSelected(int position) {
-                                if (position == 1) {
-                                    titulo.setText("Catálogo");
-                                } else {
-                                    titulo.setText("Inventario");
-                                    enCatalogo = false;
-                                }
-                            }
-
-                            @Override
-                            public void onPageScrollStateChanged(int state) {
-
-                            }
-                        });
+                        abrirInventario();
                         break;
                     case R.id.pedidos:
-                        enDashboard = false;
-                        fragment.setVisibility(View.GONE);
-                        catalogoFragment.setVisibility(View.GONE);
-                        titleInventario.setVisibility(View.VISIBLE);
-                        linearLayout.setVisibility(View.VISIBLE);
-                        inventarioPager.setVisibility(View.GONE);
-                        ventasPager.setVisibility(View.GONE);
-                        pedidoPager.setVisibility(View.VISIBLE);
-                        pedidoPager.setAdapter(pedidoAdapter);
-                        pedidoPager.setCurrentItem(1);
-                        titulo.setText("Lista de Pedidos");
-                        pedidoPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-                            @Override
-                            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-
-                            }
-
-                            @Override
-                            public void onPageSelected(int position) {
-                                if (position == 0) {
-                                    titulo.setText("Por Agotarse");
-                                } else if (position == 1) {
-                                    titulo.setText("Lista de Pedido");
-                                    enCatalogo = false;
-                                } else {
-                                    titulo.setText("Catalogo");
-                                }
-                            }
-
-                            @Override
-                            public void onPageScrollStateChanged(int state) {
-
-                            }
-                        });
+                        abrirPedido(1);
                         break;
                     case R.id.ventas:
-                        enDashboard = false;
-                        fragment.setVisibility(View.GONE);
-                        catalogoFragment.setVisibility(View.GONE);
-                        titleInventario.setVisibility(View.VISIBLE);
-                        linearLayout.setVisibility(View.VISIBLE);
-                        inventarioPager.setVisibility(View.GONE);
-                        pedidoPager.setVisibility(View.GONE);
-                        ventasPager.setVisibility(View.VISIBLE);
-                        ventasPager.setAdapter(ventasAdapter);
-                        titulo.setText("Venta");
-                        ventasPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-                            @Override
-                            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-
-                            }
-
-                            @Override
-                            public void onPageSelected(int position) {
-                                if (position == 1) {
-                                    titulo.setText("Inventario");
-                                } else {
-                                    titulo.setText("Venta");
-                                    enCatalogo = false;
-                                }
-                            }
-
-                            @Override
-                            public void onPageScrollStateChanged(int state) {
-
-                            }
-                        });
+                        abrirVentas();
                         break;
                     default:
+                        abrirDashboard();
                         break;
 
                 }
@@ -262,6 +232,127 @@ public class Inicio extends FragmentActivity {
         drawerLayout.addDrawerListener(actionBarDrawerToggle);
         actionBarDrawerToggle.syncState();
 
+    }
+
+    public void abrirDashboard() {
+        enDashboard = true;
+        fragment.setVisibility(View.VISIBLE);
+        catalogoFragment.setVisibility(View.GONE);
+        linearLayout.setVisibility(View.GONE);
+        titleInventario.setVisibility(View.GONE);
+        //iniciarFragmento(new Dashboard());
+    }
+
+    public void abrirInventario() {
+        final MediumTextView titulo = (MediumTextView) findViewById(R.id.tituloInventario);
+        enDashboard = false;
+        fragment.setVisibility(View.GONE);
+        catalogoFragment.setVisibility(View.GONE);
+        linearLayout.setVisibility(View.VISIBLE);
+        inventarioPager.setVisibility(View.VISIBLE);
+        titleInventario.setVisibility(View.VISIBLE);
+        pedidoPager.setVisibility(View.GONE);
+        ventasPager.setVisibility(View.GONE);
+        inventarioPager.setAdapter(inventarioAdapter);
+        titulo.setText("Inventario");
+        inventarioPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                if (position == 1) {
+                    titulo.setText("Catálogo");
+                } else {
+                    titulo.setText("Inventario");
+                    enCatalogo = false;
+                }
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
+    }
+
+    public void abrirPedido(int index) {
+        final MediumTextView titulo = (MediumTextView) findViewById(R.id.tituloInventario);
+        enDashboard = false;
+        fragment.setVisibility(View.GONE);
+        catalogoFragment.setVisibility(View.GONE);
+        titleInventario.setVisibility(View.VISIBLE);
+        linearLayout.setVisibility(View.VISIBLE);
+        inventarioPager.setVisibility(View.GONE);
+        ventasPager.setVisibility(View.GONE);
+        pedidoPager.setVisibility(View.VISIBLE);
+        pedidoPager.setAdapter(pedidoAdapter);
+        pedidoPager.setCurrentItem(index);
+        if (index == 0) {
+            titulo.setText("Por Agotarse");
+        } else {
+            titulo.setText("Lista de Pedido");
+        }
+        pedidoPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                if (position == 0) {
+                    titulo.setText("Por Agotarse");
+                } else if (position == 1) {
+                    titulo.setText("Lista de Pedido");
+                    enCatalogo = false;
+                } else {
+                    titulo.setText("Catalogo");
+                }
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
+    }
+
+    public void abrirVentas() {
+        final MediumTextView titulo = (MediumTextView) findViewById(R.id.tituloInventario);
+        enDashboard = false;
+        fragment.setVisibility(View.GONE);
+        catalogoFragment.setVisibility(View.GONE);
+        titleInventario.setVisibility(View.VISIBLE);
+        linearLayout.setVisibility(View.VISIBLE);
+        inventarioPager.setVisibility(View.GONE);
+        pedidoPager.setVisibility(View.GONE);
+        ventasPager.setVisibility(View.VISIBLE);
+        ventasPager.setAdapter(ventasAdapter);
+        titulo.setText("Venta");
+        ventasPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                if (position == 1) {
+                    titulo.setText("Inventario");
+                } else {
+                    titulo.setText("Venta");
+                    enCatalogo = false;
+                }
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
     }
 
     public void obtenerUsuario() {
@@ -415,12 +506,6 @@ public class Inicio extends FragmentActivity {
 
     }
 
-    public void setTabLayoutIcons(TabLayout tabLayout) {
-        tabLayout.getTabAt(0).setIcon(imageResId[0]);
-        tabLayout.getTabAt(1).setIcon(imageResId[1]);
-        tabLayout.getTabAt(2).setIcon(imageResId[2]);
-    }
-
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (Integer.parseInt(android.os.Build.VERSION.SDK) > 5
@@ -436,17 +521,24 @@ public class Inicio extends FragmentActivity {
     public void onBackPressed() {
         if (enCatalogo) {
             cerrarCatalogo();
+        }
+        if (menuAbierto) {
+            drawerLayout.closeDrawer(Gravity.LEFT);
         } else {
-            if (menuAbierto) {
-                drawerLayout.closeDrawer(Gravity.LEFT);
+            if (enDashboard) {
+                finish();
             } else {
-                if (enDashboard) {
-                    finish();
-                } else {
-                    drawerLayout.openDrawer(Gravity.LEFT);
-                }
+                abrirDashboard();
+                NavigationView navigationView = (NavigationView) findViewById(R.id.navigation_view);
+                navigationView.setCheckedItem(R.id.inicio);
             }
         }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
     }
 
     public void cerrarCatalogo() {

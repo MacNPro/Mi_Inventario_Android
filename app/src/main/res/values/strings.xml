@@ -7,6 +7,7 @@
     <string name="segundoTitulo">Mi Inventario</string>
     <string name="facebook_app_id">608874139289668</string>
     <string name="title_activity_inicio">Inicio</string>
+    <string name="licence">MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAknSrSV03llKOOB91pr4E4MM1Wha5RynIPTnl+wuef07VockDMDTOdv3Ga9+212lHEu/I4LJBiEq60u8l+XQe/baJUryKgZm3THv2kR2OnmZl62Zp91sEaR2YZTHTW56BatS9BLY17NUuOxokjS+6HEoz8p7NznOCKAP+wuzUkZujy1GILiH9Qp/Rgu1oxQI6UnhI/cvg2SpXAOVyLJyDK+Oi4dvqkEpWU2t7+X/mIRnXiwdjcTuuk6VzfvsYJv5iWYK/xj6UKqTqb+nIGqykH97fFZBE+1eOcOf3J9v5O0KPVy+WsDBnuJP6NDDb3qLJSt2+cel9+rckx1ZexeYG2wIDAQAB</string>
 
     <string name="title_section1">Section 1</string>
     <string name="title_section2">Section 2</string>
@@ -19,6 +20,7 @@
     <string name="action_settings">Settings</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="regresar">regresar</string>
+
 
     <string-array name="dias">
         <item>1</item>
