@@ -34,7 +34,6 @@ public class ComprarPremium extends Activity implements BillingProcessor.IBillin
         final FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         mDatabase = FirebaseDatabase.getInstance().getReference().child("usuarios").child(user.getUid());
 
-        obtenerPremium();
         cargarImagen();
 
         bp = new BillingProcessor(this, LICENCE_KEY, this);
@@ -43,25 +42,6 @@ public class ComprarPremium extends Activity implements BillingProcessor.IBillin
 
     public void comprar(View v){
         bp.purchase(this, "com.llamaslabs.miinventario.premium");
-    }
-
-    public void obtenerPremium(){
-        mDatabase.child("premium").addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                int premium = dataSnapshot.getValue(Integer.class);
-                Log.d("PREMIUM", "" + premium);
-                if (premium == 1) {
-                    Intent i = new Intent(getApplicationContext(), Inicio.class);
-                    startActivity(i);
-                }
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        });
     }
 
     public void cargarImagen(){
@@ -93,7 +73,7 @@ public class ComprarPremium extends Activity implements BillingProcessor.IBillin
 
     @Override
     public void onPurchaseHistoryRestored() {
-        mDatabase.child("premium").setValue(1);
+
     }
 
     @Override
