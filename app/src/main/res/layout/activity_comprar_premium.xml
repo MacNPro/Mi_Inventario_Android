@@ -28,24 +28,24 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:layout_centerInParent="true">
+                android:layout_centerInParent="true"
+                android:orientation="vertical">
 
                 <com.llamas.miinventario.CustomClasses.MediumTextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Haz más en menos tiempo"
                     android:layout_marginBottom="36dp"
                     android:gravity="center"
-                    android:textSize="18dp"
-                    android:textColor="@color/subtexto"/>
+                    android:text="Haz más en menos tiempo"
+                    android:textColor="@color/subtexto"
+                    android:textSize="18dp" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="32dp"
-                    android:layout_marginRight="16dp"
-                    android:layout_marginLeft="16dp">
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginRight="16dp">
 
                     <RelativeLayout
                         android:layout_width="0dp"
@@ -56,7 +56,7 @@
                             android:layout_width="48dp"
                             android:layout_height="48dp"
                             android:layout_centerHorizontal="true"
-                            android:src="@drawable/venta_1"/>
+                            android:src="@drawable/venta_1" />
 
                     </RelativeLayout>
 
@@ -69,7 +69,7 @@
                             android:layout_width="48dp"
                             android:layout_height="48dp"
                             android:layout_centerHorizontal="true"
-                            android:src="@drawable/venta_2"/>
+                            android:src="@drawable/venta_2" />
 
                     </RelativeLayout>
 
@@ -82,7 +82,7 @@
                             android:layout_width="48dp"
                             android:layout_height="48dp"
                             android:layout_centerHorizontal="true"
-                            android:src="@drawable/venta_3"/>
+                            android:src="@drawable/venta_3" />
 
                     </RelativeLayout>
 
@@ -91,8 +91,8 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginRight="16dp"
-                    android:layout_marginLeft="16dp">
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginRight="16dp">
 
                     <RelativeLayout
                         android:layout_width="0dp"
@@ -103,7 +103,7 @@
                             android:layout_width="48dp"
                             android:layout_height="48dp"
                             android:layout_centerHorizontal="true"
-                            android:src="@drawable/venta_4"/>
+                            android:src="@drawable/venta_4" />
 
                     </RelativeLayout>
 
@@ -116,7 +116,7 @@
                             android:layout_width="48dp"
                             android:layout_height="48dp"
                             android:layout_centerHorizontal="true"
-                            android:src="@drawable/venta_5"/>
+                            android:src="@drawable/venta_5" />
 
                     </RelativeLayout>
 
@@ -129,7 +129,7 @@
                             android:layout_width="48dp"
                             android:layout_height="48dp"
                             android:layout_centerHorizontal="true"
-                            android:src="@drawable/venta_6"/>
+                            android:src="@drawable/venta_6" />
 
                     </RelativeLayout>
 
@@ -145,7 +145,6 @@
             android:layout_weight="1">
 
             <com.llamas.miinventario.CustomClasses.MediumTextView
-                android:id="@+id/comprar"
                 android:layout_width="270dp"
                 android:layout_height="56dp"
                 android:layout_alignParentBottom="true"
@@ -153,7 +152,9 @@
                 android:layout_marginBottom="24dp"
                 android:background="@drawable/borde_blanco"
                 android:gravity="center"
+                android:onClick="comprar"
                 android:text="Comprar Ahora"
+                android:clickable="true"
                 android:textColor="@color/blanco"
                 android:textSize="24sp" />
 

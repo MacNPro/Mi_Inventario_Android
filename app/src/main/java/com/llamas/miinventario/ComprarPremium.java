@@ -25,7 +25,7 @@ public class ComprarPremium extends Activity implements BillingProcessor.IBillin
 
     private DatabaseReference mDatabase;
     BillingProcessor bp;
-    Sring license = "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAknSrSV03llKOOB91pr4E4MM1Wha5RynIPTnl+wuef07VockDMDTOdv3Ga9+212lHEu/I4LJBiEq60u8l+XQe/baJUryKgZm3THv2kR2OnmZl62Zp91sEaR2YZTHTW56BatS9BLY17NUuOxokjS+6HEoz8p7NznOCKAP+wuzUkZujy1GILiH9Qp/Rgu1oxQI6UnhI/cvg2SpXAOVyLJyDK+Oi4dvqkEpWU2t7+X/mIRnXiwdjcTuuk6VzfvsYJv5iWYK/xj6UKqTqb+nIGqykH97fFZBE+1eOcOf3J9v5O0KPVy+WsDBnuJP6NDDb3qLJSt2+cel9+rckx1ZexeYG2wIDAQAB;"
+    private String LICENCE_KEY = "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAknSrSV03llKOOB91pr4E4MM1Wha5RynIPTnl+wuef07VockDMDTOdv3Ga9+212lHEu/I4LJBiEq60u8l+XQe/baJUryKgZm3THv2kR2OnmZl62Zp91sEaR2YZTHTW56BatS9BLY17NUuOxokjS+6HEoz8p7NznOCKAP+wuzUkZujy1GILiH9Qp/Rgu1oxQI6UnhI/cvg2SpXAOVyLJyDK+Oi4dvqkEpWU2t7+X/mIRnXiwdjcTuuk6VzfvsYJv5iWYK/xj6UKqTqb+nIGqykH97fFZBE+1eOcOf3J9v5O0KPVy+WsDBnuJP6NDDb3qLJSt2+cel9+rckx1ZexeYG2wIDAQAB";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,19 +34,15 @@ public class ComprarPremium extends Activity implements BillingProcessor.IBillin
         final FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         mDatabase = FirebaseDatabase.getInstance().getReference().child("usuarios").child(user.getUid());
 
-        bp = new BillingProcessor(this, license, this);
         obtenerPremium();
         cargarImagen();
 
-        MediumTextView comprar = (MediumTextView) findViewById(R.id.comprar);
+        bp = new BillingProcessor(this, LICENCE_KEY, this);
 
-        comprar.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                bp.purchase(ComprarPremium.this, "com.llamaslabs.miinventario.premium");
-            }
-        });
+    }
 
+    public void comprar(View v){
+        bp.purchase(this, "com.llamaslabs.miinventario.premium");
     }
 
     public void obtenerPremium(){
