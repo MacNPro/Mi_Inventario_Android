@@ -23,6 +23,7 @@
                 android:layout_height="42dp"
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="4dp"
+                android:clickable="true"
                 android:layout_marginStart="4dp"
                 android:contentDescription="@string/regresar"
                 android:onClick="onRegresar"

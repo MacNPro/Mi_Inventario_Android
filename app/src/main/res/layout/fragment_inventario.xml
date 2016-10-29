@@ -65,6 +65,7 @@
         android:id="@+id/btnMas"
         android:layout_width="48dp"
         android:layout_height="48dp"
+        android:clickable="true"
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
         android:layout_margin="16dp"

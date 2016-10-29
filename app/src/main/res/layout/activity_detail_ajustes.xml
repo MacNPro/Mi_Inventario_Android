@@ -19,6 +19,7 @@
             android:layout_centerVertical="true"
             android:layout_marginLeft="8dp"
             android:onClick="onRegresar"
+            android:clickable="true"
             android:padding="10dp"
             android:src="@drawable/regresar" />
 
@@ -299,6 +300,7 @@
                 android:layout_marginBottom="16dp"
                 android:background="@drawable/bola_fb"
                 android:gravity="center"
+                android:clickable="true"
                 android:onClick="onVerificarCuenta"
                 android:paddingBottom="14dp"
                 android:paddingLeft="18dp"
@@ -318,6 +320,7 @@
                 android:paddingBottom="14dp"
                 android:paddingLeft="18dp"
                 android:paddingRight="18dp"
+                android:clickable="true"
                 android:paddingTop="13dp"
                 android:text="Borrar Cuenta"
                 android:textColor="@color/blanco"
@@ -333,6 +336,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
+        android:clickable="true"
         android:layout_marginBottom="32dp"
         android:background="@drawable/bola_azul"
         android:onClick="onGuardarCambios"

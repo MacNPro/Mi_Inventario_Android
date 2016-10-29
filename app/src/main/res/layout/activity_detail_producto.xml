@@ -170,6 +170,7 @@
                                     android:gravity="center"
                                     android:paddingBottom="12dp"
                                     android:paddingLeft="4dp"
+                                    android:clickable="true"
                                     android:paddingTop="10dp"
                                     android:textColor="@color/blanco"
                                     android:textSize="24dp">
@@ -204,6 +205,7 @@
                                     android:background="@drawable/carta_derecha"
                                     android:gravity="center"
                                     android:paddingBottom="12dp"
+                                    android:clickable="true"
                                     android:paddingRight="4dp"
                                     android:paddingTop="10dp"
                                     android:textColor="@color/blanco">

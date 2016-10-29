@@ -167,6 +167,7 @@
         android:text="Cerrar Sesión"
         android:fontFamily="sans-serif-light"
         android:stateListAnimator="@null"
+        android:clickable="true"
         android:textColor="#fff"
         android:textAllCaps="false"
         android:layout_alignParentBottom="true"
